@@ -258,6 +258,7 @@
             <tr>
               <td>
                 <translate>Invalid ballots</translate>
+                <span ng-if="poll.pollmethod == 'votes'">/ <translate>Abstains</translate></span>
               <td>
                 {{ poll.getVote('votesinvalid').value }}
                 {{ poll.getVote('votesinvalid').percentStr }}

@@ -801,7 +801,7 @@ angular.module('OpenSlidesApp.assignments.site', [
                     key: 'votesinvalid',
                     type: 'input',
                     templateOptions: {
-                        label: gettextCatalog.getString('Invalid ballots'),
+                        label: gettextCatalog.getString('Invalid ballots') + ' / ' + gettextCatalog.getString('Abstains'),
                         type: 'number'
                     }
                 },
