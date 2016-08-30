@@ -228,6 +228,7 @@
               {{ poll.getVote('votesvalid').percentStr }}
           <tr>
             <td>
+              <span ng-if="poll.pollmethod == 'votes'">Enthaltungen /</span>
               <translate>Invalid ballots</translate>
             <td>
               {{ poll.getVote('votesinvalid').value }}
