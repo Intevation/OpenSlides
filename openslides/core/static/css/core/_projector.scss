@@ -1,5 +1,25 @@
 @import "projector-container";
 
+/* Custom font definitions */
+@font-face {
+    font-family: 'Titillium';
+    src: url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Titillium Bold';
+    src: url('../fonts/TitilliumWeb-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+body, #header, #currentTime, #footer, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Titillium' !important;
+}
+h3, h4, h5, h6 {
+    font-weight: bold !important;
+}
+
 /* Template styles for OpenSlides projector */
 html, body {
     height: 100%;

@@ -1238,15 +1238,13 @@ angular.module('OpenSlidesApp.core.pdf', [])
          * the map fould be 'fonts/myFont.ttf': ['OSFont-regular.ttf', 'OSFont-bold.ttf']
          */
         var getUrlMapping = function () {
-            var urlMap = {};
-            var fonts = ['regular', 'italic', 'bold', 'bold_italic'];
-            _.forEach(fonts, function (font) {
-                var url = Fonts.getUrl('font_' + font);
-                if (!urlMap[url]) {
-                    urlMap[url] = [];
-                }
-                urlMap[url].push('OSFont-' + font + '.ttf');
-            });
+            // Use custom built-in fonts only
+            var urlMap = {
+                "static/fonts/TitilliumWeb-Regular.ttf": ['Titillium-Regular.ttf'],
+                "static/fonts/TitilliumWeb-Bold.ttf": ['Titillium-Bold.ttf'],
+                "static/fonts/TitilliumWeb-Italic.ttf": ['Titillium-Italic.ttf'],
+                "static/fonts/TitilliumWeb-BoldItalic.ttf": ['Titillium-BoldItalic.ttf']
+            };
             return urlMap;
         };
 
