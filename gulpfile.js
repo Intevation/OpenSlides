@@ -150,8 +150,21 @@ gulp.task('translations', function () {
         .pipe(gulp.dest(path.join(output_directory, 'i18n')));
 });
 
+
+// CUSTOM: Catches all custom font files.
+gulp.task('custom-fonts', function () {
+    return gulp.src(path.join('bower_components', 'titilliumweb-googlefont', '*.ttf'))
+        .pipe(gulp.dest(path.join(output_directory, 'fonts')));
+});
+// CUSTOM: Catches all custom projector logo images.
+gulp.task('custom-logos', function () {
+    return gulp.src(path.join('custom', 'logo-*.*'))
+        .pipe(gulp.dest(path.join(output_directory, 'img')));
+});
+
+
 // Gulp default task. Runs all other tasks before.
-gulp.task('default', ['js', 'js-libs', 'templates', 'css-libs', 'fonts-libs', 'tinymce', 'angular-chosen-img', 'translations'], function () {});
+gulp.task('default', ['js', 'js-libs', 'templates', 'css-libs', 'fonts-libs', 'tinymce', 'angular-chosen-img', 'translations', 'custom-fonts', 'custom-logos'], function () {});
 
 
 /**

@@ -21,14 +21,14 @@ angular.module('OpenSlidesApp.core.pdf', [])
         // See https://github.com/pdfmake/pdfmake/wiki/Custom-Fonts---client-side
         PDFLayout.getFontName = function() {
             pdfMake.fonts = {
-                Roboto: {
-                    normal: 'Roboto-Regular.ttf',
-                    bold: 'Roboto-Medium.ttf',
-                    italics: 'Roboto-Italic.ttf',
-                    bolditalics: 'Roboto-Italic.ttf'
+                Titillium: {
+                    normal: 'TitilliumWeb-Regular.ttf',
+                    bold: 'TitilliumWeb-Bold.ttf',
+                    italics: 'TitilliumWeb-Italic.ttf',
+                    bolditalics: 'TitilliumWeb-BoldItalic.ttf'
                 }
             };
-            return "Roboto";
+            return "Titillium";
         };
 
         // page title
@@ -163,11 +163,12 @@ angular.module('OpenSlidesApp.core.pdf', [])
 
                 // add here your custom logo (which has to be added to a custom vfs_fonts.js)
                 // see https://github.com/pdfmake/pdfmake/wiki/Custom-Fonts---client-side
-                /*
-                columns.push({
-                    image: 'logo.png',
-                    fit: [180,40]
-                });*/
+                if (Config.get('general_laek_logo').value) {
+                    columns.push({
+                        image: Config.get('general_laek_logo').value,
+                        fit: [180,40]
+                    });
+                }
 
                 var line1 = [
                     Config.get('general_event_name').value,

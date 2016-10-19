@@ -1,3 +1,25 @@
+/* Titillium fonts */
+@font-face {
+    font-family: 'Titillium';
+    src: url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Titillium';
+    src: url('../fonts/TitilliumWeb-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Titillium';
+    src: url('../fonts/TitilliumWeb-Italic.ttf') format('truetype');
+    font-style: italic;
+}
+body, #header, #currentTime, #footer, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Titillium' !important;
+}
+
 /*
  * OpenSlides default projector styles
  *

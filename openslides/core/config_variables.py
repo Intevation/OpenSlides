@@ -12,6 +12,20 @@ def get_config_variables():
     (see apps.py).
     """
     yield ConfigVariable(
+        name='general_laek_logo',
+        default_value='',
+        input_type='choice',
+        label='Landesärztekammer-Logo für Projektor und PDF',
+        choices=(
+            {'value': 'logo-laekb.png', 'display_name': 'Landesärztekammer Brandenburg'},
+            {'value': 'logo-laekh.png', 'display_name': 'Landesärztekammer Hessen'},
+            {'value': 'logo-slaek.png', 'display_name': 'Sächsische Landesärztekammer'},
+            {'value': '', 'display_name': 'Kein Logo anzeigen'}),
+        weight=1,
+        group='General',
+        subgroup='Event')
+
+    yield ConfigVariable(
         name='general_event_name',
         default_value='OpenSlides',
         label='Event name',
@@ -127,7 +141,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_backgroundcolor',
-        default_value='#317796',
+        default_value='#ffffff',
         input_type='colorpicker',
         label='Background color of projector header and footer',
         weight=160,
@@ -135,7 +149,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_fontcolor',
-        default_value='#F5F5F5',
+        default_value='#666666',
         input_type='colorpicker',
         label='Font color of projector header and footer',
         weight=165,
