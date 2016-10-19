@@ -20,10 +20,10 @@ importScripts('/static/js/workers/pdf-worker-libs.js');
 // font style names only.
 pdfMake.fonts = {
     PdfFont: {
-        normal: 'Roboto-Regular.ttf',
-        bold: 'Roboto-Medium.ttf',
-        italics: 'Roboto-Italic.ttf',
-        bolditalics: 'Roboto-Italic.ttf'
+        normal: 'TitilliumWeb-Regular.ttf',
+        bold: 'TitilliumWeb-Bold.ttf',
+        italics: 'TitilliumWeb-Italic.ttf',
+        bolditalics: 'TitilliumWeb-BoldItalic.ttf'
     }
 };
 

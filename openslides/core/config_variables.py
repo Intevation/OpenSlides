@@ -192,7 +192,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_backgroundcolor',
-        default_value='#317796',
+        default_value='#ffffff',
         input_type='colorpicker',
         label='Background color of projector header and footer',
         weight=160,
@@ -200,7 +200,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_fontcolor',
-        default_value='#F5F5F5',
+        default_value='#666666',
         input_type='colorpicker',
         label='Font color of projector header and footer',
         weight=165,

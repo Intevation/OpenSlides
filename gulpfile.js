@@ -78,7 +78,7 @@ gulp.task('pdf-worker', function () {
 gulp.task('pdf-worker-libs', function () {
     return gulp.src([
             path.join('bower_components', 'pdfmake', 'build', 'pdfmake.min.js'),
-            path.join('bower_components', 'pdfmake', 'build', 'vfs_fonts.js'),
+            path.join('custom', 'vfs_fonts.js'),
         ])
         .pipe(concat('pdf-worker-libs.js'))
         .pipe(gulp.dest(path.join(output_directory, 'js', 'workers')));
@@ -203,6 +203,14 @@ gulp.task('translations', function () {
         .pipe(gulp.dest(path.join(output_directory, 'i18n')));
 });
 
+
+// CUSTOM: Catches all custom font files.
+gulp.task('custom-fonts', function () {
+    return gulp.src(path.join('bower_components', 'titilliumweb-googlefont', '*.ttf'))
+        .pipe(gulp.dest(path.join(output_directory, 'fonts')));
+});
+
+
 // Gulp default task. Runs all other tasks before.
 gulp.task('default', [
         'js',
@@ -214,7 +222,8 @@ gulp.task('default', [
         'fonts-libs',
         'ckeditor',
         'angular-chosen-img',
-        'translations'
+        'translations',
+        'custom-fonts'
     ], function () {});
 
 
