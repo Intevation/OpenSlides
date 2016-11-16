@@ -79,6 +79,19 @@ angular.module('OpenSlidesApp.core.pdf', [])
                 }
             ];
         };
+        // draw line
+        PDFLayout.drawLine = function(y, length) {
+            return [
+                {
+                    type: 'line',
+                    x1: -4,
+                    y1: y,
+                    lineColor: 'black',
+                    x2: length,
+                    y2: y
+                }
+            ];
+        };
 
         // returns an entry in the ballot with a circle to draw into
         PDFLayout.createBallotEntry = function(decision) {
@@ -196,9 +209,10 @@ angular.module('OpenSlidesApp.core.pdf', [])
             // PDF footer
             var footer = function(currentPage, pageCount) {
                 return {
-                    alignment: 'center',
+                    alignment: 'right',
                     fontSize: 8,
                     color: '#555',
+                    margin: [0, 0, 80, 0],
                     text: gettextCatalog.getString('Page') + ' ' + currentPage.toString() +
                         ' / ' + pageCount.toString()
                 };
@@ -208,15 +222,29 @@ angular.module('OpenSlidesApp.core.pdf', [])
                 var content = contentProvider.getContent();
                 return {
                     pageSize: 'A4',
-                    pageMargins: [80, 90, 80, 60],
+                    pageMargins: [80, 30, 80, 30],
                     defaultStyle: {
                         font: PDFLayout.getFontName(),
                         fontSize: 10
                     },
-                    header: header,
+                    // header: header,
                     footer: footer,
                     content: content,
                     styles: {
+                        LAHTitle: {
+                            fontSize: 22,
+                            margin: [0,0,0,30],
+                            bold: true
+                        },
+                        LAHSubtitle: {
+                            fontSize: 14,
+                            bold: true,
+                            margin: [0,0,0,30],
+                            alignment: 'center'
+                        },
+                        LAHHeadding: {
+                            bold: true
+                        },
                         title: {
                             fontSize: 18,
                             margin: [0,0,0,20],
@@ -646,7 +674,7 @@ angular.module('OpenSlidesApp.core.pdf', [])
                                     break;
                                 case "p":
                                     currentParagraph = create("text");
-                                    currentParagraph.margin = [0,5];
+                                    currentParagraph.margin = [0,2];
                                     var stackP = create("stack");
                                     stackP.stack.push(currentParagraph);
                                     ComputeStyle(stackP, styles);

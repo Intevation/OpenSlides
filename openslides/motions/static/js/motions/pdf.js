@@ -19,186 +19,185 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
 
         // title
         var identifier = motion.identifier ? ' ' + motion.identifier : '';
-        var title = PDFLayout.createTitle(
-                gettextCatalog.getString('Motion') + identifier + ': ' +
-                motion.getTitle($scope.version)
-        );
-
-        // subtitle
-        var subtitle = PDFLayout.createSubtitle(
-                gettextCatalog.getString('Sequential number') + ': ' +  motion.id
-        );
-
-        // meta data table
-        var metaTable = function() {
-            var metaTableBody = [];
-
-            // submitters
-            var submitters = _.map(motion.submitters, function (submitter) {
-                return submitter.get_full_name();
-            }).join(', ');
-            metaTableBody.push([
-                {
-                    text: gettextCatalog.getString('Submitters') + ':',
-                    style: ['bold', 'grey']
-                },
-                {
-                    text: submitters,
-                    style: 'grey'
-                }
-            ]);
-
-            // state
-            metaTableBody.push([
-                {
-                    text: gettextCatalog.getString('State') + ':',
-                    style: ['bold', 'grey']
-                },
-                {
-                    text: motion.getStateName(),
-                    style: 'grey'
-                }
-            ]);
-
-            // recommendation
-            if (motion.getRecommendationName()) {
-                metaTableBody.push([
-                    {
-                        text: Config.get('motions_recommendations_by').value + ':',
-                        style: ['bold', 'grey']
-                    },
-                    {
-                        text: motion.getRecommendationName(),
-                        style: 'grey'
-                    }
-                ]);
-            }
-
-            // category
-            if (motion.category) {
-                metaTableBody.push([
-                    {
-                        text: gettextCatalog.getString('Category') + ':',
-                        style: ['bold', 'grey']
-                    },
-                    {
-                        text: motion.category.name,
-                        style: 'grey'
-                    }
-                ]);
-            }
-
-            // voting result
-            var column1 = [];
-            var column2 = [];
-            var column3 = [];
-            motion.polls.map(function(poll, index) {
-                var votenumber = '';
-                if (motion.polls.length > 1) {
-                    votenumber = index + 1 + '. ' + gettextCatalog.getString('Vote');
-                }
-
-                // yes
-                var yes = poll.getVote(poll.yes, 'yes');
-                column1.push(gettextCatalog.getString('Yes') + ':');
-                column2.push(yes.value);
-                column3.push(yes.percentStr);
-                // no
-                var no = poll.getVote(poll.no, 'no');
-                column1.push(gettextCatalog.getString('No') + ':');
-                column2.push(no.value);
-                column3.push(no.percentStr);
-                // abstain
-                var abstain = poll.getVote(poll.abstain, 'abstain');
-                column1.push(gettextCatalog.getString('Abstain') + ':');
-                column2.push(abstain.value);
-                column3.push(abstain.percentStr);
-                // votes valid
-                if (poll.votesvalid) {
-                    var valid = poll.getVote(poll.votesvalid, 'votesvalid');
-                    column1.push(gettextCatalog.getString('Valid votes') + ':');
-                    column2.push(valid.value);
-                    column3.push(valid.percentStr);
-                }
-                // votes invalid
-                if (poll.votesvalid) {
-                    var invalid = poll.getVote(poll.votesinvalid, 'votesinvalid');
-                    column1.push(gettextCatalog.getString('Invalid votes') + ':');
-                    column2.push(invalid.value);
-                    column3.push(invalid.percentStr);
-                }
-                // votes cast
-                if (poll.votescast) {
-                    var cast = poll.getVote(poll.votescast, 'votescast');
-                    column1.push(gettextCatalog.getString('Votes cast') + ':');
-                    column2.push(cast.value);
-                    column3.push(cast.percentStr);
-                }
-            });
-            metaTableBody.push([
-                {
-                    text: gettextCatalog.getString('Voting result') + ':',
-                    style: ['bold', 'grey']
-                },
+        var number;
+        if (motion.agenda_item.getItemNumberWithAncestors().split(' ').length > 1) {
+            number = motion.agenda_item.getItemNumberWithAncestors().split(' ').slice(1);
+        } else {
+            number = motion.agenda_item.getItemNumberWithAncestors();
+        }
+        var title = {
+            columns: [
                 {
                     columns: [
                         {
-                            text: column1.join('\n'),
-                            width: 'auto'
+                            text: "TOP" + "\n" + gettextCatalog.getString('Motion'),
+                            style: 'LAHTitle',
+                            width: '30%'
                         },
                         {
-                            text: column2.join('\n'),
-                            width: 'auto',
-                            alignment: 'right'
-                        },
-                        {
-                            text: column3.join('\n'),
-                            width: 'auto',
-                            alignment: 'right'
-                        },
+                            text: number + "\n" + identifier,
+                            style: 'LAHTitle',
+                        }
                     ],
-                    columnGap: 7,
-                    style: 'grey'
-                }
-            ]);
-
-
-            // build table
-            var metaTableJsonString = {
-                table: {
-                    widths: ['30%','70%'],
-                    body: metaTableBody,
+                    width: '60%'
                 },
-                margin: [0, 0, 0, 20],
-                layout: {
-                    hLineWidth: function(i, node) {
-                        return (i === 0 || i === node.table.body.length) ? 0 : 0.5;
-                    },
-                    vLineWidth: function(i, node) {
-                        return (i === 0 || i === node.table.widths.length) ? 0 : 0;
-                    },
-                    hLineColor: function(i, node) {
-                        return (i === 0 || i === node.table.body.length) ? '' : 'white';
-                    },
-                    vLineColor: function(i, node) {
-                        return (i === 0 || i === node.table.widths.length) ? '' : 'white';
-                    }
+                {
+                    image: Config.get('general_laek_logo').value,
+                    fit: [190,50]
+                }
+            ]
+        };
+
+        // subtitle
+        var subtitle = {
+            text: '11. ordentliche Delegiertenversammlung 15. Wahlperiode 2013-2018\n26.11.2016 in Bad Nauheim',
+            style: 'LAHSubtitle'
+        };
+
+        // submitters
+        var submitters = _.map(motion.submitters, function (submitter) {
+            return submitter.get_full_name();
+        }).join(', ');
+
+        // meta data table
+        var metaTable = function() {
+            var circleDistance = 10;
+            var circleSize = 5;
+            var metaTableBody = {
+                table: {
+                    widths: '100%',
+                    body: [
+                        [
+                            {
+                                columns: [
+                                    {
+                                        columns: [
+                                            {
+                                                text: 'Antragszurücknahme\nNichtbefassung\nVorstandsüberweisung',
+                                                width: "auto",
+                                                bold: true
+                                            },
+                                            {
+                                                stack: [
+                                                    {
+                                                        canvas: PDFLayout.drawCircle(5 , circleSize)
+                                                    },
+                                                    {
+                                                        canvas: PDFLayout.drawCircle(circleDistance , circleSize)
+                                                    },
+                                                    {
+                                                        canvas: PDFLayout.drawCircle(circleDistance, circleSize)
+                                                    }
+                                                ],
+                                                width: "auto",
+                                                margin: [15, 4, 0, 0],
+                                            }
+                                        ],
+                                        margin: [0, 5, 0, 5]
+                                    },
+                                    {
+                                        columns: [
+                                            {
+                                                text: 'Antrag\nangenommen\nabgelehnt',
+                                                width: "auto",
+                                                bold: true
+                                            },
+                                            {
+                                                stack: [
+                                                    {
+                                                        canvas: PDFLayout.drawCircle(18 , circleSize)
+                                                    },
+                                                    {
+                                                        canvas: PDFLayout.drawCircle(circleDistance , circleSize)
+                                                    }
+                                                ],
+                                                width: "auto",
+                                                margin: [15, 5, 0, 0],
+                                            }
+                                        ],
+                                        margin: [15, 5, 0, 5]
+                                    },
+                                    {
+                                        columns: [
+                                            {
+                                                text: 'Ja-Stimmen\nNein-Stimmen\nEnthaltungen\n\nmit Mehrheit\neinstimmig',
+                                                width: "auto",
+                                                bold: true
+                                            },
+                                            {
+                                                stack: [
+                                                    {
+                                                        canvas: PDFLayout.drawLine(12, 40)
+                                                    },
+                                                    {
+                                                        canvas: PDFLayout.drawLine(15, 40)
+                                                    },
+                                                    {
+                                                        canvas: PDFLayout.drawLine(15, 40)
+                                                    },
+                                                    {
+                                                        canvas: PDFLayout.drawCircle(30, circleSize)
+                                                    },
+                                                    {
+                                                        canvas: PDFLayout.drawCircle(circleDistance , circleSize)
+                                                    }
+                                                ],
+                                                width: "auto",
+                                                margin: [15, -1, 0, 0],
+                                            }
+                                        ],
+                                        margin: [0, 5, 0, 5]
+                                    }
+                                ],
+                                style: 'grey'
+                            }
+                        ]
+                    ],
                 }
             };
-            return metaTableJsonString;
+            return metaTableBody;
         };
 
         // motion title
-        var motionTitle = function() {
-            return [{
-                text: motion.getTitle($scope.version),
-                style: 'heading3'
-            }];
+        var motionTitle = function(name, title) {
+            return [
+                {
+                    columns: [
+                        {
+                            text: name,
+                            width: '20%',
+                            style: 'LAHHeadding'
+                        },
+                        {
+                            text: title
+                        }
+                    ],
+                    margin: [0, 15, 0, 0]
+                },
+                {
+                    canvas: [
+                        {
+                            type: 'line',
+                            x1: 0, y1: 10,
+                            x2: 430, y2: 10,
+                            lineWidth: 1,
+                            lineColor: 'grey',
+                        }
+                    ]
+                }
+            ];
         };
 
 
         // motion text (with line-numbers)
         var motionText = function() {
+            var motionContent = [
+                {
+                    text: 'Beschlussvorschlag:',
+                    style: 'LAHHeadding',
+                    margin: [0,20,0,0]
+                }
+            ];
             if ($scope.lineNumberMode == "inline" || $scope.lineNumberMode == "outside") {
                 /* in order to distinguish between the line-number-types we need to pass the scope
                 * to the convertHTML function.
@@ -207,10 +206,13 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                 * https://github.com/OpenSlides/OpenSlides/issues/2361
                 */
                 var text = motion.getTextByMode($scope.viewChangeRecommendations.mode, $scope.version);
-                return converter.convertHTML(text, $scope);
+                motionContent.push(converter.convertHTML(text, $scope));
+                // return converter.convertHTML(text, $scope);
             } else {
-                return converter.convertHTML(motion.getText($scope.version), $scope);
+                motionContent.push(converter.convertHTML(motion.getText($scope.version), $scope));
+                // return converter.convertHTML(motion.getText($scope.version), $scope);
             }
+            return motionContent;
         };
 
         // motion reason heading
@@ -218,8 +220,9 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
             var reason = [];
             if (motion.getReason($scope.version)) {
                 reason.push({
-                    text:  gettextCatalog.getString('Reason'),
-                    style: 'heading3'
+                    text:  gettextCatalog.getString('Reason') + ":",
+                    style: 'LAHHeadding',
+                    margin: [0,20,0,0]
                 });
                 reason.push(converter.convertHTML(motion.getReason($scope.version), $scope));
             }
@@ -246,7 +249,8 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                 title,
                 subtitle,
                 metaTable(),
-                motionTitle(),
+                motionTitle("Gegenstand:", motion.getTitle($scope.version)),
+                motionTitle(gettextCatalog.getString('Submitters') + ":", submitters),
                 motionText(),
             ];
             if (motionReason()) {
