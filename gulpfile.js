@@ -262,6 +262,17 @@ gulp.task('translations', function () {
 });
 
 
+// CUSTOM: Catches all custom projector logo images.
+gulp.task('custom-logos', function () {
+   return gulp.src(path.join('custom', 'logo-*.*'))
+        .pipe(gulp.dest(path.join(output_directory, 'img')));
+});
+// CUSTOM: Catches all custom font files.
+gulp.task('custom-fonts', function () {
+    return gulp.src(path.join('custom', 'fonts', '*'))
+        .pipe(gulp.dest(path.join(output_directory, 'fonts')));
+});
+
 // Gulp default task. Runs all other tasks before.
 gulp.task('default', gulp.parallel(
         'js',
@@ -275,6 +286,8 @@ gulp.task('default', gulp.parallel(
         'fonts_libs',
         'angular_chosen_img',
         'ckeditor',
+        'custom-logos',
+        'custom-fonts',
         'translations'
 ));
 

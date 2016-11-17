@@ -5,239 +5,238 @@
 angular.module('OpenSlidesApp.core.pdf', [])
 
 /*
- * General layout functions for building PDFs with pdfmake.
- */
+* General layout functions for building PDFs with pdfmake.
+*/
 .factory('PDFLayout', [
-    'gettextCatalog',
-    function(gettextCatalog) {
-        var PDFLayout = {};
-        var BallotCircleDimensions = {
-            yDistance: 6,
-            size: 8
-        };
+'gettextCatalog',
+function(gettextCatalog) {
+    var PDFLayout = {};
+    var BallotCircleDimensions = {
+        yDistance: 6,
+        size: 8
+    };
 
-        // page title
-        PDFLayout.createTitle = function(title) {
-            return {
-                text: title,
-                style: 'title'
-            };
+    // page title
+    PDFLayout.createTitle = function(title) {
+        return {
+            text: title,
+            style: 'title'
         };
+    };
 
-        // page subtitle
-        PDFLayout.createSubtitle = function(subtitle) {
-            return {
-                text: subtitle.join('\n'),
-                style: 'subtitle'
-            };
+    // page subtitle
+    PDFLayout.createSubtitle = function(subtitle) {
+        return {
+            text: subtitle.join('\n'),
+            style: 'subtitle'
         };
+    };
 
-        // pagebreak
-        PDFLayout.addPageBreak = function() {
-            return [
-                {
-                    text: '',
-                    pageBreak: 'after'
-                }
-            ];
-        };
-
-        // table row style
-        PDFLayout.flipTableRowStyle = function(currentTableSize) {
-            if (currentTableSize % 2 === 0) {
-                return 'tableEven';
-            } else {
-                return 'tableOdd';
+    // pagebreak
+    PDFLayout.addPageBreak = function() {
+        return [
+            {
+                text: '',
+                pageBreak: 'after'
             }
-        };
+        ];
+    };
 
-        // draws a circle
-        PDFLayout.drawCircle = function(y, size) {
-            return [
+    // table row style
+    PDFLayout.flipTableRowStyle = function(currentTableSize) {
+        if (currentTableSize % 2 === 0) {
+            return 'tableEven';
+        } else {
+            return 'tableOdd';
+        }
+    };
+
+    // draws a circle
+    PDFLayout.drawCircle = function(y, size) {
+        return [
+            {
+                type: 'ellipse',
+                x: 0,
+                y: y,
+                lineColor: 'black',
+                r1: size,
+                r2: size
+            }
+        ];
+    };
+
+    // returns an entry in the ballot with a circle to draw into
+    PDFLayout.createBallotEntry = function(decision) {
+        return {
+            margin: [40+BallotCircleDimensions.size, 10, 0, 0],
+            columns: [
                 {
-                    type: 'ellipse',
-                    x: 0,
-                    y: y,
-                    lineColor: 'black',
-                    r1: size,
-                    r2: size
+                    width: 15,
+                    canvas: PDFLayout.drawCircle(BallotCircleDimensions.yDistance,
+                            BallotCircleDimensions.size)
+                },
+                {
+                    width: 'auto',
+                    text: decision
                 }
-            ];
+            ],
         };
+    };
 
-        // returns an entry in the ballot with a circle to draw into
-        PDFLayout.createBallotEntry = function(decision) {
-            return {
-                margin: [40+BallotCircleDimensions.size, 10, 0, 0],
-                columns: [
-                    {
-                        width: 15,
-                        canvas: PDFLayout.drawCircle(BallotCircleDimensions.yDistance,
-                                BallotCircleDimensions.size)
-                    },
-                    {
-                        width: 'auto',
-                        text: decision
-                    }
-                ],
+    // crop marks for ballot papers
+    PDFLayout.getBallotLayoutLines = function() {
+        return '{{ballot-placeholder-to-insert-functions-here}}';
+    };
+
+    // returns a promise for converting an image in data URL format with size information
+    PDFLayout.imageURLtoBase64 = function(url) {
+        var promise = new Promise(function(resolve, reject) {
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onerror = function () {
+                reject({
+                    msg: '<i class="fa fa-exclamation-triangle fa-lg spacer-right"></i>' +
+                         gettextCatalog.getString('Error while generating PDF file') +
+                         ': <code>' + gettextCatalog.getString('Cannot load image') + ' ' + url + '</code>',
+                });
             };
-        };
-
-        // crop marks for ballot papers
-        PDFLayout.getBallotLayoutLines = function() {
-            return '{{ballot-placeholder-to-insert-functions-here}}';
-        };
-
-        // returns a promise for converting an image in data URL format with size information
-        PDFLayout.imageURLtoBase64 = function(url) {
-            var promise = new Promise(function(resolve, reject) {
-                var img = new Image();
-                img.crossOrigin = 'Anonymous';
-                img.onerror = function () {
-                    reject({
-                        msg: '<i class="fa fa-exclamation-triangle fa-lg spacer-right"></i>' +
-                             gettextCatalog.getString('Error while generating PDF file') +
-                             ': <code>' + gettextCatalog.getString('Cannot load image') + ' ' + url + '</code>',
-                    });
+            img.onload = function () {
+                var canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                var dataURL = canvas.toDataURL('image/png');
+                var imageData = {
+                    data: dataURL,
+                    width: img.width,
+                    height: img.height
                 };
-                img.onload = function () {
-                    var canvas = document.createElement('canvas');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    var ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0);
-                    var dataURL = canvas.toDataURL('image/png');
-                    var imageData = {
-                        data: dataURL,
-                        width: img.width,
-                        height: img.height
-                    };
-                    resolve(imageData);
-                };
-                img.src = url;
-            });
-            return promise;
-        };
+                resolve(imageData);
+            };
+            img.src = url;
+        });
+        return promise;
+    };
 
-        return PDFLayout;
-    }
+    return PDFLayout;
+}
 ])
 
 
 .factory('HTMLValidizer', function() {
-    var HTMLValidizer = {};
+var HTMLValidizer = {};
 
-    // In some cases copying from word to OpenSlides results in umlauts
-    // that are the base letter and then the entity #776; to make the dots
-    // above the base letter. This breaks the PDF.
-    HTMLValidizer.replaceMalformedUmlauts = function (text) {
-        return text.replace(/([aeiouAEIOUy])[\u0308]/g, function (match, baseChar) {
-            return '&' + baseChar + 'uml;';
+// In some cases copying from word to OpenSlides results in umlauts
+// that are the base letter and then the entity #776; to make the dots
+// above the base letter. This breaks the PDF.
+HTMLValidizer.replaceMalformedUmlauts = function (text) {
+    return text.replace(/([aeiouAEIOUy])[\u0308]/g, function (match, baseChar) {
+        return '&' + baseChar + 'uml;';
+    });
+};
+
+
+//checks if str is valid HTML. Returns valid HTML if not,
+//return emptystring if empty
+HTMLValidizer.validize = function(str) {
+    if (str) {
+        str = HTMLValidizer.replaceMalformedUmlauts(str);
+        // Sometimes, some \n are in the text instead of whitespaces. Replace them.
+        str = str.replace(/\n/g, ' ');
+
+        var a = document.createElement('div');
+        a.innerHTML = str;
+        angular.forEach(a.childNodes, function (child) {
+            if (child.nodeType == 1) {
+                return str;
+            }
         });
-    };
-
-
-    //checks if str is valid HTML. Returns valid HTML if not,
-    //return emptystring if empty
-    HTMLValidizer.validize = function(str) {
-        if (str) {
-            str = HTMLValidizer.replaceMalformedUmlauts(str);
-            // Sometimes, some \n are in the text instead of whitespaces. Replace them.
-            str = str.replace(/\n/g, ' ');
-
-            var a = document.createElement('div');
-            a.innerHTML = str;
-            angular.forEach(a.childNodes, function (child) {
-                if (child.nodeType == 1) {
-                    return str;
-                }
-            });
-            return '<p>' + str + '</p>';
-        } else {
-            return ''; //needed for blank 'reasons' field
-        }
-    };
-    return HTMLValidizer;
+        return '<p>' + str + '</p>';
+    } else {
+        return ''; //needed for blank 'reasons' field
+    }
+};
+return HTMLValidizer;
 })
 
 
 .factory('PdfMakeDocumentProvider', [
-    '$q',
-    'Config',
-    'PDFLayout',
-    'ImageConverter',
-    function($q, Config, PDFLayout, ImageConverter) {
-        /**
-         * Provides the global document
-         * @constructor
-         * @param {object} contentProvider - Object with on method `getContent`, which
-         * returns an array for content
-         */
-        //images shall contain the the logos as URL: base64Str, just like the converter
-        var createInstance = function(contentProvider, noFooter) {
-            // Logo urls
-            var logoHeaderLeftUrl = Config.get('logo_pdf_header_L').value.path,
-                logoHeaderRightUrl = Config.get('logo_pdf_header_R').value.path,
-                logoFooterLeftUrl = Config.get('logo_pdf_footer_L').value.path,
-                logoFooterRightUrl = Config.get('logo_pdf_footer_R').value.path;
-            var imageMap = contentProvider.getImageMap ? contentProvider.getImageMap() : {};
+'$q',
+'Config',
+'PDFLayout',
+'ImageConverter',
+function($q, Config, PDFLayout, ImageConverter) {
+    /**
+     * Provides the global document
+     * @constructor
+     * @param {object} contentProvider - Object with on method `getContent`, which
+     * returns an array for content
+     */
+    //images shall contain the the logos as URL: base64Str, just like the converter
+    var createInstance = function(contentProvider, noFooter) {
+        // Logo urls
+        var logoHeaderLeftUrl = Config.get('logo_pdf_header_L').value.path,
+            logoHeaderRightUrl = Config.get('logo_pdf_header_R').value.path,
+            logoFooterLeftUrl = Config.get('logo_pdf_footer_L').value.path,
+            logoFooterRightUrl = Config.get('logo_pdf_footer_R').value.path;
+        var imageMap = contentProvider.getImageMap ? contentProvider.getImageMap() : {};
 
-            // PDF header
-            var getHeader = function() {
-                var columns = [];
+        // PDF header
+        var getHeader = function() {
+            var columns = [];
 
-                if (logoHeaderLeftUrl) {
-                    if (logoHeaderLeftUrl.indexOf('/') === 0) {
-                        logoHeaderLeftUrl = logoHeaderLeftUrl.substr(1); // remove trailing /
-                    }
-                    columns.push({
-                        image: logoHeaderLeftUrl,
-                        fit: [180, 40],
-                        width: '20%'
-                    });
-                }
-
-                var text;
-                if (logoHeaderLeftUrl && logoHeaderRightUrl) {
-                    text = '';
-                } else {
-                    var line1 = [
-                        Config.translate(Config.get('general_event_name').value),
-                        Config.translate(Config.get('general_event_description').value)
-                    ].filter(Boolean).join(' – ');
-                    var line2 = [
-                        Config.get('general_event_location').value,
-                        Config.get('general_event_date').value
-                    ].filter(Boolean).join(', ');
-                    text = [line1, line2].join('\n');
+            if (logoHeaderLeftUrl) {
+                if (logoHeaderLeftUrl.indexOf('/') === 0) {
+                    logoHeaderLeftUrl = logoHeaderLeftUrl.substr(1); // remove trailing /
                 }
                 columns.push({
-                    text: text,
-                    fontSize: 10,
-                    alignment: logoHeaderRightUrl ? 'left' : 'right',
-                    margin: [0, 10, 0, 0],
+                    image: logoHeaderLeftUrl,
+                    fit: [180, 40],
+                    width: '20%'
                 });
+            }
+            var text;
+            if (logoHeaderLeftUrl && logoHeaderRightUrl) {
+                text = '';
+            } else {
+                var line1 = [
+                    Config.translate(Config.get('general_event_name').value),
+                    Config.translate(Config.get('general_event_description').value)
+                ].filter(Boolean).join(' – ');
+                var line2 = [
+                    Config.get('general_event_location').value,
+                    Config.get('general_event_date').value
+                ].filter(Boolean).join(', ');
+                text = [line1, line2].join('\n');
+            }
+            columns.push({
+                text: text,
+                fontSize: 10,
+                alignment: logoHeaderRightUrl ? 'left' : 'right',
+                margin: [0, 10, 0, 0],
+            });
 
-                if (logoHeaderRightUrl) {
-                    if (logoHeaderRightUrl.indexOf('/') === 0) {
-                        logoHeaderRightUrl = logoHeaderRightUrl.substr(1); // remove trailing /
-                    }
-                    columns.push({
-                        image: logoHeaderRightUrl,
-                        fit: [180, 40],
-                        alignment: 'right',
-                        width: '20%'
-                    });
+            if (logoHeaderRightUrl) {
+                if (logoHeaderRightUrl.indexOf('/') === 0) {
+                    logoHeaderRightUrl = logoHeaderRightUrl.substr(1); // remove trailing /
                 }
+                columns.push({
+                    image: logoHeaderRightUrl,
+                    fit: [180, 40],
+                    alignment: 'right',
+                    width: '20%'
+                });
+            }
 
-                return {
-                    color: '#555',
-                    fontSize: 9,
-                    margin: [75, 30, 75, 10], // [left, top, right, bottom]
-                    columns: columns,
-                    columnGap: 10,
-                };
+            return {
+                color: '#555',
+                fontSize: 9,
+                margin: [75, 30, 75, 10], // [left, top, right, bottom]
+                columns: columns,
+                columnGap: 10,
             };
+        };
 
 
             // PDF footer
@@ -321,6 +320,7 @@ angular.module('OpenSlidesApp.core.pdf', [])
                     content: content,
                     styles: {
                         title: {
+                            font: 'Arvo',
                             fontSize: 18,
                             margin: [0,0,0,20],
                             bold: true
@@ -1244,15 +1244,14 @@ angular.module('OpenSlidesApp.core.pdf', [])
          * the map fould be 'fonts/myFont.ttf': ['OSFont-regular.ttf', 'OSFont-bold.ttf']
          */
         var getUrlMapping = function () {
-            var urlMap = {};
-            var fonts = ['regular', 'italic', 'bold', 'bold_italic'];
-            _.forEach(fonts, function (font) {
-                var url = Fonts.getUrl('font_' + font);
-                if (!urlMap[url]) {
-                    urlMap[url] = [];
-                }
-                urlMap[url].push('OSFont-' + font + '.ttf');
-            });
+            // Use custom built-in fonts only
+            var urlMap = {
+                "static/fonts/arvo_regular.ttf": ['Arvo-Regular.ttf'],
+                "static/fonts/ptsans_regular.ttf": ['PTSans-Regular.ttf'],
+                "static/fonts/ptsans_bold.ttf": ['PTSans-Bold.ttf'],
+                "static/fonts/ptsans_italic.ttf": ['PTSans-Italic.ttf'],
+                "static/fonts/ptsans_bolditalic.ttf": ['PTSans-BoldItalic.ttf']
+            };
             return urlMap;
         };
 
