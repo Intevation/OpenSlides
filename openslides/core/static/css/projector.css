@@ -1,3 +1,24 @@
+/* Custom font definitions */
+@font-face {
+    font-family: 'DGB Regular';
+    src: url('../fonts/dgb-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DGB Bold';
+    src: url('../fonts/dgb-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+body, #header, #currentTime, #footer, h4, h5, h6 {
+    font-family: 'DGB Regular' !important;
+}
+h1, h2, h3 {
+    font-family: 'DGB Bold' !important;
+}
+
+
 /*
  * Font definitions for OpenSlides projector
  */

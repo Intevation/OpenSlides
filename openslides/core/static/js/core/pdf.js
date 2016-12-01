@@ -21,14 +21,14 @@ angular.module('OpenSlidesApp.core.pdf', [])
         // See https://github.com/pdfmake/pdfmake/wiki/Custom-Fonts---client-side
         PDFLayout.getFontName = function() {
             pdfMake.fonts = {
-                Roboto: {
-                    normal: 'Roboto-Regular.ttf',
-                    bold: 'Roboto-Medium.ttf',
-                    italics: 'Roboto-Italic.ttf',
-                    bolditalics: 'Roboto-Italic.ttf'
+                DGB: {
+                    normal: 'dgb-regular.ttf',
+                    bold: 'dgb-bold.ttf',
+                    italics: 'dgb-italic.ttf',
+                    bolditalics: 'dgb-bold.ttf'
                 }
             };
-            return "Roboto";
+            return "DGB";
         };
 
         // page title
@@ -183,11 +183,11 @@ angular.module('OpenSlidesApp.core.pdf', [])
 
                 // add here your custom logo (which has to be added to a custom vfs_fonts.js)
                 // see https://github.com/pdfmake/pdfmake/wiki/Custom-Fonts---client-side
-                /*
                 columns.push({
-                    image: 'logo.png',
-                    fit: [180,40]
-                });*/
+                    image: 'logo-pdf.png',
+                    fit: [180,40],
+                    width: '20%'
+                });
 
                 var line1 = [
                     Config.translate(Config.get('general_event_name').value),
@@ -201,7 +201,9 @@ angular.module('OpenSlidesApp.core.pdf', [])
                 columns.push({
                     text: text,
                     fontSize:10,
-                    width: '100%'
+                    alignment: 'right',
+                    margin: [0, 10, 0, 0],
+                    width: '80%'
                 });
                 return {
                     color: '#555',

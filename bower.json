@@ -43,7 +43,7 @@
     "pdfmake": {
       "main": [
           "build/pdfmake.js",
-          "build/vfs_fonts.js"
+          "../../custom/vfs_fonts.js"
       ]
     },
     "pdfjs-dist": {

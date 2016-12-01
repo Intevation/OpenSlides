@@ -28,7 +28,9 @@
     <div class="title">
       <a ui-sref="home">
         <img src="/static/img/openslides-logo-dark.png" alt="Logo" height="35">
+        <img src="/static/img/logo-projector.png" alt="DGB Logo" height="35">
       </a>
+      <span ng-bind-html="config('general_event_name')"></span>
     </div>
 
     <!-- user specific header (chat, user settings / login, language)-->
