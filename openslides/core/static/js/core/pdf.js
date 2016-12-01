@@ -239,7 +239,7 @@ angular.module('OpenSlidesApp.core.pdf', [])
                     content: content,
                     styles: {
                         title: {
-                            fontSize: 18,
+                            fontSize: 14,
                             margin: [0,0,0,20],
                             bold: true
                         },
@@ -318,6 +318,7 @@ angular.module('OpenSlidesApp.core.pdf', [])
                         },
                         bold: {
                             bold: true,
+                            margin: [0,2,0,0]
                         },
                         small: {
                             fontSize: 8,

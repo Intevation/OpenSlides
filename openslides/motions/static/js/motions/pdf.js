@@ -20,7 +20,7 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
         // title
         var identifier = motion.identifier ? ' ' + motion.identifier : '';
         var title = PDFLayout.createTitle(
-                gettextCatalog.getString('Motion') + identifier + ': ' +
+                identifier + ': ' +
                 motion.getTitle($scope.version)
         );
 
@@ -49,16 +49,18 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
             ]);
 
             // state
-            metaTableBody.push([
-                {
-                    text: gettextCatalog.getString('State') + ':',
-                    style: ['bold', 'grey']
-                },
-                {
-                    text: motion.getStateName(),
-                    style: 'grey'
-                }
-            ]);
+            if (motion.state.next_states_id.length == 0) {
+                metaTableBody.push([
+                    {
+                        text: gettextCatalog.getString('Beschluss') + ':',
+                        style: ['bold', 'grey']
+                    },
+                    {
+                        text: motion.getStateName(),
+                        style: 'grey'
+                    }
+                ]);
+            }
 
             // recommendation
             if (motion.getRecommendationName()) {
