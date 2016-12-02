@@ -47,10 +47,8 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='general_event_legal_notice',
-        default_value='<a href="http://www.openslides.org">OpenSlides</a> is a '
-                      'free web based presentation and assembly system for '
-                      'visualizing and controlling agenda, motions and '
-                      'elections of an assembly.',
+        default_value='<b>Verantwortlich</b><br>Deutscher Gewerkschaftsbund<br>'
+                      '<i>[Bitte ergänzen]</i>',
         input_type='markupText',
         label='Legal notice',
         weight=132,
@@ -106,7 +104,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='general_csv_separator',
-        default_value=',',
+        default_value=';',
         label='Separator used for all csv exports and examples',
         weight=142,
         group='General',
@@ -193,7 +191,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_backgroundcolor',
-        default_value='#317796',
+        default_value='#ffffff',
         input_type='colorpicker',
         label='Background color of projector header and footer',
         weight=160,
@@ -201,7 +199,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_fontcolor',
-        default_value='#F5F5F5',
+        default_value='#666666',
         input_type='colorpicker',
         label='Font color of projector header and footer',
         weight=165,
@@ -209,7 +207,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_h1_fontcolor',
-        default_value='#317796',
+        default_value='#ed1c24',
         input_type='colorpicker',
         label='Font color of projector headline',
         weight=170,

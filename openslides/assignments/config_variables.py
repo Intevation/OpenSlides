@@ -27,7 +27,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='assignments_poll_100_percent_base',
-        default_value='YES_NO_ABSTAIN',
+        default_value='YES_NO',
         input_type='choice',
         label='The 100-%-base of an election result consists of',
         choices=(
@@ -66,6 +66,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='assignments_pdf_ballot_papers_selection',
+        hidden=True,
         default_value='CUSTOM_NUMBER',
         input_type='choice',
         label='Number of ballot papers (selection)',
@@ -79,6 +80,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='assignments_pdf_ballot_papers_number',
+        hidden=True,
         default_value=8,
         input_type='integer',
         label='Custom number of ballot papers',

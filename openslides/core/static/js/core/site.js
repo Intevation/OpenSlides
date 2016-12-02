@@ -1006,7 +1006,7 @@ angular.module('OpenSlidesApp.core.site', [
                 // set accept and encoding
                 $scope.accept = $scope.config.accept || '.csv';
                 $scope.encodingOptions = $scope.config.encodingOptions || ['UTF-8'];
-                $scope.encoding = $scope.encodingOptions[0];
+                $scope.encoding = $scope.encodingOptions[1];
 
                 $scope.parse = function () {
                     var inputElement = $scope.inputElement[0];
