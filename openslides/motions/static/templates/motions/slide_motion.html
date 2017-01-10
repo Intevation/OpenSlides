@@ -1,10 +1,6 @@
 <div ng-controller="SlideMotionCtrl" class="content scrollcontent">
 
   <div id="sidebox">
-    <!-- State -->
-    <h3 translate>State</h3>
-    {{ motion.getStateName() }}
-
     <!-- Recommendation -->
     <div ng-if="motion.getRecommendationName() != ''">
       <h3>{{ config('motions_recommendations_by') }}</h3>
