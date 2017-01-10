@@ -228,6 +228,60 @@ angular.module('OpenSlidesApp.motions.csv', [])
             },
         };
     }
+])
+
+// Custom csv export: "Aufrufliste"
+.factory('MotionListCsvExport', [
+    'gettextCatalog',
+    'Config',
+    'CsvDownload',
+    function (gettextCatalog, Config, CsvDownload) {
+        var makeHeaderline = function () {
+            var recommendation = Config.get('motions_recommendations_by').value;
+            // CUSTOM: added last field "Lft. Nr." which is ignored by import
+            var headerline = ['Identifier', 'Lfd. Nr.', 'Submitter', 'Title', recommendation, 'Motion block'];
+            return _.map(headerline, function (entry) {
+                return gettextCatalog.getString(entry);
+            });
+        };
+        return {
+            export: function (motions, params) {
+                if (!params) {
+                    params = {};
+                }
+                _.defaults(params, {
+                    filename: 'motions-export.csv',
+                    changeRecommendationMode: Config.get('motions_recommendation_text_mode').value,
+                    includeReason: true,
+                });
+                if (!_.includes(['original', 'changed', 'agreed'], params.changeRecommendationMode)) {
+                    params.changeRecommendationMode = 'original';
+                }
+
+                var csvRows = [
+                    makeHeaderline()
+                ];
+                _.forEach(motions, function (motion) {
+                    var row = [];
+                    row.push('"' + motion.identifier !== null ? motion.identifier : '' + '"');
+                    row.push('"' + motion.id + '"');
+                    // submitters
+                    var submitters = [];
+                    angular.forEach(motion.submitters, function(user) {
+                        var user_short_name = [user.title, user.first_name, user.last_name].join(' ').trim();
+                        submitters.push(user_short_name);
+                    });
+                    row.push('"' + submitters.join('; ') + '"');
+                    row.push('"' + motion.getTitle() + '"');
+                    row.push('"' + motion.getRecommendationName() + '"');
+                    var block = motion.motionBlock ? motion.motionBlock.title : '';
+                    row.push('"' + block + '"');
+                    csvRows.push(row);
+                });
+                CsvDownload(csvRows, 'Aufrufliste.csv');
+            }
+        };
+    }
 ]);
 
 }());

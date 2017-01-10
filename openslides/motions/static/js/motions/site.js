@@ -901,6 +901,7 @@ angular.module('OpenSlidesApp.motions.site', [
                                     {name: 'PDF', value: 'pdf'},
                                     {name: 'CSV', value: 'csv'},
                                     {name: 'DOCX', value: 'docx'},
+                                    {name: 'Aufrufliste (CSV)', value: 'aufrufliste'},
                                 ],
                                 change: formatChangeCallback,
                             },
@@ -946,7 +947,7 @@ angular.module('OpenSlidesApp.motions.site', [
                                     {name: gettextCatalog.getString('outside'), value: 'outside', disabled: true},
                                 ],
                             },
-                            hideExpression: "model.format === 'pdf'",
+                            hideExpression: "model.format === 'pdf' || model.format === 'aufrufliste'",
                         },
                         {
                             key: 'changeRecommendationMode',
@@ -974,7 +975,7 @@ angular.module('OpenSlidesApp.motions.site', [
                                     {name: gettextCatalog.getString('Final version'), value: 'modified_agreed'},
                                 ],
                             },
-                            hideExpression: "model.format === 'pdf'",
+                            hideExpression: "model.format === 'pdf' || model.format === 'aufrufliste'",
                         },
                         {
                             key: 'include',
@@ -986,6 +987,7 @@ angular.module('OpenSlidesApp.motions.site', [
                                     {name: gettextCatalog.getString('Reason'), id: 'reason'},
                                 ],
                             },
+                            hideExpression: "model.format === 'aufrufliste'",
                         },
                         {
                             key: 'include',
@@ -1019,7 +1021,7 @@ angular.module('OpenSlidesApp.motions.site', [
                                     };
                                 }),
                             },
-                            hideExpression: "model.format === 'csv'",
+                            hideExpression: "model.format === 'csv' || model.format === 'aufrufliste'",
                         });
                     }
                 }
@@ -1049,11 +1051,12 @@ angular.module('OpenSlidesApp.motions.site', [
     'MotionExportForm',
     'MotionPdfExport',
     'MotionCsvExport',
+    'MotionListCsvExport',
     'MotionDocxExport',
     'motions',
     'params',
     'singleMotion',
-    function ($scope, Config, MotionExportForm, MotionPdfExport, MotionCsvExport,
+    function ($scope, Config, MotionExportForm, MotionPdfExport, MotionCsvExport, MotionListCsvExport,
             MotionDocxExport, motions, params, singleMotion) {
         $scope.formFields = MotionExportForm.getFormFields(singleMotion, motions, function () {
             if ($scope.params.format !== 'pdf') {
@@ -1134,6 +1137,9 @@ angular.module('OpenSlidesApp.motions.site', [
                     break;
                 case 'csv':
                     MotionCsvExport.export(motions, $scope.params);
+                    break;
+                case 'aufrufliste':
+                    MotionListCsvExport.export(motions, $scope.params);
                     break;
                 case 'docx':
                     MotionDocxExport.export(motions, $scope.params);
