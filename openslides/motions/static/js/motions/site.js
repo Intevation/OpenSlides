@@ -780,6 +780,7 @@ angular.module('OpenSlidesApp.motions.site', [
     'Agenda',
     'MotionBlock',
     'MotionCsvExport',
+    'MotionListCsvExport',
     'MotionDocxExport',
     'MotionContentProvider',
     'MotionCatalogContentProvider',
@@ -791,7 +792,7 @@ angular.module('OpenSlidesApp.motions.site', [
     'osTableFilter',
     'osTableSort',
     function($scope, $state, $http, gettext, gettextCatalog, ngDialog, MotionForm, Motion,
-                Category, Tag, Workflow, User, Agenda, MotionBlock, MotionCsvExport, MotionDocxExport,
+                Category, Tag, Workflow, User, Agenda, MotionBlock, MotionCsvExport, MotionListCsvExport, MotionDocxExport,
                 MotionContentProvider, MotionCatalogContentProvider, PdfMakeConverter, PdfMakeDocumentProvider,
                 HTMLValidizer, Projector, ProjectionDefault, osTableFilter, osTableSort) {
         Motion.bindAll({}, $scope, 'motions');
@@ -1022,6 +1023,12 @@ angular.module('OpenSlidesApp.motions.site', [
         // Export as docx file
         $scope.docxExport = function () {
             MotionDocxExport.export($scope.motionsFiltered, $scope.categories);
+        };
+        // Export as a csv file ("Aufrufliste")
+        $scope.csvListExport = function () {
+            var element = document.getElementById('downloadLinkCSVList');
+            console.log(element);
+            MotionListCsvExport(element, $scope.motionsFiltered);
         };
 
         // *** select mode functions ***
