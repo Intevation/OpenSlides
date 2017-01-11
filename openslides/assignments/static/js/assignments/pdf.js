@@ -482,6 +482,160 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
     };
 }])
 
+.factory('BallotContentProviderA5', [
+    '$filter',
+    'gettextCatalog',
+    'PDFLayout',
+    'Config',
+    'User',
+    function($filter, gettextCatalog, PDFLayout, Config, User) {
+        var createInstance = function(scope, poll, pollNumber) {
+
+            // PDF header
+            var header = function() {
+                var columns = [];
+
+                var line1 = [
+                    Config.get('general_event_name').value,
+                    Config.get('general_event_description').value
+                ].filter(Boolean).join(' – ');
+                var line2 = [
+                    Config.get('general_event_location').value,
+                    Config.get('general_event_date').value
+                ].filter(Boolean).join(', ');
+                var text = [line1, line2].join('\n');
+                columns.push({
+                    text: text,
+                    fontSize:10,
+                    alignment: 'left',
+                    margin: [0, 10, 0, 0],
+                    width: '80%'
+                });
+
+                // logo
+                columns.push({
+                    image: 'logo-pdf.png',
+                    fit: [180,60],
+                    width: '20%'
+                });
+                return {
+                    color: '#555',
+                    fontSize: 10,
+                    margin: [0, 20, 20, 20], // [left, top, right, bottom]
+                    columns: columns,
+                    columnGap: 5
+                };
+            };
+
+            // ballot title
+            var createTitle = function() {
+                return {
+                    text: "Stimmzettel für die Wahl:\n" + scope.assignment.title,
+                    fontSize: 20,
+                    bold: true,
+                    margin: [208,0,100,0]
+                };
+            };
+
+            var createBallotNumber = function() {
+                return {
+                    text: pollNumber + "." + gettextCatalog.getString("Ballot"),
+                    fontSize: 20,
+                    bold: false,
+                    margin: [208, 0, 100, 40]
+                };
+            };
+
+            // election entries
+            var createYNBallotEntry = function(decision) {
+                var YNColumn = [
+                    {
+                        width: "auto",
+                        stack: [
+                            PDFLayout.createBallotEntry(gettextCatalog.getString("Yes"))
+                        ]
+                    },
+                    {
+                        width: "auto",
+                        stack: [
+                            PDFLayout.createBallotEntry(gettextCatalog.getString("No"))
+                        ]
+                    },
+                ];
+
+                if (poll.pollmethod == 'yna') {
+                    YNColumn.push({
+                        width: "auto",
+                        stack: [
+                            PDFLayout.createBallotEntry(gettextCatalog.getString("Abstain"))
+                        ]
+                    });
+                }
+
+                return [
+                    {
+                        columns: [
+                            {
+                                text: decision,
+                                margin: [0, 10, 0, 0],
+                                width: "31%"
+                            },
+                            {
+                                columns: YNColumn
+                            }
+                        ]
+                    }
+                ];
+            };
+
+            var createSelectionField = function() {
+                var candidates = $filter('orderBy')(poll.options, 'weight');
+                var candidateBallotList = [];
+
+                if (poll.pollmethod == 'votes') {
+                    angular.forEach(candidates, function(option) {
+                        var candidate = option.candidate.get_full_name();
+                        candidateBallotList.push(PDFLayout.createBallotEntry(candidate));
+                    });
+                } else {
+                    angular.forEach(candidates, function(option) {
+                        var candidate = option.candidate.get_full_name();
+                        candidateBallotList.push(createYNBallotEntry(candidate));
+                    });
+                }
+                return candidateBallotList;
+            };
+
+            var getContent = function() {
+                return [
+                    header(),
+                    createTitle(),
+                    createBallotNumber(),
+                    createSelectionField(),
+                ];
+            };
+
+            var getFooter = function() {
+                var description = "";
+                if (poll.description)
+                    description = poll.description;
+                return {
+                    text: description,
+                    style: "description"
+                };
+            };
+
+            return {
+                getContent: getContent,
+                getFooter: getFooter
+            };
+        };
+
+    return {
+        createInstance: createInstance
+    };
+}])
+
 .factory('AssignmentCatalogContentProvider', [
     'gettextCatalog',
     'PDFLayout',

@@ -353,22 +353,24 @@ angular.module('OpenSlidesApp.core.pdf', [])
             var getDocument = function() {
                 var content = contentProvider.getContent();
                 return {
-                    pageSize: 'A4',
-                    pageMargins: [0, 0, 0, 0],
+                    pageSize: 'A5',
+                    pageOrientation: 'landscape',
+                    pageMargins: [40, 10, 10, 30],
                     defaultStyle: {
                         font: PDFLayout.getFontName(),
-                        fontSize: 10
+                        fontSize: 14
                     },
-                    content: content,
+                    footer: contentProvider.getFooter(),
+                    content: contentProvider.getContent(),
                     styles: {
                         title: {
                             fontSize: 14,
                             bold: true,
-                            margin: [30, 30, 0, 0]
+                            margin: [0, 30, 0, 0]
                         },
                         description: {
                             fontSize: 11,
-                            margin: [30, 0, 0, 0]
+                            margin: [40, 0, 0, 0],
                         }
                     }
                 };

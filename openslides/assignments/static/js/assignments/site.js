@@ -453,12 +453,12 @@ angular.module('OpenSlidesApp.assignments.site', [
     'Projector',
     'ProjectionDefault',
     'AssignmentContentProvider',
-    'BallotContentProvider',
+    'BallotContentProviderA5',
     'PdfMakeDocumentProvider',
     'PdfMakeBallotPaperProvider',
     'gettextCatalog',
     function($scope, $http, $filter, filterFilter, gettext, ngDialog, AssignmentForm, operator, Assignment,
-        User, assignment, phases, Projector, ProjectionDefault, AssignmentContentProvider, BallotContentProvider,
+        User, assignment, phases, Projector, ProjectionDefault, AssignmentContentProvider, BallotContentProviderA5,
         PdfMakeDocumentProvider, PdfMakeBallotPaperProvider, gettextCatalog) {
         User.bindAll({}, $scope, 'users');
         Assignment.loadRelations(assignment, 'agenda_item');
@@ -656,7 +656,7 @@ angular.module('OpenSlidesApp.assignments.site', [
                 }
             });
             var filename = gettextCatalog.getString("Ballot") + "_" + pollNumber + "_" + $scope.assignment.title + ".pdf";
-            var ballotContentProvider = BallotContentProvider.createInstance($scope, thePoll, pollNumber);
+            var ballotContentProvider = BallotContentProviderA5.createInstance($scope, thePoll, pollNumber);
             var documentProvider = PdfMakeBallotPaperProvider.createInstance(ballotContentProvider);
             pdfMake.createPdf(documentProvider.getDocument()).download(filename);
         };
