@@ -475,7 +475,7 @@ angular.module('OpenSlidesApp.core.pdf', [])
                         font: 'PdfFont',
                         fontSize: 10
                     },
-                    content: content,
+                    content: contentProvider.getContent(),
                     styles: {
                         title: {
                             fontSize: 14,
@@ -483,8 +483,56 @@ angular.module('OpenSlidesApp.core.pdf', [])
                             margin: [30, 30, 0, 0]
                         },
                         description: {
+                            fontSize: 10,
+                            margin: [30, 0, 0, 0],
+                        }
+                    }
+                };
+            };
+            return {
+                getDocument: getDocument
+            };
+        };
+        return {
+            createInstance: createInstance
+        };
+    }
+])
+
+.factory('PdfMakeBallotPaperProviderA5', [
+    'PDFLayout',
+    function(PDFLayout) {
+        /**
+         * Provides the global Document
+         * @constructor
+         * @param {object} contentProvider - Object with on method `getContent`, which returns an array for content
+         */
+        var createInstance = function(contentProvider) {
+            /**
+             * Generates the document(definition) for pdfMake
+             * @function
+             */
+            var getDocument = function() {
+                var content = contentProvider.getContent();
+                return {
+                    pageSize: 'A5',
+                    pageOrientation: 'landscape',
+                    pageMargins: [40, 10, 10, 30],
+                    defaultStyle: {
+                        font: 'PdfFont',
+                        fontSize: 14
+                    },
+                    footer: contentProvider.getFooter(),
+                    content: contentProvider.getContent(),
+                    styles: {
+                        title: {
+                            fontSize: 14,
+                            bold: true,
+                            margin: [0, 30, 0, 0]
+                        },
+                        description: {
                             fontSize: 11,
-                            margin: [30, 0, 0, 0]
+                            margin: [40, 0, 0, 0],
                         }
                     }
                 };

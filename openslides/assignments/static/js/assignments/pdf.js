@@ -272,7 +272,7 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
                 if (logoBallotPaperUrl) {
                     columns.push({
                         image: logoBallotPaperUrl,
-                        fit: [90,20],
+                        fit: [180,60],
                         width: '20%'
                     });
                 }
@@ -285,21 +285,46 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
 
                 return {
                     color: '#555',
-                    margin: [30, 10, 10, -10], // [left, top, right, bottom]
+                    margin: [0, 20, 20, 20], // [left, top, right, bottom]
                     columns: columns,
-                    columnGap: 10
+                    columnGap: 5
                 };
             };
 
             // page title
             var createTitle = function() {
                 return {
-                    text: assignment.title,
-                    style: 'title',
+                    text: "Stimmzettel für die Wahl:\n" + assignment.title,
+                    fontSize: 20,
+                    bold: true,
+                    margin: [208,0,100,0]
                 };
             };
 
+            // custom: ballot number
+            var createBallotNumber = function() {
+                return {
+                    text: pollNumber + "." + gettextCatalog.getString("Ballot"),
+                    fontSize: 20,
+                    bold: false,
+                    margin: [208, 0, 100, 40]
+                };
+            };
+
+            // custom: footer with poll description
+            var getFooter = function() {
+                var description = "";
+                if (poll.description)
+                    description = poll.description;
+                return {
+                    text: description,
+                    style: "description"
+                };
+            };
+
+
             // poll description
+            /*
             var createPollHint = function() {
                 var description = poll.description ? ': ' + poll.description : '';
                 return {
@@ -307,6 +332,7 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
                     style: 'description',
                 };
             };
+            */
 
             // election entries
             var createYNBallotEntry = function(decision) {
@@ -387,7 +413,7 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
                             stack: [
                                 header(),
                                 createTitle(),
-                                createPollHint(),
+                                createBallotNumber(),
                                 createSelectionField(),
                             ],
                         },
@@ -496,7 +522,12 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
             };
 
             var getContent = function() {
-                return createContentTable();
+                return [
+                    header(),
+                    createTitle(),
+                    createBallotNumber(),
+                    createSelectionField(),
+                ];
             };
 
             var getImageMap = function () {
@@ -512,6 +543,7 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
                     resolve({
                         getContent: getContent,
                         getImageMap: getImageMap,
+                        getFooter: getFooter
                     });
                 }, reject);
             });
@@ -605,11 +637,11 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
     'AssignmentCatalogContentProvider',
     'PdfMakeDocumentProvider',
     'BallotContentProvider',
-    'PdfMakeBallotPaperProvider',
+    'PdfMakeBallotPaperProviderA5',
     'PdfCreate',
     'Messaging',
     function (gettextCatalog, AssignmentContentProvider, AssignmentCatalogContentProvider,
-        PdfMakeDocumentProvider, BallotContentProvider, PdfMakeBallotPaperProvider, PdfCreate,
+        PdfMakeDocumentProvider, BallotContentProvider, PdfMakeBallotPaperProviderA5, PdfCreate,
         Messaging) {
         return {
             export: function (assignments, singleAssignment) {
@@ -653,7 +685,7 @@ angular.module('OpenSlidesApp.assignments.pdf', ['OpenSlidesApp.core.pdf'])
                 });
                 var filename = gettextCatalog.getString('Ballot') + '_' + pollNumber + '_' + assignment.title + '.pdf';
                 BallotContentProvider.createInstance(assignment, thePoll, pollNumber).then(function (ballotContentProvider) {
-                    var documentProvider = PdfMakeBallotPaperProvider.createInstance(ballotContentProvider);
+                    var documentProvider = PdfMakeBallotPaperProviderA5.createInstance(ballotContentProvider);
                     PdfCreate.download(documentProvider, filename);
                 }, function (error) {
                     Messaging.addMessage(error.msg, 'error');
