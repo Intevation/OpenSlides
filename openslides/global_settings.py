@@ -24,6 +24,10 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_PLUGINS = collect_plugins()  # Adds all automaticly collected plugins
+INSTALLED_PLUGINS += (
+    'openslides_votecollector',
+)
+INSTALLED_APPS += INSTALLED_PLUGINS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

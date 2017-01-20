@@ -1,7 +1,7 @@
 FROM python:3.5
 RUN apt-get -y update && apt-get -y upgrade
 
-RUN apt-get install -y libpq-dev supervisor
+RUN apt-get install -y libpq-dev supervisor zip
 ## BUILD JS STUFF
 RUN cd /tmp
 RUN wget https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.xz
@@ -14,6 +14,11 @@ ADD bower.json /app
 WORKDIR /app
 RUN /tmp/node-v4.5.0-linux-x64/bin/npm install;  exit 0 #ignore errors in npm scripts
 RUN su -c 'node_modules/.bin/bower --config.interactive=false install' openslides
+
+# Download and install Votecollector plugin
+RUN wget https://github.com/OpenSlides/openslides-votecollector/archive/master.zip -P /tmp
+RUN cd /tmp && unzip master.zip && cp -r ./openslides-votecollector-master/openslides_votecollector /app/
+RUN rm -r /tmp/master.zip /tmp/openslides-votecollector-master/
 
 # INSTALL PYTHON DEPENDENCIES
 ADD requirements_production.txt /app/requirements_production.txt
