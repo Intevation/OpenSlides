@@ -3,9 +3,8 @@ RUN apt-get -y update && apt-get -y upgrade
 
 RUN apt-get install -y libpq-dev supervisor zip
 ## BUILD JS STUFF
-RUN cd /tmp
-RUN wget https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.xz
-RUN cd /tmp && tar xfvJ /node-v4.5.0-linux-x64.tar.xz
+RUN wget https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.xz -P /tmp
+RUN cd /tmp && tar xfvJ node-v4.5.0-linux-x64.tar.xz
 RUN ln -sf /tmp/node-v4.5.0-linux-x64/bin/node /usr/bin/node
 RUN useradd -m openslides
 RUN mkdir /app && chown openslides /app
@@ -33,7 +32,6 @@ RUN rm -rf /var/lib/apt/lists/*
 ADD . /app
 
 RUN node_modules/.bin/gulp --production
-RUN rm -fr /tmp/node-v4.5.0-linux-x64/
 RUN rm -fr /app/bower_components
 RUN rm -fr /app/node_modules
 
