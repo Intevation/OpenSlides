@@ -19,7 +19,7 @@ def get_permission_change_data(sender, permissions=None, **kwargs):
 
 def create_builtin_groups_and_admin(**kwargs):
     """
-    Creates the builtin groups: Default, Delegates, Staff and Committees.
+    Creates the builtin groups: Default, Delegates, Staff, Admin and Committees.
 
     Creates the builtin user: admin.
     """
@@ -72,33 +72,18 @@ def create_builtin_groups_and_admin(**kwargs):
         permission_dict[permission_string] = permission
 
     # Default (pk 1)
-    base_permissions = (
-        permission_dict['agenda.can_see'],
-        permission_dict['agenda.can_see_internal_items'],
-        permission_dict['assignments.can_see'],
-        permission_dict['core.can_see_frontpage'],
-        permission_dict['core.can_see_projector'],
-        permission_dict['mediafiles.can_see'],
-        permission_dict['motions.can_see'],
-        permission_dict['users.can_see_name'], )
+    base_permissions = ()
     group_default = Group.objects.create(name='Default')
     group_default.permissions.add(*base_permissions)
 
     # Delegates (pk 2)
     delegates_permissions = (
         permission_dict['agenda.can_see'],
-        permission_dict['agenda.can_see_internal_items'],
-        permission_dict['agenda.can_be_speaker'],
         permission_dict['assignments.can_see'],
-        permission_dict['assignments.can_nominate_other'],
-        permission_dict['assignments.can_nominate_self'],
         permission_dict['core.can_see_frontpage'],
         permission_dict['core.can_see_projector'],
         permission_dict['mediafiles.can_see'],
-        permission_dict['motions.can_see'],
-        permission_dict['motions.can_create'],
-        permission_dict['motions.can_support'],
-        permission_dict['users.can_see_name'], )
+        permission_dict['motions.can_see'], )
     group_delegates = Group.objects.create(name='Delegates')
     group_delegates.permissions.add(*delegates_permissions)
 
@@ -116,8 +101,8 @@ def create_builtin_groups_and_admin(**kwargs):
         permission_dict['core.can_see_frontpage'],
         permission_dict['core.can_see_projector'],
         permission_dict['core.can_manage_projector'],
-        permission_dict['core.can_manage_tags'],
         permission_dict['core.can_use_chat'],
+        permission_dict['core.can_manage_chat'],
         permission_dict['mediafiles.can_see'],
         permission_dict['mediafiles.can_manage'],
         permission_dict['mediafiles.can_upload'],
@@ -127,9 +112,8 @@ def create_builtin_groups_and_admin(**kwargs):
         permission_dict['motions.can_see_comments'],
         permission_dict['motions.can_manage_comments'],
         permission_dict['users.can_see_name'],
-        permission_dict['users.can_manage'],
         permission_dict['users.can_see_extra_data'],
-        permission_dict['mediafiles.can_see_hidden'],)
+        permission_dict['mediafiles.can_see_hidden'], )
     group_staff = Group.objects.create(name='Staff')
     group_staff.permissions.add(*staff_permissions)
 
@@ -149,7 +133,6 @@ def create_builtin_groups_and_admin(**kwargs):
         permission_dict['core.can_manage_config'],
         permission_dict['core.can_manage_logos_and_fonts'],
         permission_dict['core.can_manage_projector'],
-        permission_dict['core.can_manage_tags'],
         permission_dict['core.can_use_chat'],
         permission_dict['core.can_manage_chat'],
         permission_dict['mediafiles.can_see'],
@@ -177,16 +160,9 @@ def create_builtin_groups_and_admin(**kwargs):
 
     # Committees (pk 5)
     committees_permissions = (
-        permission_dict['agenda.can_see'],
-        permission_dict['agenda.can_see_internal_items'],
-        permission_dict['assignments.can_see'],
         permission_dict['core.can_see_frontpage'],
-        permission_dict['core.can_see_projector'],
-        permission_dict['mediafiles.can_see'],
         permission_dict['motions.can_see'],
-        permission_dict['motions.can_create'],
-        permission_dict['motions.can_support'],
-        permission_dict['users.can_see_name'], )
+        permission_dict['motions.can_create'], )
     group_committee = Group.objects.create(name='Committees')
     group_committee.permissions.add(*committees_permissions)
 
