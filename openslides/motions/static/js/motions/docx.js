@@ -92,7 +92,8 @@ angular.module('OpenSlidesApp.motions.docx', ['OpenSlidesApp.core.docx'])
             var translation = gettextCatalog.getString('Motion'),
                 sequential_translation = gettextCatalog.getString('Sequential number'),
                 submitters_translation = gettextCatalog.getString('Submitters'),
-                status_translation = gettextCatalog.getString('Status'),
+                status_translation = 'Beschluss', // Custom translation of gettextCatalog.getString('Status'),
+                category_translation = gettextCatalog.getString('Category'),
                 reason_translation = gettextCatalog.getString('Reason'),
                 comment_translation = gettextCatalog.getString('Comments');
             var sequential_enabled = Config.get('motions_export_sequential_number').value;
@@ -102,7 +103,8 @@ angular.module('OpenSlidesApp.motions.docx', ['OpenSlidesApp.core.docx'])
                 var text = params.include.text ? motion.getTextByMode(params.changeRecommendationMode, null, null, false) : '';
                 var reason = params.include.reason ? motion.getReason() : '';
                 var comments = getMotionComments(motion, params.includeComments);
-
+                var category = motion.category ? motion.category.name : '';
+                var identifier = motion.identifier ? motion.identifier : '';
                 // Data for one motions. Must include translations, ...
                 var motionData = {
                     // Translations
@@ -111,6 +113,8 @@ angular.module('OpenSlidesApp.motions.docx', ['OpenSlidesApp.core.docx'])
                     submitters_translation: submitters_translation,
                     reason_translation: reason.length === 0 ? '' : reason_translation,
                     status_translation: status_translation,
+                    category_translation: category_translation,
+                    recommendation_translation: Config.get('motions_recommendations_by').value,
                     comment_translation: comments.length === 0 ? '' : comment_translation,
                     sequential_enabled: sequential_enabled,
                     // Actual data
@@ -123,6 +127,8 @@ angular.module('OpenSlidesApp.motions.docx', ['OpenSlidesApp.core.docx'])
                             }
                         ).join(', ') : '',
                     status: motion.getStateName(),
+                    category: category,
+                    recommendation: motion.getRecommendationName(),
                     // Miscellaneous stuff
                     preamble: gettextCatalog.getString(Config.get('motions_preamble').value),
                     pagebreak: PAGEBREAK,
