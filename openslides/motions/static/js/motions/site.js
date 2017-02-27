@@ -3094,6 +3094,11 @@ angular.module('OpenSlidesApp.motions.site', [
                         Motion.create(motion).then(
                             function(success) {
                                 motion.imported = true;
+                            },
+                            function (error) {
+                                motion.imported = false;
+                                console.error("Error " + error.status + ": Import failed.");
+                                console.log(error);
                             }
                         );
                     }
