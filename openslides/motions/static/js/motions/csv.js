@@ -29,9 +29,13 @@ angular.module('OpenSlidesApp.motions.csv', [])
             if (params.include.motionBlock) {
                 headerline.push('Motion block');
             }
+            if (params.include.state) {
+                headerline.push('State');
+            }
             if (params.include.recommendation) {
                 headerline.push('Recommendation');
             }
+            headerline.push('Lfd. Nr.');
             return _.map(headerline, function (entry) {
                 return gettextCatalog.getString(entry);
             });
@@ -107,11 +111,20 @@ angular.module('OpenSlidesApp.motions.csv', [])
                         row.push('"' + blockTitle + '"');
                     }
 
+                    // State
+                    if (params.include.state) {
+                        row.push('"' + motion.getStateName() + '"');
+                    }
+
                     // Recommendation
                     if (params.include.recommendation) {
                         var recommendation = motion.recommendation ? motion.getRecommendationName() : '';
                         row.push('"' + recommendation + '"');
                     }
+
+                    // custom: Lfd.Nr.
+                    row.push(motion.id);
+                    
                     csvRows.push(row);
                 });
                 CsvDownload(csvRows, params.filename);
