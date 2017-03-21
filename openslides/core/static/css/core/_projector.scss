@@ -7,7 +7,7 @@ html, body {
 
 body {
     font-family: $font, sans-serif;
-    font-size: 20px !important;
+    font-size: 24px !important;
     line-height: 24px !important;
     overflow: hidden;
     color: #222;
@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: 2.25em;
+    font-size: 1.7em;
     line-height: 1.1em;
     margin-bottom: 30px;
 }
@@ -46,7 +46,7 @@ hr {
 }
 
 #header {
-    font-family: $font-condensed-light;
+    font-family: $font;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     box-shadow: 0 0 7px rgba(0,0,0,0.6);
@@ -87,7 +87,7 @@ hr {
 }
 
 #currentTime {
-    font-family: $font-condensed-light;
+    font-family: $font-condensed;
     border: 0 solid #000000;
     font-size: 24px;
     position: absolute;
@@ -98,7 +98,7 @@ hr {
 }
 
 #footer {
-    font-family: $font-condensed-light;
+    font-family: $font;
     position: fixed;
     bottom: 0;
     height: 35px;
