@@ -11,7 +11,7 @@ angular.module('OpenSlidesApp.users.csv', [])
     'CsvDownload',
     function ($filter, Group, gettextCatalog, CsvDownload) {
         var makeHeaderline = function () {
-            var headerline = ['Title', 'Given name', 'Surname', 'Structure level', 'Participant number', 'Groups',
+            var headerline = ['Title', 'Given name', 'Surname', 'Structure level', 'Delegiertennummer', 'Groups',
                 'Comment', 'Is active', 'Is present', 'Is a committee', 'Initial password', 'Email'];
             return _.map(headerline, function (entry) {
                 return gettextCatalog.getString(entry);

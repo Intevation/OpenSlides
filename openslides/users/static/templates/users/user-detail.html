@@ -31,7 +31,7 @@
         <div ng-repeat="group in user.groups_id">
           {{ (groups | filter: {id: group})[0].name | translate }}
         </div>
-      <label translate>Participant number</label>
+      <label translate>Delegiertennummer</label>
         {{ user.number }}
       <label translate>Email</label>
         {{ user.email }}

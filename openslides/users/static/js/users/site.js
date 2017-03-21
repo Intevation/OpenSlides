@@ -328,7 +328,7 @@ angular.module('OpenSlidesApp.users.site', [
                             type: 'input',
                             className: "col-xs-3 no-padding-left no-padding-right",
                             templateOptions: {
-                                label:gettextCatalog.getString('Participant number')
+                                label:gettextCatalog.getString('Delegiertennummer')
                             }
                         }
                     ]
