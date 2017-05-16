@@ -1,7 +1,7 @@
 FROM python:3.5
 RUN apt-get -y update && apt-get -y upgrade
 
-RUN apt-get install -y libpq-dev supervisor zip
+RUN apt-get install -y libpq-dev supervisor zip openssh-server
 ## BUILD JS STUFF
 RUN wget https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.xz -P /tmp
 RUN cd /tmp && tar xfvJ node-v4.5.0-linux-x64.tar.xz
