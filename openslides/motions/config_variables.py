@@ -214,7 +214,10 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='motions_comments',
-        default_value={},
+        default_value={
+           1: {"name": "Ergänzung zum Status", "public": True, "forState": True},
+           2: {"name": "Ergänzung zur ABK-Empfehlung", "public": True, "forRecommendation": True}
+        },
         input_type='comments',
         label='Comment fields for motions',
         weight=353,
