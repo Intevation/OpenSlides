@@ -28,6 +28,8 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
 
             var converter;
 
+            var logoHeaderUrl = Config.get('logo_pdf_header').value.path;
+
             // Query all image sources from motion text and reason
             var getImageSources = function () {
                 var text = motion.getTextByMode(changeRecommendationMode, null);
@@ -45,255 +47,206 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                 var map = Function.prototype.call.bind([].map);
                 return map($(content).find('img'), function(element) {
                     return element.getAttribute('src');
-                });
+                }).concat(logoHeaderUrl);
             };
 
             // title
             var identifier = motion.identifier ? ' ' + motion.identifier : '';
-            var title = PDFLayout.createTitle(
-                    gettextCatalog.getString('Motion') + identifier + ': ' +
-                    motion.getTitle(motionVersion)
-            );
+            var number;
+            if (motion.agenda_item.getItemNumberWithAncestors().split(' ').length > 1) {
+                number = motion.agenda_item.getItemNumberWithAncestors().split(' ').slice(1);
+            } else {
+                number = motion.agenda_item.getItemNumberWithAncestors();
+            }
+            var title = {
+                columns: [
+                    {
+                        columns: [
+                            {
+                                text: 'TOP\n' + gettextCatalog.getString('Motion'),
+                                style: 'LAHTitle',
+                                width: '30%',
+                            },
+                            {
+                                text: number + "\n" + identifier,
+                                style: 'LAHTitle',
+                            }
+                        ],
+                        width: '60%'
+                    },
+                    {
+                        //image: logoHeaderUrl,
+                        fit: [190, 50],
+                    }
+                ]
+            };
+            var setTitleImageData = function (data) {
+                title.columns[1].image = data;
+            };
 
-            // subtitle and sequential number
-            var subtitleLines = [];
-            if (motion.parent_id) {
-                var parentMotion = Motion.get(motion.parent_id);
-                subtitleLines.push(
-                    gettextCatalog.getString('Amendment of motion') + ': ' +
-                    (parentMotion.identifier ? parentMotion.identifier : parentMotion.getTitle())
-                );
-            }
-            if (Config.get('motions_export_sequential_number').value) {
-                subtitleLines.push(gettextCatalog.getString('Sequential number') + ': ' +  motion.id);
-            }
-            var subtitle = PDFLayout.createSubtitle(subtitleLines);
+            // subtitle
+            var line1 = [
+                 Config.translate(Config.get('general_event_name').value),
+                 Config.translate(Config.get('general_event_description').value)
+            ].filter(Boolean).join(' ');
+            var line2 = [
+                Config.get('general_event_location').value,
+                Config.get('general_event_date').value
+            ].filter(Boolean).join(', ');
+            var text = [line1, line2].join('\n');
+           var subtitle = {
+                text: text,
+                style: 'LAHSubtitle'
+            };
+
+            // submitters
+            var submitters = _.map(motion.submitters, function (submitter) {
+                return submitter.get_full_name();
+            }).join(', ');
 
             // meta data table
             var metaTable = function() {
-                var metaTableBody = [];
-
-                // submitters
-                var submitters = _.map(motion.submitters, function (submitter) {
-                    return submitter.get_full_name();
-                }).join(', ');
-                metaTableBody.push([
-                    {
-                        text: gettextCatalog.getString('Submitters') + ':',
-                        style: ['bold', 'grey'],
-                    },
-                    {
-                        text: submitters,
-                        style: 'grey'
-                    }
-                ]);
-
-                // state
-                metaTableBody.push([
-                    {
-                        text: gettextCatalog.getString('State') + ':',
-                        style: ['bold', 'grey']
-                    },
-                    {
-                        text: motion.getStateName(),
-                        style: 'grey'
-                    }
-                ]);
-
-                // recommendation
-                if (motion.getRecommendationName()) {
-                    metaTableBody.push([
-                        {
-                            text: Config.get('motions_recommendations_by').value + ':',
-                            style: ['bold', 'grey']
-                        },
-                        {
-                            text: motion.getRecommendationName(),
-                            style: 'grey'
-                        }
-                    ]);
-                }
-
-                // category
-                if (motion.category) {
-                    metaTableBody.push([
-                        {
-                            text: gettextCatalog.getString('Category') + ':',
-                            style: ['bold', 'grey'] },
-                        {
-                            text: motion.category.prefix + ' - ' + motion.category.name,
-                            style: 'grey'
-                        }
-                    ]);
-                }
-
-                // motion block
-                if (motion.motionBlock) {
-                    metaTableBody.push([
-                        {
-                            text: gettextCatalog.getString('Motion block') + ':',
-                            style: ['bold', 'grey'] },
-                        {
-                            text: motion.motionBlock.title,
-                            style: 'grey'
-                        }
-                    ]);
-                }
-                // voting result
-                if (motion.polls.length > 0 && motion.polls[0].has_votes) {
-                    var column1 = [];
-                    var column2 = [];
-                    var column3 = [];
-                    motion.polls.map(function(poll, index) {
-                        if (poll.has_votes) {
-                            // votenumber
-                            if (motion.polls.length > 1) {
-                                column1.push(index + 1 + '. ' + gettextCatalog.getString('Vote'));
-                                column2.push('');
-                                column3.push('');
-                            }
-                            // yes
-                            var yes = poll.getVote(poll.yes, 'yes');
-                            column1.push(gettextCatalog.getString('Yes') + ':');
-                            column2.push(yes.value);
-                            column3.push(yes.percentStr);
-                            // no
-                            var no = poll.getVote(poll.no, 'no');
-                            column1.push(gettextCatalog.getString('No') + ':');
-                            column2.push(no.value);
-                            column3.push(no.percentStr);
-                            // abstain
-                            var abstain = poll.getVote(poll.abstain, 'abstain');
-                            column1.push(gettextCatalog.getString('Abstain') + ':');
-                            column2.push(abstain.value);
-                            column3.push(abstain.percentStr);
-                            // votes valid
-                            if (poll.votesvalid) {
-                                var valid = poll.getVote(poll.votesvalid, 'votesvalid');
-                                column1.push(gettextCatalog.getString('Valid votes') + ':');
-                                column2.push(valid.value);
-                                column3.push(valid.percentStr);
-                            }
-                            // votes invalid
-                            if (poll.votesvalid) {
-                                var invalid = poll.getVote(poll.votesinvalid, 'votesinvalid');
-                                column1.push(gettextCatalog.getString('Invalid votes') + ':');
-                                column2.push(invalid.value);
-                                column3.push(invalid.percentStr);
-                            }
-                            // votes cast
-                            if (poll.votescast) {
-                                var cast = poll.getVote(poll.votescast, 'votescast');
-                                column1.push(gettextCatalog.getString('Votes cast') + ':');
-                                column2.push(cast.value);
-                                column3.push(cast.percentStr);
-                            }
-                        }
-                    });
-                    metaTableBody.push([
-                        {
-                            text: gettextCatalog.getString('Voting result') + ':',
-                            style: ['bold', 'grey']
-                        },
-                        {
-                            columns: [
-                                {
-                                    text: column1.join('\n'),
-                                    width: 'auto'
-                                },
-                                {
-                                    text: column2.join('\n'),
-                                    width: 'auto',
-                                    alignment: 'right'
-                                },
-                                {
-                                    text: column3.join('\n'),
-                                    width: 'auto',
-                                    alignment: 'right'
-                                },
-                            ],
-                            columnGap: 7,
-                            style: 'grey'
-                        }
-                    ]);
-                }
-
-                // summary of change recommendations (for motion diff version only)
-                if (changeRecommendationMode == "diff" && changeRecommendations.length) {
-                    var columnLineNumbers = [];
-                    var columnChangeType = [];
-                    angular.forEach(_.orderBy(changeRecommendations, ['line_from']), function(change) {
-                        // line numbers column
-                        var line;
-                        if (change.line_from >= change.line_to - 1) {
-                            line = change.line_from;
-                        } else {
-                            line = change.line_from + ' - ' + (change.line_to - 1);
-                        }
-                        columnLineNumbers.push(
-                            gettextCatalog.getString('Line') + ' ' + line + ': '
-                        );
-                        // change type column
-                        if (change.getType(motion.getVersion(motionVersion).text) === 0) {
-                            columnChangeType.push(gettextCatalog.getString("Replacement"));
-                        } else if (change.getType(motion.getVersion(motionVersion).text) === 1) {
-                            columnChangeType.push(gettextCatalog.getString("Insertion"));
-                        } else if (change.getType(motion.getVersion(motionVersion).text) === 2) {
-                            columnChangeType.push(gettextCatalog.getString("Deletion"));
-                        }
-                    });
-                    metaTableBody.push([
-                        {
-                            text: gettextCatalog.getString('Summary of change recommendations'),
-                            style: ['bold', 'grey']
-                        },
-                        {
-                            columns: [
-                                {
-                                    text: columnLineNumbers.join('\n'),
-                                    width: 'auto'
-                                },
-                                {
-                                    text: columnChangeType.join('\n'),
-                                    width: 'auto'
-                                }
-                            ],
-                            columnGap: 7,
-                            style: 'grey'
-                        }
-                    ]);
-                }
-
-                // build table
-                // Used placeholder for 'layout' functions whiche are
-                // replaced by lineWitdh/lineColor function in pfd-worker.js.
-                // TODO: Remove placeholder and us static values for LineWidth and LineColor
-                // if pdfmake has fixed this.
-                var metaTableJsonString = {
+                var circleDistance = 10;
+                var circleSize = 5;
+                var metaTableBody = {
                     table: {
-                        widths: ['35%','65%'],
-                        body: metaTableBody,
-                    },
-                    margin: [0, 0, 0, 20],
-                    layout: '{{motion-placeholder-to-insert-functions-here}}'
+                        widths: '100%',
+                        body: [
+                            [
+                                {
+                                    columns: [
+                                        {
+                                            columns: [
+                                                {
+                                                    text: 'Antragszurücknahme\nNichtbefassung\nVorstandsüberweisung',
+                                                    width: "auto",
+                                                    bold: true
+                                                },
+                                                {
+                                                    stack: [
+                                                        {
+                                                            canvas: PDFLayout.drawCircle(5 , circleSize)
+                                                        },
+                                                        {
+                                                            canvas: PDFLayout.drawCircle(circleDistance , circleSize)
+                                                        },
+                                                        {
+                                                            canvas: PDFLayout.drawCircle(circleDistance, circleSize)
+                                                        }
+                                                    ],
+                                                    width: "auto",
+                                                    margin: [15, 4, 0, 0],
+                                                }
+                                            ],
+                                            margin: [0, 5, 0, 5]
+                                        },
+                                        {
+                                            columns: [
+                                                {
+                                                    text: 'Antrag\nangenommen\nabgelehnt',
+                                                    width: "auto",
+                                                    bold: true
+                                                },
+                                                {
+                                                    stack: [
+                                                        {
+                                                            canvas: PDFLayout.drawCircle(18 , circleSize)
+                                                        },
+                                                        {
+                                                            canvas: PDFLayout.drawCircle(circleDistance , circleSize)
+                                                        }
+                                                    ],
+                                                    width: "auto",
+                                                    margin: [15, 5, 0, 0],
+                                                }
+                                            ],
+                                            margin: [15, 5, 0, 5]
+                                        },
+                                        {
+                                            columns: [
+                                                {
+                                                    text: 'Ja-Stimmen\nNein-Stimmen\nEnthaltungen\n\nmit Mehrheit\neinstimmig',
+                                                    width: "auto",
+                                                    bold: true
+                                                },
+                                                {
+                                                    stack: [
+                                                        {
+                                                            canvas: PDFLayout.drawLine(12, 40)
+                                                        },
+                                                        {
+                                                            canvas: PDFLayout.drawLine(15, 40)
+                                                        },
+                                                        {
+                                                            canvas: PDFLayout.drawLine(15, 40)
+                                                        },
+                                                        {
+                                                            canvas: PDFLayout.drawCircle(30, circleSize)
+                                                        },
+                                                        {
+                                                            canvas: PDFLayout.drawCircle(circleDistance , circleSize)
+                                                        }
+                                                    ],
+                                                    width: "auto",
+                                                    margin: [15, -1, 0, 0],
+                                                }
+                                            ],
+                                            margin: [0, 5, 0, 5]
+                                        }
+                                    ],
+                                    style: 'grey'
+                                }
+                            ]
+                        ],
+                    }
                 };
-                return metaTableJsonString;
+                return metaTableBody;
             };
 
+
             // motion title
-            var motionTitle = function() {
-                return [{
-                    text: motion.getTitle(motionVersion),
-                    style: 'heading3'
-                }];
+            var motionTitle = function(name, title) {
+                return [
+                    {
+                        columns: [
+                            {
+                                text: name,
+                                width: '20%',
+                                style: 'bold',
+                            },
+                            {
+                                text: title,
+                            },
+                        ],
+                        margin: [0, 15, 0, 0],
+                    },
+                    {
+                        canvas: [
+                            {
+                                type: 'line',
+                                x1: 0, y1: 10,
+                                x2: 430, y2: 10,
+                                lineWidth: 1,
+                                lineColor: 'grey',
+                            }
+                        ]
+                    }
+                ];
             };
 
             // motion preamble
             var motionPreamble = function () {
-                return {
-                    text: Config.translate(Config.get('motions_preamble').value),
-                    margin: [0, 10, 0, 0]
-                };
+                return [
+                    {
+                        text: 'Beschlussvorschlag:',
+                        style: 'bold',
+                        marginTop: 25
+                    },
+                    {
+                        text: Config.translate(Config.get('motions_preamble').value),
+                        margin: [0, 10, 0, 0]
+                    }
+                ];
             };
 
             // motion text (with line-numbers)
@@ -308,8 +261,8 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                     var reason = [];
                     if (motion.getReason(motionVersion)) {
                         reason.push({
-                            text:  gettextCatalog.getString('Reason'),
-                            style: 'heading3',
+                            text:  gettextCatalog.getString('Reason') + ':',
+                            style: 'bold',
                             marginTop: 25,
                         });
                         reason.push({
@@ -354,7 +307,8 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                     title,
                     subtitle,
                     metaTable(),
-                    motionTitle(),
+                    motionTitle('Gegenstand: ', motion.getTitle(motionVersion)),
+                    motionTitle(gettextCatalog.getString('Submitters') + ':', submitters),
                     motionPreamble(),
                     motionText(),
                 ];
@@ -384,6 +338,7 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
 
             return $q(function (resolve) {
                 ImageConverter.toBase64(getImageSources()).then(function (imageMap) {
+                    setTitleImageData(imageMap[logoHeaderUrl].data);
                     converter = PdfMakeConverter.createInstance(imageMap);
                     resolve({
                         getContent: getContent,

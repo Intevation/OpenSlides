@@ -81,6 +81,19 @@ angular.module('OpenSlidesApp.core.pdf', [])
                 ],
             };
         };
+        // draw line
+        PDFLayout.drawLine = function(y, length) {
+            return [
+                {
+                    type: 'line',
+                    x1: -4,
+                    y1: y,
+                    lineColor: 'black',
+                    x2: length,
+                    y2: y
+                }
+            ];
+        };
 
         // crop marks for ballot papers
         PDFLayout.getBallotLayoutLines = function() {
@@ -226,8 +239,8 @@ angular.module('OpenSlidesApp.core.pdf', [])
                     text: '{{currentPage}} / {{pageCount}}',
                     color: '#555',
                     fontSize: 9,
-                    alignment: Config.get('general_export_pdf_pagenumber_alignment').value,
-                    margin: [0, 15, 0, 0],
+                    alignment: 'right',
+                    margin: [0, 0, 5, 25]
                 });
                 return {
                     margin: [75, 0, 75, 10],
@@ -241,12 +254,13 @@ angular.module('OpenSlidesApp.core.pdf', [])
                 var standardFontsize = Config.get('general_export_pdf_fontsize').value;
                 return {
                     pageSize: 'A4',
-                    pageMargins: [75, 90, 75, 75],
+                    //pageMargins: [75, 90, 75, 75],
+                    pageMargins: [80, 30, 80, 30],
                     defaultStyle: {
                         font: 'PdfFont',
                         fontSize: standardFontsize
                     },
-                    header: getHeader(),
+                    //header: getHeader(),
                     footerTpl: noFooter ? '' : getFooter(),
                     content: content,
                     styles: {
@@ -333,6 +347,17 @@ angular.module('OpenSlidesApp.core.pdf', [])
                         },
                         small: {
                             fontSize: 8,
+                        },
+                        LAHTitle: {
+                            fontSize: 22,
+                            margin: [0,0,0,30],
+                            bold: true
+                        },
+                        LAHSubtitle: {
+                            fontSize: 14,
+                            bold: true,
+                            margin: [0,0,0,30],
+                            alignment: 'center'
                         }
                     }
                 };
@@ -340,7 +365,6 @@ angular.module('OpenSlidesApp.core.pdf', [])
 
             return $q(function (resolve) {
                 var imageSources = [
-                    logoHeaderUrl,
                     logoFooterUrl
                 ];
                 ImageConverter.toBase64(imageSources).then(function (_imageMap) {
