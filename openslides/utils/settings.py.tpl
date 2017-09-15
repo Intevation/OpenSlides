@@ -131,7 +131,7 @@ if use_redis:
 # When use_redis is True, the restricted data cache caches the data individuel
 # for each user. This requires a lot of memory if there are a lot of active
 # users. If use_redis is False, this setting has no effect.
-DISABLE_USER_CACHE = False
+DISABLE_USER_CACHE = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

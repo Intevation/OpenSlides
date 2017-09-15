@@ -166,3 +166,7 @@ AUTH_PASSWORD_VALIDATORS = [
         }
     },
 ]
+
+ 
+# Disable the restricted data cache by default. Can be enabled in custom settings.py.
+DISABLE_USER_CACHE = True
