@@ -104,6 +104,11 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                 return submitter.get_full_name();
             }).join(', ');
 
+            // supporters
+            var supporters = _.map(motion.supporters, function (supporter) {
+                return supporter.get_full_name();
+            }).join(', ');
+
             // meta data table
             var metaTable = function() {
                 var circleDistance = 10;
@@ -211,7 +216,7 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                         columns: [
                             {
                                 text: name,
-                                width: '20%',
+                                width: '25%',
                                 style: 'bold',
                             },
                             {
@@ -309,6 +314,7 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                     metaTable(),
                     motionTitle('Gegenstand: ', motion.getTitle(motionVersion)),
                     motionTitle(gettextCatalog.getString('Submitters') + ':', submitters),
+                    motionTitle(gettextCatalog.getString('Mitantragsteller/innen') + ':', supporters),
                     motionPreamble(),
                     motionText(),
                 ];

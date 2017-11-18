@@ -30,7 +30,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: inherit;
 }
 h1, h2, h3, h4, h5, h6, .countdown, .message {
-    font-family: "Titillium-Bold", sans-serif;
+    font-family: "Titillium-Bold", sans-serif !important;
     font-weight: normal;
 }
 #header, #currentTime, #footer {

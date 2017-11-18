@@ -16,6 +16,12 @@
       {{ submitter.get_full_name() }}<br>
     </div>
 
+    <!-- Supporters -->
+    <h3 ng-if="motion.supporters.length > 0" translate>Mitantragsteller/innen</h3>
+    <div ng-repeat="supporter in motion.supporters">
+      {{ supporter.get_short_name() }}<br>
+    </div>
+
     <!-- Poll results -->
     <h3 ng-if="motion.polls.length > 0 && motion.polls[0].has_votes" translate>Voting result</h3>
       <div ng-repeat="poll in motion.polls | orderBy:'-id'" class="spacer">
