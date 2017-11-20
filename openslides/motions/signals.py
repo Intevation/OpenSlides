@@ -143,6 +143,126 @@ def create_builtin_workflows(sender, **kwargs):
     workflow_2.first_state = state_2_0
     workflow_2.save(skip_autoupdate=True)
 
+    # Custom AEKNO workflow
+    workflow_3 = Workflow(name="AEKNO Arbeitsablauf")
+    workflow_3.save(skip_autoupdate=True)
+    state_3_0 = State(
+        name="Entwurf",
+        workflow=workflow_3,
+        restriction=[
+            "is_submitter",
+            "managers_only"
+        ],
+        allow_submitter_edit=True,
+        dont_set_identifier=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_0.save(skip_autoupdate=True)
+    state_3_1 = State(
+        name="offen",
+        workflow=workflow_3,
+        allow_submitter_edit=True,
+        dont_set_identifier=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_1.save(skip_autoupdate=True)
+    state_3_2 = State(
+        name="erfasst",
+        workflow=workflow_3,
+        allow_create_poll=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_2.save(skip_autoupdate=True)
+    state_3_3 = State(
+        name="Prüfung Referent",
+        workflow=workflow_3,
+        allow_create_poll=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_3.save(skip_autoupdate=True)
+    state_3_4 = State(
+        name="Rückkopplung Podium",
+        workflow=workflow_3,
+        allow_create_poll=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_4.save(skip_autoupdate=True)
+    state_3_5 = State(
+        name="Rückkopplung Antragsteller",
+        workflow=workflow_3,
+        allow_create_poll=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_5.save(skip_autoupdate=True)
+    state_3_6 = State(
+        name="Druckfreigabe",
+        workflow=workflow_3,
+        allow_create_poll=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_6.save(skip_autoupdate=True)
+    state_3_7 = State(
+        name="wird produziert",
+        workflow=workflow_3,
+        allow_create_poll=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_7.save(skip_autoupdate=True)
+    state_3_8 = State(
+        name="ist verteilt",
+        workflow=workflow_3,
+        allow_create_poll=True,
+        merge_amendment_into_final=-1,
+    )
+    state_3_8.save(skip_autoupdate=True)
+    state_3_9 = State(
+        name="angenommen",
+        workflow=workflow_3,
+        merge_amendment_into_final=1,
+        css_class="green",
+    )
+    state_3_9.save(skip_autoupdate=True)
+    state_3_10 = State(
+        name="abgelehnt",
+        workflow=workflow_3,
+        merge_amendment_into_final=-1,
+        css_class="red",
+    )
+    state_3_10.save(skip_autoupdate=True)
+    state_3_11 = State(
+        name="zurückgezogen",
+        workflow=workflow_3,
+        merge_amendment_into_final=-1,
+        css_class="grey",
+    )
+    state_3_11.save(skip_autoupdate=True)
+    state_3_12 = State(
+        name="Vorstandsüberweisung",
+        workflow=workflow_3,
+        merge_amendment_into_final=-1,
+        css_class="grey",
+    )
+    state_3_12.save(skip_autoupdate=True)
+    state_3_13 = State(
+        name="nicht befasst",
+        workflow=workflow_3,
+        merge_amendment_into_final=-1,
+        css_class="grey",
+    )
+    state_3_13.save(skip_autoupdate=True)
+
+    state_3_0.next_states.add(state_3_1, state_3_2)
+    state_3_1.next_states.add(state_3_2)
+    state_3_2.next_states.add(state_3_3, state_3_11)
+    state_3_3.next_states.add(state_3_4, state_3_11)
+    state_3_4.next_states.add(state_3_5, state_3_11)
+    state_3_5.next_states.add(state_3_6, state_3_11)
+    state_3_6.next_states.add(state_3_7, state_3_11)
+    state_3_7.next_states.add(state_3_8, state_3_11)
+    state_3_8.next_states.add(state_3_9, state_3_10, state_3_11, state_3_12, state_3_13)
+    workflow_3.first_state = state_3_0
+    workflow_3.save(skip_autoupdate=True)
+
 
 def get_permission_change_data(sender, permissions, **kwargs):
     """
