@@ -375,6 +375,12 @@ angular.module('OpenSlidesApp.motions.lineNumbering', [])
                         }
                         newLength -= (padding / 5);
                     }
+                    if (node.childNodes.length == 1 && node.firstChild.nodeName == 'STRONG') {
+                        var nodeTextLength = $(node).text().length;
+                        if ($(node.childNodes[0]).text().length == nodeTextLength) {
+                            newLength -= 10;
+                        }
+                    }
                     break;
                 case 'H1':
                     newLength *= 0.66;
