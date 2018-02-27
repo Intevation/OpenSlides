@@ -232,7 +232,7 @@ function($q, Config, PDFLayout, ImageConverter) {
             return {
                 color: '#555',
                 fontSize: 9,
-                margin: [75, 30, 75, 10], // [left, top, right, bottom]
+                margin: [50, 30, 50, 10], // [left, top, right, bottom]
                 columns: columns,
                 columnGap: 10,
             };
@@ -299,7 +299,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                     });
                 }
                 return {
-                    margin: [75, 0, 75, 10],
+                    margin: [50, 0, 50, 10],
                     columns: columns,
                     columnGap: 10,
                 };
@@ -310,7 +310,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                 var standardFontsize = Config.get('general_export_pdf_fontsize').value;
                 return {
                     pageSize: 'A4',
-                    pageMargins: [75, 90, 75, 75],
+                    pageMargins: [50, 90, 50, 45],
                     defaultStyle: {
                         font: 'PdfFont',
                         fontSize: standardFontsize
