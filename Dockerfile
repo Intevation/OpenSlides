@@ -1,6 +1,6 @@
 FROM python:3.5
 RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get install -y libpq-dev supervisor curl vim
+RUN apt-get install -y libpq-dev supervisor curl vim zip libxmlsec1-dev
 RUN useradd -m openslides
 
 ## BUILD JS STUFF
@@ -19,6 +19,15 @@ RUN node_modules/.bin/gulp --production
 # INSTALL PYTHON DEPENDENCIES
 USER root
 RUN pip install -r /app/requirements_big_mode.txt
+
+# SAML plugin
+RUN pip install python3-saml
+USER openslides
+RUN wget https://github.com/Intevation/openslides-saml/archive/add-delegate-group.zip -P $HOME
+RUN cd $HOME && unzip add-delegate-group.zip && cd openslides-saml-add-delegate-group && $HOME/.yarn/bin/yarn --non-interactive
+USER root
+RUN cp -r /home/openslides/openslides-saml-add-delegate-group/openslides_saml /app/
+RUN rm -r /home/openslides/add-delegate-group.zip /home/openslides/openslides-saml-add-delegate-group/
 
 ## Clean up
 RUN apt-get remove -y python3-pip wget curl
