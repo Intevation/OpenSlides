@@ -542,6 +542,34 @@ angular.module('OpenSlidesApp.motions.site', [
                         hide: true
                     }
                 ]);
+                // custom supporters field
+                if (Config.get('motions_min_supporters').value > 0) {
+                    formFields.push({
+                        key: 'custom_supporters',
+                        type: 'textarea',
+                        templateOptions: {
+                            label: gettextCatalog.getString('Supporters'),
+                            description: 'Bitte mindestens ' + Config.get('motions_min_supporters').value + ' Unterstützer/innen (einschließlich Antragsteller/in) und die jeweiligen Kreisverbände angeben!'
+                        },
+                        data: {
+                            ckeditorOptions: Editor.getOptions()
+                        }
+                    });
+                }
+                // supporters
+                if (Config.get('motions_min_supporters').value > 0) {
+                    formFields.push({
+                        key: 'supporters_id',
+                        type: 'select-multiple',
+                        templateOptions: {
+                            label: gettextCatalog.getString('Supporters'),
+                            options: User.getAll(),
+                            ngOptions: 'option.id as option.full_name for option in to.options',
+                            placeholder: gettextCatalog.getString('Select or search a supporter ...')
+                        },
+                        hide: !operator.hasPerms('motions.can_manage')
+                    });
+                }
 
                 // show as agenda item + parent item
                 if (isCreateForm) {
@@ -638,20 +666,6 @@ angular.module('OpenSlidesApp.motions.site', [
                             options: Tag.getAll(),
                             ngOptions: 'option.id as option.name for option in to.options',
                             placeholder: gettextCatalog.getString('Select or search a tag ...')
-                        },
-                        hideExpression: '!model.more'
-                    });
-                }
-                // supporters
-                if (Config.get('motions_min_supporters').value > 0) {
-                    formFields.push({
-                        key: 'supporters_id',
-                        type: 'select-multiple',
-                        templateOptions: {
-                            label: gettextCatalog.getString('Supporters'),
-                            options: User.getAll(),
-                            ngOptions: 'option.id as option.full_name for option in to.options',
-                            placeholder: gettextCatalog.getString('Select or search a supporter ...')
                         },
                         hideExpression: '!model.more'
                     });
@@ -2386,6 +2400,7 @@ angular.module('OpenSlidesApp.motions.site', [
             agenda_item_id: motion.agenda_item_id,
             category_id: motion.category_id,
             motion_block_id: motion.motion_block_id,
+            custom_supporters: motion.custom_supporters,
         };
         // Clone comments
         _.forEach(motion.comments, function (comment, index) {

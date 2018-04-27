@@ -393,6 +393,7 @@ class MotionSerializer(ModelSerializer):
             'origin',
             'submitters',
             'supporters',
+            'custom_supporters',
             'comments',
             'state',
             'state_required_permission_to_see',
@@ -457,6 +458,7 @@ class MotionSerializer(ModelSerializer):
         motion.reset_state(validated_data.get('workflow_id'))
         motion.agenda_item_update_information['type'] = validated_data.get('agenda_type')
         motion.agenda_item_update_information['parent_id'] = validated_data.get('agenda_parent_id')
+        motion.custom_supporters = validated_data.get('custom_supporters', '')
         motion.save()
         motion.supporters.add(*validated_data.get('supporters', []))
         motion.attachments.add(*validated_data.get('attachments', []))
@@ -468,8 +470,8 @@ class MotionSerializer(ModelSerializer):
         """
         Customized method to update a motion.
         """
-        # Identifier, category, motion_block, origin and comments.
-        for key in ('identifier', 'category', 'motion_block', 'origin', 'comments'):
+        # Identifier, category, motion_block, origin and comments. And custom_supporters.
+        for key in ('identifier', 'category', 'motion_block', 'origin', 'comments', 'custom_supporters'):
             if key in validated_data.keys():
                 setattr(motion, key, validated_data[key])
 

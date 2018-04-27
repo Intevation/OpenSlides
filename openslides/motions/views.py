@@ -131,6 +131,7 @@ class MotionViewSet(ModelViewSet):
                 'title',
                 'text',
                 'reason',
+                'custom_supporters',
                 'comments',  # This is checked later.
             ]
             if parent_motion is not None:
