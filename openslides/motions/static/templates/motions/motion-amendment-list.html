@@ -382,11 +382,9 @@
 
         <div class="pull-right" style="width: 10%;">
           <div class="centered" ng-if="config('motions_min_supporters') != 0"
-            uib-tooltip="{{ amendment.supporters.length }} {{ 'Supporters' | translate }}
-            {{ (config('motions_min_supporters') - amendment.supporters.length) > 0 ? '(' +  (config('motions_min_supporters') - amendment.supporters.length) + ' ' + ('needed' | translate) + ')': '' }}"
+            uib-tooltip="{{ amendment.supporters.length }} {{ 'Supporters' | translate }}"
             tooltip-class="nobr">
-            <span class="badge"
-              ng-class="amendment.supporters.length < config('motions_min_supporters') ? 'badge-info' : 'badge-success'">
+            <span class="badge badge-default">
               {{ amendment.supporters.length }}
             </span>
           </div>
