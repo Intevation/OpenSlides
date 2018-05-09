@@ -956,10 +956,10 @@ function($q, Config, PDFLayout, ImageConverter) {
                                                     return false;
                                                 };
                                                 if (hasPrevSiblingALineNumber(brParent)) {
-                                                     currentParagraph.margin = [20, 0, 0, 0];
+                                                     currentParagraph.margin = [25, 0, 0, 0];
                                                  }
                                              } else {
-                                                 currentParagraph.margin = [20, 0, 0, 0];
+                                                 currentParagraph.margin = [25, 0, 0, 0];
                                              }
                                         }
                                         // Add a dummy line, if the next tag is a BR tag again. The line could
@@ -1003,7 +1003,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                                             currentParagraph.margin[1] = 8;
                                         }
                                         if (classes.indexOf('insert') > -1) {
-                                            currentParagraph.margin[0] = 20;
+                                            currentParagraph.margin[0] = 25;
                                         }
                                     }
                                     currentParagraph.lineHeight = 1.25;
@@ -1018,7 +1018,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                                             if (element.childNodes[0].tagName === 'INS' ||
                                                 element.childNodes[0].tagName === 'DEL') {
                                                 var pLineNumberPlaceholder = {
-                                                    width: 20,
+                                                    width: 25,
                                                     text: '',
                                                     fontSize: 8,
                                                     margin: [0, 2, 0, 0]
@@ -1085,7 +1085,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                                         if (lines.length > 0) {
                                             var listCol = {
                                                 columns: [{
-                                                    width: 20,
+                                                    width: 25,
                                                     stack: []
                                                 }]
                                             };
@@ -1098,7 +1098,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                                             }
                                             alreadyConverted.push(listCol);
                                         } else {
-                                            list.margin = [20, 0, 0, 0];
+                                            list.margin = [25, 0, 0, 0];
                                             alreadyConverted.push(list);
                                         }
                                     } else {
@@ -1137,7 +1137,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                         getLineNumberObject = function (line) {
                             var standardFontsize = Config.get('general_export_pdf_fontsize').value;
                             return {
-                                width: 20,
+                                width: 25,
                                 text: [
                                     {
                                         text: ' ', // Add a blank with the normal font size here, so in rare cases the text
