@@ -28,6 +28,8 @@ class MotionSlide(ProjectorElement):
             yield motion.agenda_item
             yield motion.state.workflow
             yield from self.required_motions_for_state_and_recommendation(motion)
+            # CUSTOM: For better performance (and if you have a lot of amendments per lead motion):
+            # Comment out the next line to remove all amendments in projection# of lead motion.
             yield from motion.get_paragraph_based_amendments()
             for submitter in motion.submitters.all():
                 yield submitter.user
