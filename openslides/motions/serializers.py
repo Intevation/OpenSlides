@@ -364,6 +364,7 @@ class MotionSerializer(ModelSerializer):
     state_required_permission_to_see = SerializerMethodField()
     text = CharField(write_only=True, allow_blank=True)
     title = CharField(max_length=255, write_only=True)
+    first_line_number = IntegerField(min_value=1, required=False, allow_null=True)
     amendment_paragraphs = AmendmentParagraphsJSONSerializerField(required=False, write_only=True)
     versions = MotionVersionSerializer(many=True, read_only=True)
     workflow_id = IntegerField(
@@ -384,6 +385,7 @@ class MotionSerializer(ModelSerializer):
             'text',
             'amendment_paragraphs',
             'modified_final_version',
+            'first_line_number',
             'reason',
             'versions',
             'active_version',
@@ -448,6 +450,7 @@ class MotionSerializer(ModelSerializer):
         motion.text = validated_data['text']
         motion.amendment_paragraphs = validated_data.get('amendment_paragraphs')
         motion.modified_final_version = validated_data.get('modified_final_version', '')
+        motion.first_line_number = validated_data.get('first_line_number')
         motion.reason = validated_data.get('reason', '')
         motion.identifier = validated_data.get('identifier')
         motion.category = validated_data.get('category')
@@ -488,7 +491,7 @@ class MotionSerializer(ModelSerializer):
             version = motion.get_last_version()
 
         # Title, text, reason, ...
-        for key in ('title', 'text', 'amendment_paragraphs', 'modified_final_version', 'reason'):
+        for key in ('title', 'text', 'amendment_paragraphs', 'modified_final_version', 'reason', 'first_line_number'):
             if key in validated_data.keys():
                 setattr(version, key, validated_data[key])
 

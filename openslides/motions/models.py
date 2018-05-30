@@ -527,6 +527,22 @@ class Motion(RESTModelMixin, models.Model):
     Is saved in a MotionVersion object.
     """
 
+    def get_first_line_number(self):
+        try:
+            return self._first_line_number
+        except AttributeError:
+            return self.get_active_version().first_line_number
+
+    def set_first_line_number(self, line_number):
+        self._first_line_number = line_number
+
+    first_line_number = property(get_first_line_number, set_first_line_number)
+    """
+    The first line number used by motion text.
+    
+    Is saved in a MotionVersion object.
+    """
+
     def get_reason(self):
         """
         Get the reason of the motion.
@@ -864,6 +880,9 @@ class MotionVersion(RESTModelMixin, models.Model):
 
     text = models.TextField()
     """The text of a motion."""
+
+    first_line_number = models.PositiveIntegerField(null=True, blank=False, default=1)
+    """The number of the first line."""
 
     amendment_paragraphs = JSONField(null=True)
     """
