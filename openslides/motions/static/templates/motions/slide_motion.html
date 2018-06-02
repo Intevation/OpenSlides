@@ -8,9 +8,9 @@
 
     <!-- Submitters -->
     <h3 ng-if="motion.submitters.length > 0" translate>Submitters</h3>
-    <div ng-repeat="submitter in motion.submitters | orderBy: 'weight'">
+    <span ng-repeat="submitter in motion.submitters | orderBy: 'weight'">
       {{ submitter.user.get_full_name() }}<span ng-hide="$last">,</span>
-    </div>
+    </span>
 
     <!-- Poll results -->
     <h3 ng-if="motion.polls.length > 0 && motion.polls[0].has_votes" translate>Voting result</h3>
