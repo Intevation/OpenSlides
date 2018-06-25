@@ -13,7 +13,7 @@ def get_config_variables():
     """
     yield ConfigVariable(
         name='general_event_name',
-        default_value='OpenSlides',
+        default_value='Kammverversammlung',
         label='Event name',
         weight=110,
         group='General',
@@ -22,7 +22,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='general_event_description',
-        default_value='Presentation and assembly system',
+        default_value='',
         label='Short description of event',
         weight=115,
         group='General',
@@ -59,7 +59,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='general_event_privacy_policy',
-        default_value='',
+        default_value='<p><a href="http://www.openslides.org">OpenSlides</a> speichert nur so viele personenbezogene Daten wie unbedingt n&ouml;tig sind, um Besuchern Informationen und Dienste zuverl&auml;ssig und sicher anbieten zu k&ouml;nnen.</p> <p>Eine Auswertung der Dienste-Protokolle erfolgt nur von uns selbst und auch nur, um m&ouml;gliche Fehler, Einbruchsversuche oder technisches Verhalten der Server auf unseren Server zu analysieren.</p> <p>Eine Weitergabe von Teilen der erhobenen Daten erfolgt ausschlie&szlig;lich gem&auml;&szlig; gesetzlicher Verpflichtung z.B. an Strafverfolgungs- oder Steuerbeh&ouml;rden.</p> <p>Nachfolgend wird genau aufgeschl&uuml;sselt, bei welcher Gelegenheit welche Daten wie lange gespeichert sind. Zudem wird beschrieben, welche Schritte erforderlich sind um Daten zu l&ouml;schen.</p> <h2>Cookies</h2> <p>Beim Besuch der Website wird ein sogenanntes Cookie angelegt. Dieses Cookie wird ausschlie&szlig;lich dazu verwendet, um auf der Website eingeloggt zu bleiben. Ein sogenanntes &quot;Tracking Cookie&quot; wird nicht verwendet.</p> <h2>Logfiles</h2> <p>Zu OpenSlides geh&ouml;ren verschiedene Unter-Services. Diese loggen folgende Informationen: Quell-IP-Adresse, Zeitstempel, genutztes Betriebssystem, verwendeter Web-Browser, Referer-URL, E-Mail-Adresse und besuchte Seite.</p> <h2>Datenbank</h2> <p>Als Mitglied werden folgende Daten von Ihnen gespeichert: Titel, Vorname, Nachname, EMail, Gliederungsebene, Teilnehmernummer, Gruppenzugeh&ouml;rigkeit, Initiales Passwort im Klartext, Vergebenes Passwort als kryptografischer Hashwert und ein Kommentar f&uuml;r interne Notizen. Diese Informationen werden mit den Aktionen innerhalb von OpenSlides in Verbindung gebracht. Diese Informationen werden nicht an Dritte weiter gegeben und sind auch nicht f&uuml;r diese zug&auml;nglich.</p> <h2>L&ouml;schung von Daten</h2> <p>Daten werden nicht automatisch gel&ouml;scht. Um Ihre Informationen entfernen zu lassen, wenden Sie sich bitte an den Administrator dieser OpenSlides-Instanz.</p>',
         input_type='markupText',
         label='Privacy policy',
         weight=132,
@@ -193,7 +193,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_backgroundcolor',
-        default_value='#317796',
+        default_value='#ffffff',
         input_type='colorpicker',
         label='Background color of projector header and footer',
         weight=160,
@@ -201,7 +201,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='projector_header_fontcolor',
-        default_value='#F5F5F5',
+        default_value='#666666',
         input_type='colorpicker',
         label='Font color of projector header and footer',
         weight=165,

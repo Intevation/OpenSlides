@@ -152,3 +152,6 @@ CHANNEL_LAYERS = {
 
 # Enable updating the last_login field for users on every login.
 ENABLE_LAST_LOGIN_FIELD = False
+
+MOTION_IDENTIFIER_MIN_DIGITS = 2
+MOTION_IDENTIFIER_WITHOUT_BLANKS = True

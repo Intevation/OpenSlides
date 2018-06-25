@@ -20,7 +20,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='agenda_number_prefix',
-        default_value='',
+        default_value='TOP',
         label='Numbering prefix for agenda items',
         help_text='This prefix will be set if you run the automatic agenda numbering.',
         weight=210,
@@ -76,7 +76,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='agenda_show_last_speakers',
-        default_value=1,
+        default_value=0,
         input_type='integer',
         label='Number of last speakers to be shown on the projector',
         weight=230,
@@ -86,7 +86,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='agenda_countdown_warning_time',
-        default_value=0,
+        default_value=20,
         input_type='integer',
         label='Show orange countdown in the last x seconds of speaking time',
         help_text='Enter duration in seconds. Choose 0 to disable warning color.',
@@ -97,7 +97,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='agenda_couple_countdown_and_speakers',
-        default_value=False,
+        default_value=True,
         input_type='boolean',
         label='Couple countdown with the list of speakers',
         help_text='[Begin speech] starts the countdown, [End speech] stops the countdown.',

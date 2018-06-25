@@ -57,7 +57,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='motions_default_line_numbering',
-        default_value='none',
+        default_value='outside',
         input_type='choice',
         label='Default line numbering',
         choices=(
@@ -135,7 +135,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='motions_recommendation_text_mode',
-        default_value='original',
+        default_value='diff',
         input_type='choice',
         label='Default text version for change recommendations',
         choices=(
@@ -168,7 +168,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='motions_amendments_prefix',
-        default_value='-',
+        default_value='-ÄA',
         label='Prefix for the identifier for amendments',
         weight=340,
         group='Motions',
@@ -176,7 +176,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name='motions_amendments_text_mode',
-        default_value='freestyle',
+        default_value='paragraph',
         input_type='choice',
         label='How to create new amendments',
         choices=(
