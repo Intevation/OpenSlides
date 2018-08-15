@@ -1,6 +1,6 @@
 FROM python:3.5
 RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get install -y libpq-dev supervisor curl vim
+RUN apt-get install -y libpq-dev supervisor curl vim zip
 RUN useradd -m openslides
 
 ## BUILD JS STUFF
@@ -19,6 +19,14 @@ RUN node_modules/.bin/gulp --production
 # INSTALL PYTHON DEPENDENCIES
 USER root
 RUN pip install -r /app/requirements_big_mode.txt
+
+# voting plugin
+USER openslides
+RUN wget https://github.com/OpenSlides/openslides-voting/archive/master.zip -P $HOME
+RUN cd $HOME && unzip master.zip && cd openslides-voting-master && $HOME/.yarn/bin/yarn --non-interactive
+USER root
+RUN cp -r /home/openslides/openslides-voting-master/openslides_voting /app/
+RUN rm -r /home/openslides/master.zip /home/openslides/openslides-voting-master/
 
 ## Clean up
 RUN apt-get remove -y python3-pip wget curl
