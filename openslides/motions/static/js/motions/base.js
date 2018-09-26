@@ -642,50 +642,55 @@ angular.module('OpenSlidesApp.motions', [
 
                     var output = [];
 
-                    this.getVersion(versionId).amendment_paragraphs.forEach(function(paragraph_amend, paragraphNo) {
-                        if (paragraph_amend === null) {
-                            return;
-                        }
-                        if (original_paragraphs[paragraphNo] === undefined) {
-                            throw "The amendment appears to have more paragraphs than the motion. This means, the data might be corrupt";
-                        }
-                        var paragraph_orig = original_paragraphs[paragraphNo];
-                        var line_range = lineNumberingService.getLineNumberRange(paragraph_orig);
-                        var line_length = Config.get('motions_line_length').value;
-                        paragraph_orig = lineNumberingService.stripLineNumbers(paragraph_orig);
+                    var paragraphs = this.getVersion(versionId).amendment_paragraphs;
+                    if (paragraphs == null) {
+                        return;
+                    } else {
+                        paragraphs.forEach(function(paragraph_amend, paragraphNo) {
+                            if (paragraph_amend === null) {
+                                return;
+                            }
+                            if (original_paragraphs[paragraphNo] === undefined) {
+                                throw "The amendment appears to have more paragraphs than the motion. This means, the data might be corrupt";
+                            }
+                            var paragraph_orig = original_paragraphs[paragraphNo];
+                            var line_range = lineNumberingService.getLineNumberRange(paragraph_orig);
+                            var line_length = Config.get('motions_line_length').value;
+                            paragraph_orig = lineNumberingService.stripLineNumbers(paragraph_orig);
 
-                        var text = null;
+                            var text = null;
 
-                        switch (mode) {
-                            case "diff":
-                                if (lineBreaks) {
-                                    text = diffService.diff(paragraph_orig, paragraph_amend, line_length, line_range.from);
-                                } else {
-                                    text = diffService.diff(paragraph_orig, paragraph_amend);
-                                }
-                                break;
-                            case "original":
-                                text = paragraph_orig;
-                                if (lineBreaks) {
-                                    text = lineNumberingService.insertLineNumbers(text, line_length, null, null, line_range.from);
-                                }
-                                break;
-                            case "changed":
-                                text = paragraph_amend;
-                                if (lineBreaks) {
-                                    text = lineNumberingService.insertLineNumbers(text, line_length, null, null, line_range.from);
-                                }
-                                break;
-                            default:
-                                throw "Invalid text mode: " + mode;
-                        }
-                        output.push({
-                            "paragraphNo": paragraphNo,
-                            "lineFrom": line_range.from,
-                            "lineTo": line_range.to,
-                            "text": text
+                            switch (mode) {
+                                case "diff":
+                                    if (lineBreaks) {
+                                        text = diffService.diff(paragraph_orig, paragraph_amend, line_length, line_range.from);
+                                    } else {
+                                        text = diffService.diff(paragraph_orig, paragraph_amend);
+                                    }
+                                    break;
+                                case "original":
+                                    text = paragraph_orig;
+                                    if (lineBreaks) {
+                                        text = lineNumberingService.insertLineNumbers(text, line_length, null, null, line_range.from);
+                                    }
+                                    break;
+                                case "changed":
+                                    text = paragraph_amend;
+                                    if (lineBreaks) {
+                                        text = lineNumberingService.insertLineNumbers(text, line_length, null, null, line_range.from);
+                                    }
+                                    break;
+                                default:
+                                    throw "Invalid text mode: " + mode;
+                            }
+                            output.push({
+                                "paragraphNo": paragraphNo,
+                                "lineFrom": line_range.from,
+                                "lineTo": line_range.to,
+                                "text": text
+                            });
                         });
-                    });
+                    };
 
                     diffCache.put(cacheKey, output);
 

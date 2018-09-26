@@ -245,10 +245,11 @@ angular.module('OpenSlidesApp.motions.csv', [])
 
 // Custom csv export: "Aufrufliste"
 .factory('MotionListCsvExport', [
+    '$filter',
     'gettextCatalog',
     'Config',
     'CsvDownload',
-    function (gettextCatalog, Config, CsvDownload) {
+    function ($filter, gettextCatalog, Config, CsvDownload) {
         var makeHeaderline = function () {
             var recommendation = Config.get('motions_recommendations_by').value;
             // CUSTOM: added last field "Lft. Nr." which is ignored by import
@@ -280,8 +281,12 @@ angular.module('OpenSlidesApp.motions.csv', [])
                     row.push('"' + motion.id + '"');
                     // submitters
                     var submitters = [];
-                    angular.forEach(motion.submitters, function(user) {
-                        var user_short_name = [user.title, user.first_name, user.last_name].join(' ').trim();
+                    _.forEach($filter('orderBy')(motion.submitters, 'weight'), function (user) {
+                        var user_short_name = [
+                            user.user.title,
+                            user.user.first_name,
+                            user.user.last_name
+                        ].join(' ').trim();
                         submitters.push(user_short_name);
                     });
                     row.push('"' + submitters.join('; ') + '"');
