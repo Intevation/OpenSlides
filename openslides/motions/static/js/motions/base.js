@@ -519,13 +519,15 @@ angular.module('OpenSlidesApp.motions', [
                     return this._getTextWithChanges(versionId, highlight, lineBreaks, function(recommendation) {
                         return !recommendation.rejected;
                     }, function(amendment) {
-                        if (amendment.state && amendment.state.name === 'rejected') {
+                        if ((amendment.state && amendment.state.name.includes('abgelehnt')) ||
+                            (amendment.state && amendment.state.name.includes('zurückgezogen')) ||
+                            (amendment.recommendation && amendment.recommendation.recommendation_label.includes('zurückgezogen'))) {
                             return false;
                         }
-                        if (amendment.state && amendment.state.name === 'accepted') {
+                        if (amendment.state && amendment.state.name.includes('angenommen')) {
                             return true;
                         }
-                        return (amendment.recommendation && amendment.recommendation.name === 'accepted');
+                        return (amendment.recommendation && amendment.recommendation.recommendation_label.includes('Übernahme'));
                     });
                 },
                 getTextByMode: function(mode, versionId, highlight, lineBreaks) {
@@ -1063,13 +1065,15 @@ angular.module('OpenSlidesApp.motions', [
                     return _.filter(this.getParagraphBasedAmendments(), function(amendment) {
                         // If no accepted/rejected status is given, only amendments that have a recommendation
                         // of "accepted" and have not been officially rejected are to be shown in the diff-view
-                        if (amendment.state && amendment.state.name === 'rejected') {
+                        if ((amendment.state && amendment.state.name.includes('abgelehnt')) ||
+                            (amendment.state && amendment.state.name.includes('zurückgezogen')) ||
+                            (amendment.recommendation && amendment.recommendation.recommendation_label.includes('zurückgezogen'))) {
                             return false;
                         }
-                        if (amendment.state && amendment.state.name === 'accepted') {
+                        if (amendment.state && amendment.state.name.includes('angenommen')) {
                             return true;
                         }
-                        return (amendment.recommendation && amendment.recommendation.name === 'accepted');
+                        return (amendment.recommendation && amendment.recommendation.recommendation_label.includes('Übernahme'));
                     });
                 },
                 getParentMotion: function () {
