@@ -94,8 +94,6 @@ class UserViewSet(ModelViewSet):
             if str(request.user.pk) != self.kwargs['pk']:
                 self.permission_denied(request)
 
-            # This is a hack to make request.data mutable. Otherwise fields can not be deleted.
-            request.data._mutable = True
             # Remove fields that the user is not allowed to change.
             # The list() is required because we want to use del inside the loop.
             for key in list(request.data.keys()):
