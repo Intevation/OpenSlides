@@ -174,7 +174,7 @@ function($q, Config, PDFLayout, ImageConverter) {
      * returns an array for content
      */
     //images shall contain the the logos as URL: base64Str, just like the converter
-    var createInstance = function(contentProvider, noFooter) {
+    var createInstance = function(contentProvider, noFooter, landscape) {
         // Logo urls
         var logoHeaderLeftUrl = Config.get('logo_pdf_header_L').value.path,
             logoHeaderRightUrl = Config.get('logo_pdf_header_R').value.path,
@@ -310,12 +310,13 @@ function($q, Config, PDFLayout, ImageConverter) {
                 var standardFontsize = Config.get('general_export_pdf_fontsize').value;
                 return {
                     pageSize: 'A4',
-                    pageMargins: [50, 90, 50, 45],
+                    pageOrientation: landscape ? 'landscape' : 'portrait',
+                    pageMargins: landscape ? [40, 40, 40, 40] : [50, 90, 50, 45],
                     defaultStyle: {
                         font: 'PdfFont',
-                        fontSize: standardFontsize
+                        fontSize: landscape ? 9 : standardFontsize
                     },
-                    header: getHeader(),
+                    header: landscape ? '' : getHeader(),
                     footerTpl: noFooter ? '' : getFooter(),
                     content: content,
                     styles: {
@@ -1002,7 +1003,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                                         if (classes.indexOf('os-split-before') === -1 && !nomargin) {
                                             currentParagraph.margin[1] = 8;
                                         }
-                                        if (classes.indexOf('insert') > -1) {
+                                        if (classes.indexOf('insert') > -1 && lineNumberMode != 'none') {
                                             currentParagraph.margin[0] = 25;
                                         }
                                     }

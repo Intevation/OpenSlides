@@ -1124,28 +1124,25 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
 
                     // recommendation
                     var recommendation = motion.getRecommendationName() || '';
+
+                    // converted motion text
                     var convertedText = converter.convertHTML(motionText, 'none', true);
 
                     var tableRow = [
                         {
-                            text: motion.identifier || "-",
-                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                            text: motion.identifier || "-"
                         },
                         {
-                            text: lineNumber,
-                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                            text: lineNumber
                         },
                         {
-                            text: submitters,
-                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                            text: submitters
                         },
                         {
-                            stack: convertedText,
-                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                            stack: convertedText
                         },
                         {
-                            text: recommendation,
-                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                            text: recommendation
                         },
                     ];
                     tableBody.push(tableRow);
@@ -1154,9 +1151,10 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                         table: {
                             widths: ['auto', 'auto', 'auto', '*', 'auto'],
                             headerRows: 1,
-                            body: tableBody
+                            body: tableBody,
+                            dontBreakRows: true
                         },
-                        layout: 'headerLineOnly'
+                        layout: 'lightHorizontalLines'
                     };
 
                 }));
@@ -1170,42 +1168,8 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                 title += ': ' + leadMotion.getTitle();
                 title = PDFLayout.createTitle(gettextCatalog.getString('Amendments to motion') + title);
 
-                var content = [title],
-                    foundAmendments = [];
-
-                var headings = leadMotion.getTextHeadings().map(function(heading) {
-                    heading.amendments = [];
-                    return heading;
-                });
-                bundle.forEach(function(amendment) {
-                    var headingIdx = null;
-                    var changes = amendment.getAmendmentParagraphsByMode('diff');
-                    if (changes.length === 0) {
-                        return;
-                    }
-                    var amendmentLineNumber = changes[0].lineFrom;
-                    for (var i = 0; i < headings.length; i++) {
-                        if (headings[i].lineNumber <= amendmentLineNumber) {
-                            headingIdx = i;
-                        }
-                    }
-                    if (headingIdx !== null) {
-                        headings[headingIdx].amendments.push(amendment);
-                        foundAmendments.push(amendment.id);
-                    }
-                });
-
-                // If there was an amendment that did not have a heading, we append it at the bottom
-                var missedAmendments = [];
-                bundle.forEach(function(amendment) {
-                    if (foundAmendments.indexOf(amendment.id) === -1) {
-                        missedAmendments.push(amendment);
-                    }
-                });
-                if (missedAmendments.length > 0) {
-                    content = _.concat(content, createBundleContent(missedAmendments));
-                }
-
+                var content = [title];
+                content = _.concat(content, createBundleContent(bundle));
                 return content;
             };
 
@@ -1663,7 +1627,7 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
             },
             exportAmendmentTable: function (motions, filename) {
                 AmendmentTableContentProvider.createInstance(motions).then(function (contentProvider) {
-                    PdfMakeDocumentProvider.createInstance(contentProvider).then(function (documentProvider) {
+                    PdfMakeDocumentProvider.createInstance(contentProvider, false, true).then(function (documentProvider) {
                         PdfCreate.download(documentProvider, filename);
                     });
                 });
