@@ -2842,6 +2842,18 @@ angular.module('OpenSlidesApp.motions.site', [
             ngDialog.open(MotionForm.getDialog(null, amendment.getParentMotion(), paragraphNo, paragraphText));
         };
 
+        $scope.amendmentTablePdfExport = function (motions) {
+            var filename;
+            if ($scope.leadMotion) {
+                filename = gettextCatalog.getString('AmendmentsTable') + '-' +
+                    $scope.leadMotion.getTitle();
+            } else {
+                filename = gettextCatalog.getString('AmendmentsTable');
+            }
+            filename += '.pdf';
+            MotionPdfExport.exportAmendmentTable(motions, filename);
+        };
+
         $scope.amendmentPdfExport = function (motions) {
             var filename;
             if ($scope.leadMotion) {

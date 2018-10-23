@@ -1037,6 +1037,233 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
     }
 ])
 
+.factory('AmendmentTableContentProvider', [
+    '$q',
+    'ImageConverter',
+    'PdfMakeConverter',
+    'HTMLValidizer',
+    'PDFLayout',
+    'gettextCatalog',
+    function ($q, ImageConverter, PdfMakeConverter, HTMLValidizer, PDFLayout, gettextCatalog) {
+        var createInstance = function (motions) {
+            motions = _.filter(motions, function (motion) {
+                return motion.parent_id;
+            });
+
+            var converter, imageMap = {};
+
+            // Query all image sources from motion text and reason
+            var getImageSources = function () {
+                var sources = [];
+                _.forEach(motions, function (motion) {
+                    var text = motion.getText();
+                    var reason = motion.getReason();
+                    var content = HTMLValidizer.validize(text) + HTMLValidizer.validize(motion.getReason());
+                    _.forEach($(content).find('img'), function (element) {
+                        sources.push(element.getAttribute('src'));
+                    });
+                });
+                return _.uniq(sources);
+            };
+
+            var createBundleContent = function (bundle) {
+                var amendmentTable;
+                var tableBody = [
+                    [
+                        {
+                            text: gettextCatalog.getString('Motion'),
+                            style: 'tableHeader'
+                        },
+                        {
+                            text: gettextCatalog.getString('Line'),
+                            style: 'tableHeader'
+                        },
+                        {
+                            text: gettextCatalog.getString('Submitters'),
+                            style: 'tableHeader'
+                        },
+                        {
+                            text: gettextCatalog.getString('Änderungen'),
+                            style: 'tableHeader'
+                        },
+                        {
+                            text: gettextCatalog.getString('Recommendation'),
+                            style: 'tableHeader'
+                        }
+                    ]
+                ];
+                _.flatten(_.map(bundle, function (motion) {
+
+                    // line number and motion diff text
+                    var lineNumber = '';
+                    var motionText;
+                    if (motion.isParagraphBasedAmendment()) {
+                        // get changed parts
+                        var paragraphs = motion.getAmendmentParagraphsLinesDiff();
+                        if (paragraphs.length) {
+                            // Put the changed lines into the info column
+                            var p = paragraphs[0];
+                            if (p.diffLineTo === p.diffLineFrom + 1) {
+                                lineNumber += p.diffLineFrom;
+                            } else {
+                                lineNumber += p.diffLineFrom + '-' + p.diffLineTo;
+                            }
+                            // get the diff
+                            motionText = p.text;
+                        } else {
+                            motionText = gettextCatalog.getString('No changes at the text.');
+                        }
+                    } else { // 'normal' amendment
+                        motionText = motion.getText();
+                    }
+
+                    // submitters
+                    var submitters = _.map(motion.submitters, function (submitter) {
+                        return submitter.user.get_full_name();
+                    }).join(', ');
+
+                    // recommendation
+                    var recommendation = motion.getRecommendationName() || '';
+                    var convertedText = converter.convertHTML(motionText, 'none', true);
+
+                    var tableRow = [
+                        {
+                            text: motion.identifier || "-",
+                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                        },
+                        {
+                            text: lineNumber,
+                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                        },
+                        {
+                            text: submitters,
+                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                        },
+                        {
+                            stack: convertedText,
+                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                        },
+                        {
+                            text: recommendation,
+                            style: PDFLayout.flipTableRowStyle(tableBody.length)
+                        },
+                    ];
+                    tableBody.push(tableRow);
+
+                    amendmentTable = {
+                        table: {
+                            widths: ['auto', 'auto', 'auto', '*', 'auto'],
+                            headerRows: 1,
+                            body: tableBody
+                        },
+                        layout: 'headerLineOnly'
+                    };
+
+                }));
+                return amendmentTable;
+            };
+
+            var getBundleContent = function (bundle) {
+                var leadMotion = bundle[0].getParentMotion();
+                // title
+                var title = leadMotion.identifier ? ' ' + leadMotion.identifier : '';
+                title += ': ' + leadMotion.getTitle();
+                title = PDFLayout.createTitle(gettextCatalog.getString('Amendments to motion') + title);
+
+                var content = [title],
+                    foundAmendments = [];
+
+                var headings = leadMotion.getTextHeadings().map(function(heading) {
+                    heading.amendments = [];
+                    return heading;
+                });
+                bundle.forEach(function(amendment) {
+                    var headingIdx = null;
+                    var changes = amendment.getAmendmentParagraphsByMode('diff');
+                    if (changes.length === 0) {
+                        return;
+                    }
+                    var amendmentLineNumber = changes[0].lineFrom;
+                    for (var i = 0; i < headings.length; i++) {
+                        if (headings[i].lineNumber <= amendmentLineNumber) {
+                            headingIdx = i;
+                        }
+                    }
+                    if (headingIdx !== null) {
+                        headings[headingIdx].amendments.push(amendment);
+                        foundAmendments.push(amendment.id);
+                    }
+                });
+
+                // If there was an amendment that did not have a heading, we append it at the bottom
+                var missedAmendments = [];
+                bundle.forEach(function(amendment) {
+                    if (foundAmendments.indexOf(amendment.id) === -1) {
+                        missedAmendments.push(amendment);
+                    }
+                });
+                if (missedAmendments.length > 0) {
+                    content = _.concat(content, createBundleContent(missedAmendments));
+                }
+
+                return content;
+            };
+
+            // Generates content as a pdfmake consumable
+            var getContent = function() {
+                if (motions.length === 0) {
+                    return [];
+                }
+
+                // Creates bundles of motions. All motions with the same parent are bundled together
+                // respecting the order, in which they are sorted.
+                // motionBundles is an array containing Arrays of motions with the same parent.
+                var parentId = motions[0].parent_id;
+                var motionBundles = [];
+                var currentBundle = [];
+                _.forEach(motions, function (motion) {
+                    if (motion.parent_id === parentId) {
+                        currentBundle.push(motion);
+                    } else {
+                        motionBundles.push(currentBundle);
+                        currentBundle = [motion];
+                        parentId = motion.parent_id;
+                    }
+                });
+                motionBundles.push(currentBundle);
+
+                // Make the amendment table for each motion bundle.
+                return _.map(motionBundles, function (bundle, index) {
+                    var content = getBundleContent(bundle);
+                    if (index < motionBundles.length - 1) {
+                        content.push(PDFLayout.addPageBreak());
+                    }
+                    return content;
+                });
+            };
+
+            var getImageMap = function() {
+                return imageMap;
+            };
+
+            return $q(function (resolve) {
+                ImageConverter.toBase64(getImageSources()).then(function (_imageMap) {
+                    imageMap = _imageMap;
+                    converter = PdfMakeConverter.createInstance(_imageMap);
+                    resolve({
+                        getContent: getContent,
+                        getImageMap: getImageMap,
+                    });
+                });
+            });
+        };
+
+        return {
+            createInstance: createInstance,
+        };
+    }
+])
+
 .factory('AmendmentContentProvider', [
     '$q',
     'ImageConverter',
@@ -1256,6 +1483,7 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
     'PollContentProvider',
     'PdfMakeBallotPaperProvider',
     'MotionPartialContentProvider',
+    'AmendmentTableContentProvider',
     'AmendmentContentProvider',
     'PdfCreate',
     'PDFLayout',
@@ -1265,8 +1493,8 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
     'FileSaver',
     function ($http, $q, operator, Config, gettextCatalog, MotionChangeRecommendation, HTMLValidizer,
         PdfMakeConverter, MotionContentProvider, MotionCatalogContentProvider, PdfMakeDocumentProvider,
-        PollContentProvider, PdfMakeBallotPaperProvider, MotionPartialContentProvider, AmendmentContentProvider,
-        PdfCreate, PDFLayout, PersonalNoteManager, MotionComment, Messaging, FileSaver) {
+        PollContentProvider, PdfMakeBallotPaperProvider, MotionPartialContentProvider, AmendmentTableContentProvider,
+        AmendmentContentProvider, PdfCreate, PDFLayout, PersonalNoteManager, MotionComment, Messaging, FileSaver) {
         return {
             getDocumentProvider: function (motions, params, singleMotion) {
                 params = _.clone(params || {}); // Clone this to avoid sideeffects.
@@ -1432,6 +1660,13 @@ angular.module('OpenSlidesApp.motions.pdf', ['OpenSlidesApp.core.pdf'])
                         Messaging.addMessage(error.msg, 'error');
                     });
                 }
+            },
+            exportAmendmentTable: function (motions, filename) {
+                AmendmentTableContentProvider.createInstance(motions).then(function (contentProvider) {
+                    PdfMakeDocumentProvider.createInstance(contentProvider).then(function (documentProvider) {
+                        PdfCreate.download(documentProvider, filename);
+                    });
+                });
             },
             exportAmendments: function (motions, filename) {
                 AmendmentContentProvider.createInstance(motions).then(function (contentProvider) {

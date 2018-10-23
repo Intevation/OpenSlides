@@ -530,7 +530,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                  * @param {object} html - html
                  * @param {string} lineNumberMode - [inline, outside, none]
                  */
-                convertHTML = function(html, lineNumberMode) {
+                convertHTML = function(html, lineNumberMode, nomargin) {
                     var elementStyles = {
                             'b': ['font-weight:bold'],
                             'strong': ['font-weight:bold'],
@@ -999,7 +999,7 @@ function($q, Config, PDFLayout, ImageConverter) {
                                     // and margins. Just leave the paragraph there..
                                     if (!isInsideAList(element)) {
                                         currentParagraph.margin = [0, 0, 0, 0];
-                                        if (classes.indexOf('os-split-before') === -1) {
+                                        if (classes.indexOf('os-split-before') === -1 && !nomargin) {
                                             currentParagraph.margin[1] = 8;
                                         }
                                         if (classes.indexOf('insert') > -1) {
