@@ -1153,7 +1153,7 @@ angular.module('OpenSlidesApp.core', [
                         'h1 h2 h3 b i u strike sup sub strong em;' +
                         'blockquote p pre table' +
                         '(text-align-left,text-align-center,text-align-right,text-align-justify,os-split-before,os-split-after){text-align, float, padding};' +
-                        'a[!href];' +
+                        'a[!href,target];' +
                         'img[!src,alt]{width,height,float, padding};' +
                         'tr th td caption;' +
                         'li(os-split-before,os-split-after); ol(os-split-before,os-split-after)[start]{list-style-type};' +

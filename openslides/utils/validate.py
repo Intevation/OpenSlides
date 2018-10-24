@@ -11,7 +11,7 @@ allowed_tags = [
 allowed_attributes = {
     '*': ['class', 'style'],
     'img': ['alt', 'src', 'title'],
-    'a': ['href', 'title'],
+    'a': ['href', 'title', 'target'],
     'th': ['scope'],
     'ol': ['start'],
 }
