@@ -37,6 +37,6 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 RUN mkdir /data && chown openslides /data
 USER openslides
-EXPOSE 8000
+EXPOSE 8000-8040
 VOLUME /supervisord.conf
 VOLUME /data
