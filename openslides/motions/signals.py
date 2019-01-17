@@ -162,6 +162,126 @@ def create_builtin_workflows(sender, **kwargs):
     workflow_3.save()
 
 
+    # verdi workflow
+    workflow_4 = Workflow.objects.create(name='ver.di')
+    state_4_1 = State.objects.create(name='eingereicht',
+                                     workflow=workflow_4,
+                                     action_word='eingereicht',
+                                     allow_submitter_edit=True,
+                                     required_permission_to_see='motions.can_manage',
+                                     dont_set_identifier=True)
+    state_4_2 = State.objects.create(name='geprüft',
+                                     workflow=workflow_4,
+                                     action_word='geprüft',
+                                     required_permission_to_see='motions.can_manage',
+                                     dont_set_identifier=True)
+    state_4_3 = State.objects.create(name='zugeordnet',
+                                     workflow=workflow_4,
+                                     action_word='zugeordnet',
+                                     dont_set_identifier=False)
+    state_4_4 = State.objects.create(name='Empfehlung der ABK liegt vor',
+                                     workflow=workflow_4,
+                                     action_word='Empfehlung der ABK liegt vor',
+                                     allow_create_poll=True,
+                                     dont_set_identifier=False)
+    state_4_10 = State.objects.create(name='angenommen',
+                                     workflow=workflow_4,
+                                     action_word='angenommen',
+                                     recommendation_label='Annahme',
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    state_4_11 = State.objects.create(name='angenommen und weitergeleitet an',
+                                     workflow=workflow_4,
+                                     action_word='angenommen und weitergeleitet an',
+                                     recommendation_label='Annahme und Weiterleitung an',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    state_4_12 = State.objects.create(name='angenommen in geänderter Fassung',
+                                     workflow=workflow_4,
+                                     action_word='angenommen in geänderter Fassung',
+                                     recommendation_label='Annahme in geänderter Fassung',
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    state_4_13 = State.objects.create(name='angenommen in geänderter Fassung und weitergeleitet an',
+                                     workflow=workflow_4,
+                                     action_word='angenommen in geänderter Fassung und weitergeleitet an',
+                                     recommendation_label='Annahme in geänderter Fassung und Weiterleitung an',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    state_4_14 = State.objects.create(name='angenommen als Arbeitsmaterial zu Antrag',
+                                     workflow=workflow_4,
+                                     action_word='angenommen als Arbeitsmaterial zu Antrag',
+                                     recommendation_label='Annahme als Arbeitsmaterial zu Antrag',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    state_4_15 = State.objects.create(name='angenommen als Arbeitsmaterial zur Weiterleitung an',
+                                     workflow=workflow_4,
+                                     action_word='angenommen als Arbeitsmaterial zur Weiterleitung an',
+                                     recommendation_label='Annahme als Arbeitsmaterial zur Weiterleitung an',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    state_4_16 = State.objects.create(name='angenommen in geänderter Fassung durch Änderungsantrag',
+                                     workflow=workflow_4,
+                                     action_word='angenommen in geänderter Fassung durch Änderungsantrag',
+                                     recommendation_label='Annahme in geänderter Fassung durch Änderungsantrag',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    # TODO: extension fields required?
+    state_4_17 = State.objects.create(name='angenommen in geänderter Fassung als Material',
+                                     workflow=workflow_4,
+                                     action_word='angenommen in geänderter Fassung als Material',
+                                     recommendation_label='Annahme in geänderter Fassung als Material',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='success')
+                                     #merge_amendment_into_final=1)
+    state_4_18 = State.objects.create(name='erledigt durch',
+                                     workflow=workflow_4,
+                                     action_word='erledigt durch',
+                                     recommendation_label='Erledigt durch',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='default')
+    state_4_19 = State.objects.create(name='abgelehnt',
+                                     workflow=workflow_4,
+                                     action_word='abgelehnt',
+                                     recommendation_label='Ablehnung',
+                                     css_class='danger')
+    state_4_20 = State.objects.create(name='nicht befasst',
+                                     workflow=workflow_4,
+                                     action_word='nicht befasst',
+                                     recommendation_label='Nichtbefassung',
+                                     css_class='default')
+    state_4_21 = State.objects.create(name='zurückgezogen',
+                                     workflow=workflow_4,
+                                     action_word='zurückgezogen',
+                                     dont_set_identifier=True,
+                                     css_class='default')
+    state_4_22 = State.objects.create(name='Sonstiges',
+                                     workflow=workflow_4,
+                                     action_word='Sonstiges',
+                                     recommendation_label='Sonstiges',
+                                     show_recommendation_extension_field=True,
+                                     show_state_extension_field=True,
+                                     css_class='default')
+    state_4_1.next_states.add(state_4_2, state_4_21)
+    state_4_2.next_states.add(state_4_3, state_4_21)
+    state_4_3.next_states.add(state_4_4, state_4_21)
+    state_4_4.next_states.add(state_4_10, state_4_11, state_4_12, state_4_13, state_4_14, state_4_15, state_4_16, state_4_17, state_4_18, state_4_19, state_4_20, state_4_21, state_4_22)
+    workflow_4.first_state = state_4_1
+    workflow_4.save(skip_autoupdate=True)
+
+
 def get_permission_change_data(sender, permissions, **kwargs):
     """
     Yields all necessary collections if 'motions.can_see' permission changes.
