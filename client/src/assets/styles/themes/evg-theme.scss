@@ -1,0 +1,75 @@
+$evg-blau: (
+    50 : #e0ebf4,
+    100 : #b3cee4,
+    200 : #80add2,
+    300 : #4d8cbf,
+    400 : #2673b2,
+    500 : #005aa4,
+    600 : #00529c,
+    700 : #004892,
+    800 : #003f89,
+    900 : #002e78,
+    A100 : #a6c0ff,
+    A200 : #739cff,
+    A400 : #4078ff,
+    A700 : #2666ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$evg-rot: (
+    50 : #fce0e4,
+    100 : #f6b3ba,
+    200 : #f1808d,
+    300 : #eb4d5f,
+    400 : #e6263c,
+    500 : #e2001a,
+    600 : #df0017,
+    700 : #da0013,
+    800 : #d6000f,
+    900 : #cf0008,
+    A100 : #fff6f7,
+    A200 : #ffc3c4,
+    A400 : #ff9092,
+    A700 : #ff7778,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$openslides-primary: mat-palette($evg-blau);
+$openslides-accent: mat-palette($evg-rot);
+$openslides-warn: mat-palette($evg-rot);
+
+$evg-theme: mat-light-theme(
+    $openslides-primary,
+    $openslides-accent,
+    $openslides-warn
+)

@@ -1,0 +1,42 @@
+$igbce: (
+    50 : #fbe0e5,
+    100 : #f5b3bf,
+    200 : #ef8094,
+    300 : #e84d69,
+    400 : #e32648,
+    500 : #de0028,
+    600 : #da0024,
+    700 : #d5001e,
+    800 : #d10018,
+    900 : #c8000f,
+    A100 : #fff1f1,
+    A200 : #ffbec0,
+    A400 : #ff8b8e,
+    A700 : #ff7175,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$openslides-primary: mat-palette($igbce);
+$openslides-accent: mat-palette($igbce);
+$openslides-warn: mat-palette($mat-red);
+
+$igbce-theme: mat-light-theme(
+    $openslides-primary,
+    $openslides-accent,
+    $openslides-warn
+)

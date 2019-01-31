@@ -16,6 +16,15 @@ $narrow-spacing: (
 @import './assets/styles/themes/red-dark.scss';
 @import './assets/styles/themes/red-light.scss';
 @import './assets/styles/themes/solarized-dark.scss';
+// custom themes
+@import './assets/styles/themes/dgb-theme.scss';
+@import './assets/styles/themes/gew-theme.scss';
+@import './assets/styles/themes/igm-theme.scss';
+@import './assets/styles/themes/verdi-theme.scss';
+@import './assets/styles/themes/igbau-theme.scss';
+@import './assets/styles/themes/igbce-theme.scss';
+@import './assets/styles/themes/evg-theme.scss';
+
 
 /** Global component style definition */
 @import './assets/styles/global-components-style.scss';
@@ -122,6 +131,37 @@ $narrow-spacing: (
     $ngrid-material-theme: pbl-dark-theme($openslides-solarized-dark);
     @include pbl-ngrid-theme(map-merge($ngrid-material-theme, $narrow-spacing));
 }
+
+// custom themes
+.openslides-dgb-light-theme {
+    @include angular-material-theme($dgb-theme);
+    @include openslides-components-theme($dgb-theme);
+}
+.openslides-gew-light-theme {
+    @include angular-material-theme($gew-theme);
+    @include openslides-components-theme($gew-theme);
+}
+.openslides-igm-light-theme {
+    @include angular-material-theme($igm-theme);
+    @include openslides-components-theme($igm-theme);
+}
+.openslides-verdi-light-theme {
+    @include angular-material-theme($verdi-theme);
+    @include openslides-components-theme($verdi-theme);
+}
+.openslides-igbau-light-theme {
+    @include angular-material-theme($igbau-theme);
+    @include openslides-components-theme($igbau-theme);
+}
+.openslides-igbce-light-theme {
+    @include angular-material-theme($igbce-theme);
+    @include openslides-components-theme($igbce-theme);
+}
+.openslides-evg-light-theme {
+    @include angular-material-theme($evg-theme);
+    @include openslides-components-theme($evg-theme);
+}
+
 
 /**
  * Custom configuration for light themes

@@ -1,0 +1,42 @@
+$igbau: (
+    50 : #fee7e5,
+    100 : #fdc2bf,
+    200 : #fb9a94,
+    300 : #f97169,
+    400 : #f85249,
+    500 : #f73429,
+    600 : #f62f24,
+    700 : #f5271f,
+    800 : #f32119,
+    900 : #f1150f,
+    A100 : #ffffff,
+    A200 : #ffeaea,
+    A400 : #ffb8b7,
+    A700 : #ff9f9d,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$openslides-primary: mat-palette($igbau);
+$openslides-accent: mat-palette($igbau);
+$openslides-warn: mat-palette($mat-red);
+
+$igbau-theme: mat-light-theme(
+    $openslides-primary,
+    $openslides-accent,
+    $openslides-warn
+)
