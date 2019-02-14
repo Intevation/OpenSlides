@@ -48,7 +48,7 @@ RESET_PASSWORD_VERBOSE_ERRORS = True
 # For an explaination and more settings values see https://docs.djangoproject.com/en/2.2/topics/email/#smtp-backend
 
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 587
+EMAIL_PORT = 25
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_SSL = False
