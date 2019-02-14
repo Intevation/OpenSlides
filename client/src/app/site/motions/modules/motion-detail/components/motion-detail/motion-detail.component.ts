@@ -1385,7 +1385,7 @@ export class MotionDetailComponent extends BaseViewComponentDirective implements
     public onStatuteParagraphChange(newValue: number): void {
         const selectedParagraph = this.statuteParagraphs.find(par => par.id === newValue);
         this.contentForm.patchValue({
-            title: this.translate.instant('Statute amendment for') + ` ${selectedParagraph.title}`,
+            title: this.translate.instant('Antrag zur Satzung') + ` ${selectedParagraph.title}`,
             text: selectedParagraph.text
         });
         this.updateWorkflowIdForCreateForm(newValue);
