@@ -52,8 +52,9 @@ def get_config_variables():
         input_type="choice",
         label="Numeral system for agenda items",
         choices=(
-            {"value": "arabic", "display_name": "Arabic"},
-            {"value": "roman", "display_name": "Roman"},
+            {"value": "arabic", "display_name": "1, 1.1, 1.1.1, ..."},
+            {"value": "roman", "display_name": "I, I.1, I.1.1, ..."},
+            {"value": "custom", "display_name": "1, 1a), 1a) a, ..."},
         ),
         weight=207,
         group="Agenda",
