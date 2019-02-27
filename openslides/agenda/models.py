@@ -171,18 +171,36 @@ class ItemManager(BaseManager):
 
         def walk_tree(tree, number=None):
             for index, tree_element in enumerate(tree):
-                # Calculate number of visable agenda items.
                 if numeral_system == "roman" and number is None:
                     item_number = to_roman(index + 1)
+                # custom numbering: 1., 1 a), 1 a) a, ...
+                elif numeral_system == "custom":
+                    # is the item a root node?
+                    if tree_element["item"].parent is None:
+                        item_number = str(index + 1)
+                        item_number_tmp = item_number
+                    # is the parent item a root node?
+                    elif tree_element["item"].parent.parent is None:
+                        item_number = chr(ord('a') + index)
+                        item_number_tmp = f"{number}{item_number})"
+                        item_number = item_number_tmp + " "
+                    else:
+                        item_number = number + chr(ord('a') + index)
+                        item_number_tmp = item_number
                 else:
                     item_number = str(index + 1)
                     if number is not None:
                         item_number = ".".join((number, item_number))
+
                 # Add prefix.
                 if config["agenda_number_prefix"]:
-                    item_number_tmp = f"{config['agenda_number_prefix']} {item_number}"
+                    if item_number_tmp:
+                        item_number_tmp = f"{config['agenda_number_prefix']} {item_number_tmp}"
+                    else:
+                        item_number_tmp = f"{config['agenda_number_prefix']} {item_number}"
                 else:
                     item_number_tmp = item_number
+
                 # Save the new value and go down the tree.
                 tree_element["item"].item_number = item_number_tmp
                 tree_element["item"].save()
