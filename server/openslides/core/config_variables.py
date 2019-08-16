@@ -219,6 +219,7 @@ def get_config_variables():
                 "value": "openslides-solarized-dark-theme",
                 "display_name": "OpenSlides Solarized",
             },
+            {"value": "openslides-gruene-light-theme", "display_name": "DIE GRÜNEN"},
         ),
         weight=154,
         subgroup="System",
