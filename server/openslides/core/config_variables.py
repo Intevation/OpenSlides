@@ -190,7 +190,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="openslides_theme",
-        default_value="openslides-default-light-theme",
+        default_value="gruene-theme",
         input_type="choice",
         label="OpenSlides Theme",
         choices=(
