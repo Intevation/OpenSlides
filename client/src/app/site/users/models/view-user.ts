@@ -1,5 +1,5 @@
 import { SearchRepresentation } from 'app/core/ui-services/search.service';
-import { User } from 'app/shared/models/users/user';
+import { User, UserAuthType } from 'app/shared/models/users/user';
 import { BaseProjectableViewModel } from 'app/site/base/base-projectable-view-model';
 import { ProjectorElementBuildDeskriptor } from 'app/site/base/projectable';
 import { Searchable } from 'app/site/base/searchable';
@@ -30,6 +30,14 @@ export class ViewUser extends BaseProjectableViewModel<User> implements UserTitl
 
     public get username(): string {
         return this.user.username;
+    }
+
+    public get isSamlUser(): boolean {
+        return this.auth_type === 'saml';
+    }
+
+    public get auth_type(): UserAuthType {
+        return this.user.auth_type;
     }
 
     public get title(): string {

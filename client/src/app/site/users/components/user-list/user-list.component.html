@@ -88,6 +88,8 @@
             <mat-icon inline *ngIf="!!user.comment" matTooltip="{{ user.comment }}">
                 comment
             </mat-icon>
+
+            <os-icon-container *ngIf="user.isSamlUser" icon="device_hub"><span translate>Is SAML user</span></os-icon-container>
         </div>
     </div>
 
