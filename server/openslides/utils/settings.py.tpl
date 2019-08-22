@@ -127,13 +127,13 @@ if use_redis:
 # Please read https://github.com/OpenSlides/OpenSlides/blob/master/openslides/saml/README.md
 # for additional requirements.
 
-ENABLE_SAML = False
+ENABLE_SAML = True
 if ENABLE_SAML:
     INSTALLED_APPS += ['openslides.saml']
 
 
 # Controls if electronic voting (means non-analog polls) are enabled.
-ENABLE_ELECTRONIC_VOTING = False
+ENABLE_ELECTRONIC_VOTING = True
 
 
 # Jitsi integration
