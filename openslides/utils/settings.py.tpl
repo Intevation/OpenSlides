@@ -124,7 +124,7 @@ if use_redis:
 # Please read https://github.com/OpenSlides/OpenSlides/blob/master/openslides/saml/README.md
 # for additional requirements.
 
-ENABLE_SAML = False
+ENABLE_SAML = True
 if ENABLE_SAML:
     INSTALLED_APPS += ['openslides.saml']
 
