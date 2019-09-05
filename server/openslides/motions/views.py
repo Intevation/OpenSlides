@@ -510,7 +510,7 @@ class MotionViewSet(TreeSortMixin, ModelViewSet):
             # Support motion.
             if not (
                 motion.state.allow_support
-                and config["motions_min_supporters"] > 0
+                and config["motions_min_supporters"] >= 0
                 and not motion.is_submitter(request.user)
                 and not motion.is_supporter(request.user)
             ):
