@@ -312,11 +312,11 @@ def get_config_variables():
         default_value=0,
         input_type="integer",
         label="Number of (minimum) required supporters for a motion",
-        help_text="Choose 0 to disable the supporting system.",
+        help_text="Choose -1 to disable the supporting system.",
         weight=360,
         group="Motions",
         subgroup="Supporters",
-        validators=(MinValueValidator(0),),
+        validators=(MinValueValidator(-1),),
     )
 
     yield ConfigVariable(

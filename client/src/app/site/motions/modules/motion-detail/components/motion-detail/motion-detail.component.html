@@ -210,7 +210,7 @@
         </div>
 
         <!-- do Support -->
-        <div *ngIf="minSupporters && !editMotion">
+        <div *ngIf="minSupporters >= 0 && !editMotion">
             <h4 *ngIf="perms.isAllowed('support', motion) || motion.hasSupporters()">{{ 'Supporters' | translate }}</h4>
 
             <!-- support button -->

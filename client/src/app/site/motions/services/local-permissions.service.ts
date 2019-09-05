@@ -65,7 +65,7 @@ export class LocalPermissionsService {
                 }
                 return (
                     this.operator.hasPerms(Permission.motionsCanSupport) &&
-                    this.configMinSupporters > 0 &&
+                    this.configMinSupporters >= 0 &&
                     motion.state &&
                     motion.state.allow_support &&
                     motion.submitters &&
