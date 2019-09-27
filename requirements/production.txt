@@ -11,6 +11,7 @@ jsonfield2>=3.0,<3.1
 jsonschema>=3.0,<3.1
 lz4>=2.1.6
 mypy_extensions>=0.4,<0.5
+python3-saml>=1.7,<1.8
 PyPDF2>=1.26,<1.27
 roman>=2.0,<3.2
 setuptools>=29.0,<42.0
