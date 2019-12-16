@@ -208,7 +208,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_identifier_min_digits",
-        default_value=1,
+        default_value=2,
         input_type="integer",
         label="Number of minimal digits for identifier",
         help_text="Uses leading zeros to sort motions correctly by identifier.",
@@ -243,7 +243,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_amendments_enabled",
-        default_value=False,
+        default_value=True,
         input_type="boolean",
         label="Activate amendments",
         weight=351,
@@ -263,7 +263,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_amendments_prefix",
-        default_value="-",
+        default_value="-Ä",
         label="Prefix for the identifier for amendments",
         weight=353,
         group="Motions",

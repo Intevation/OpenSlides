@@ -15,7 +15,7 @@ def get_config_variables():
     """
     yield ConfigVariable(
         name="general_event_name",
-        default_value="OpenSlides",
+        default_value="Kammverversammlung",
         label="Event name",
         weight=110,
         subgroup="Event",
@@ -24,7 +24,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="general_event_description",
-        default_value="Presentation and assembly system",
+        default_value="",
         label="Short description of event",
         weight=115,
         subgroup="Event",
