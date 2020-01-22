@@ -3044,3 +3044,38 @@ msgstr "mit Local Storage"
 
 msgid "withdrawed"
 msgstr "zurückgezogen"
+
+
+# custom
+msgid "100% base"
+msgstr "100%-Basis"
+
+msgid "Anonymize votes"
+msgstr "Stimmen anonymisieren"
+
+msgid "Click here to vote on the poll"
+msgstr "Abstimmung eröffnet: "
+
+msgid "Created"
+msgstr "Erstellt"
+
+msgid "Motions poll list"
+msgstr "Antragsabstimmungsliste"
+
+msgid "Publish immediately"
+msgstr "direkt veröffentlichen"
+
+msgid "Published"
+msgstr "Veröffentlicht"
+
+msgid "Result"
+msgstr "Ergebnis"
+
+msgid "Started"
+msgstr "Gestartet"
+
+msgid "Unknown user"
+msgstr "Unbekannter Nutzer"
+
+msgid "Voting type"
+msgstr "Voting-Typ"

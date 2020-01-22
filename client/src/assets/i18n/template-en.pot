@@ -7,6 +7,9 @@ msgstr ""
 msgid "%num% emails were send sucessfully."
 msgstr ""
 
+msgid "100% base"
+msgstr ""
+
 msgid ""
 "<a href=\"http://www.openslides.org\">OpenSlides</a> is a free web based "
 "presentation and assembly system for visualizing and controlling agenda, "
@@ -189,6 +192,9 @@ msgstr ""
 msgid "An unknown error occurred."
 msgstr ""
 
+msgid "Anonymize votes"
+msgstr ""
+
 msgid "Apply"
 msgstr ""
 
@@ -214,9 +220,6 @@ msgid "Are you sure you want to delete all speakers from this list of speakers?"
 msgstr ""
 
 msgid "Are you sure you want to delete the print template?"
-msgstr ""
-
-msgid "Are you sure you want to delete this ballot?"
 msgstr ""
 
 msgid "Are you sure you want to delete this category and all subcategories?"
@@ -247,6 +250,9 @@ msgid "Are you sure you want to delete this motion?"
 msgstr ""
 
 msgid "Are you sure you want to delete this participant?"
+msgstr ""
+
+msgid "Are you sure you want to delete this poll?"
 msgstr ""
 
 msgid "Are you sure you want to delete this projector?"
@@ -368,6 +374,9 @@ msgstr ""
 msgid "Called with"
 msgstr ""
 
+msgid "Can be voted for"
+msgstr ""
+
 msgid "Can change its own password"
 msgstr ""
 
@@ -479,6 +488,9 @@ msgstr ""
 msgid "Candidates"
 msgstr ""
 
+msgid "Cannot be voted for"
+msgstr ""
+
 msgid "Cannot create PDF files on this browser."
 msgstr ""
 
@@ -549,6 +561,9 @@ msgid "Clear motion block"
 msgstr ""
 
 msgid "Clear tags"
+msgstr ""
+
+msgid "Click here to vote on the poll"
 msgstr ""
 
 msgid "Close"
@@ -626,10 +641,16 @@ msgstr ""
 msgid "Create final print template"
 msgstr ""
 
+msgid "Created"
+msgstr ""
+
 msgid "Creating PDF file ..."
 msgstr ""
 
 msgid "Creation date"
+msgstr ""
+
+msgid "Current"
 msgstr ""
 
 msgid "Current browser language"
@@ -639,6 +660,9 @@ msgid "Current date"
 msgstr ""
 
 msgid "Current list of speakers"
+msgstr ""
+
+msgid "Current state"
 msgstr ""
 
 msgid "Custom aspect ratio"
@@ -819,9 +843,6 @@ msgstr ""
 msgid "Edit topic"
 msgstr ""
 
-msgid "Elected"
-msgstr ""
-
 msgid "Election"
 msgstr ""
 
@@ -881,10 +902,10 @@ msgstr ""
 msgid "Enter participant number"
 msgstr ""
 
-msgid "Enter votes"
+msgid "Enter your email to send the password reset link"
 msgstr ""
 
-msgid "Enter your email to send the password reset link"
+msgid "Entitled to vote"
 msgstr ""
 
 msgid "Error"
@@ -1047,7 +1068,13 @@ msgstr ""
 msgid "Has amendments"
 msgstr ""
 
+msgid "Has been voted for"
+msgstr ""
+
 msgid "Has no speakers"
+msgstr ""
+
+msgid "Has not been voted for"
 msgstr ""
 
 msgid "Has notes"
@@ -1086,9 +1113,6 @@ msgstr ""
 msgid "Hide the amount of speakers in subtitle of list of speakers slide"
 msgstr ""
 
-msgid "Hint for ballot paper"
-msgstr ""
-
 msgid "History"
 msgstr ""
 
@@ -1104,6 +1128,11 @@ msgstr ""
 msgid ""
 "Identifier, reason, submitter, category, origin and motion block are "
 "optional and may be empty."
+msgstr ""
+
+msgid ""
+"If you want to publish after creating, you have to fill at least one of the "
+"fields."
 msgstr ""
 
 msgid "Import"
@@ -1283,9 +1312,6 @@ msgstr ""
 msgid "Main motion and line number"
 msgstr ""
 
-msgid "Mark as elected"
-msgstr ""
-
 msgid "Mark speaker"
 msgstr ""
 
@@ -1350,6 +1376,9 @@ msgid "Motions are in process. Please wait ..."
 msgstr ""
 
 msgid "Motions have been imported."
+msgstr ""
+
+msgid "Motions poll list"
 msgstr ""
 
 msgid "Move"
@@ -1505,6 +1534,9 @@ msgstr ""
 msgid "No recommendation"
 msgstr ""
 
+msgid "No results to show"
+msgstr ""
+
 msgid "No search result found"
 msgstr ""
 
@@ -1564,6 +1596,9 @@ msgstr ""
 msgid "Number of the next speakers to be shown on the projector"
 msgstr ""
 
+msgid "Number poll candidates"
+msgstr ""
+
 msgid "Number set"
 msgstr ""
 
@@ -1582,9 +1617,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-msgid "Offline mode"
-msgstr ""
-
 msgid "Old password"
 msgstr ""
 
@@ -1594,9 +1626,6 @@ msgstr ""
 msgid ""
 "One of given name, surname and username has to be filled in. All other "
 "fields are optional and may be empty."
-msgstr ""
-
-msgid "One vote per candidate"
 msgstr ""
 
 msgid "Only countdown"
@@ -1764,13 +1793,13 @@ msgstr ""
 msgid "Please enter your new password"
 msgstr ""
 
-msgid "Please fill in all required values"
-msgstr ""
-
-msgid "Please fill in the values for each candidate"
-msgstr ""
-
 msgid "Please select the directory:"
+msgstr ""
+
+msgid "Poll list"
+msgstr ""
+
+msgid "Poll method"
 msgstr ""
 
 msgid "Preamble text for PDF document (all elections)"
@@ -1806,12 +1835,6 @@ msgstr ""
 msgid "Previous slides"
 msgstr ""
 
-msgid "Print ballot paper"
-msgstr ""
-
-msgid "Print ballot papers"
-msgstr ""
-
 msgid "Privacy Policy"
 msgstr ""
 
@@ -1842,13 +1865,19 @@ msgstr ""
 msgid "Projectors"
 msgstr ""
 
+msgid "Pseudoanonymize"
+msgstr ""
+
 msgid "Public"
 msgstr ""
 
 msgid "Public item"
 msgstr ""
 
-msgid "Publish"
+msgid "Publish immediately"
+msgstr ""
+
+msgid "Published"
 msgstr ""
 
 msgid "Put all candidates on the list of speakers"
@@ -1970,6 +1999,9 @@ msgid "Resolution and size"
 msgstr ""
 
 msgid "Restrictions"
+msgstr ""
+
+msgid "Result"
 msgstr ""
 
 msgid "Right"
@@ -2212,9 +2244,6 @@ msgstr ""
 msgid "Speakers"
 msgstr ""
 
-msgid "Special values"
-msgstr ""
-
 msgid "Staff"
 msgstr ""
 
@@ -2225,6 +2254,9 @@ msgid "Standard page size in PDF"
 msgstr ""
 
 msgid "Start time"
+msgstr ""
+
+msgid "Started"
 msgstr ""
 
 msgid "State"
@@ -2398,6 +2430,9 @@ msgstr ""
 msgid "This element does not exist at this time."
 msgstr ""
 
+msgid "This field is required"
+msgstr ""
+
 msgid "This field is required."
 msgstr ""
 
@@ -2502,7 +2537,7 @@ msgstr ""
 msgid "Undone"
 msgstr ""
 
-msgid "Unpublish"
+msgid "Unknown user"
 msgstr ""
 
 msgid "Unsupport"
@@ -2536,6 +2571,9 @@ msgstr ""
 msgid "Used for WLAN QRCode in PDF of access data."
 msgstr ""
 
+msgid "User"
+msgstr ""
+
 msgid "Username"
 msgstr ""
 
@@ -2554,6 +2592,9 @@ msgstr ""
 msgid "Visibility"
 msgstr ""
 
+msgid "Votability"
+msgstr ""
+
 msgid "Vote"
 msgstr ""
 
@@ -2561,6 +2602,9 @@ msgid "Vote created"
 msgstr ""
 
 msgid "Vote deleted"
+msgstr ""
+
+msgid "Vote state"
 msgstr ""
 
 msgid "Vote updated"
@@ -2576,6 +2620,9 @@ msgid "Voting and ballot papers"
 msgstr ""
 
 msgid "Voting result"
+msgstr ""
+
+msgid "Voting type"
 msgstr ""
 
 msgid "WEP"
@@ -2654,6 +2701,9 @@ msgstr ""
 msgid "You are using the history mode of OpenSlides. Changes will not be saved."
 msgstr ""
 
+msgid "You can distribute"
+msgstr ""
+
 msgid "You can use {event_name} and {username} as placeholder."
 msgstr ""
 
@@ -2664,6 +2714,9 @@ msgid "You cannot change the state of motions in different workflows!"
 msgstr ""
 
 msgid "You do not have the required permission to see that page!"
+msgstr ""
+
+msgid "You have"
 msgstr ""
 
 msgid "You have to fill this field."
@@ -2774,9 +2827,6 @@ msgstr ""
 msgid "internal"
 msgstr ""
 
-msgid "is elected"
-msgstr ""
-
 msgid "is now"
 msgstr ""
 
@@ -2819,12 +2869,6 @@ msgstr ""
 msgid "not decided"
 msgstr ""
 
-msgid "not reached"
-msgstr ""
-
-msgid "not reached."
-msgstr ""
-
 msgid "of"
 msgstr ""
 
@@ -2837,6 +2881,9 @@ msgstr ""
 msgid "permitted"
 msgstr ""
 
+msgid "polls to vote on!"
+msgstr ""
+
 msgid "present"
 msgstr ""
 
@@ -2844,12 +2891,6 @@ msgid "public"
 msgstr ""
 
 msgid "published"
-msgstr ""
-
-msgid "reached"
-msgstr ""
-
-msgid "reached."
 msgstr ""
 
 msgid "refered to committee"
@@ -2888,10 +2929,7 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-msgid "undocumented"
-msgstr ""
-
-msgid "unpublished"
+msgid "votes"
 msgstr ""
 
 msgid "with filter"
@@ -2904,4 +2942,13 @@ msgid "with local storage"
 msgstr ""
 
 msgid "withdrawed"
+msgstr ""
+
+msgid "{{ state.key }}"
+msgstr ""
+
+msgid "{{ value[0] }}"
+msgstr ""
+
+msgid "{{ value[1] }}"
 msgstr ""
