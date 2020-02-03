@@ -26,7 +26,7 @@
                 [matMenuTriggerFor]="triggerMenu"
                 [ngClass]="poll.stateVerbose.toLowerCase()"
             >
-                {{ poll.stateVerbose }}
+                {{ poll.stateVerbose | translate }}
             </mat-chip>
             <mat-chip
                 *ngIf="!poll.getNextStates()"
@@ -34,7 +34,7 @@
                 class="poll-state active"
                 [ngClass]="poll.stateVerbose.toLowerCase()"
             >
-                {{ poll.stateVerbose }}
+                {{ poll.stateVerbose | translate }}
             </mat-chip>
         </div>
     </div>
@@ -123,7 +123,7 @@
 <mat-menu #triggerMenu="matMenu">
     <ng-container *ngIf="poll">
         <button mat-menu-item (click)="changeState(state.value)" *ngFor="let state of poll.getNextStates() | keyvalue">
-            <span translate>{{ state.key }}</span>
+            <span translate>{{ state.key | translate }}</span>
         </button>
     </ng-container>
 </mat-menu>

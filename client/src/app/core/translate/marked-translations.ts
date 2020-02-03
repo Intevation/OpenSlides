@@ -183,6 +183,10 @@ _('Show checkbox to record decision');
 _('Amendment');
 _('Statute amendment for');
 _('Statute paragraphs');
+_('Analog voting');
+_('Named voting');
+_('Pseudoanonymous voting');
+_('Entitled to vote');
 
 // motion workflow 1
 _('Simple Workflow');

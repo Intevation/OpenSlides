@@ -23,7 +23,7 @@
         <div *ngIf="!poll.hasVotes || !poll.stateHasVotes">{{ 'No results to show' | translate }}</div>
 
         <div *ngIf="poll.stateHasVotes">
-            <h2 translate>Result</h2>
+            <h2>{{ 'Result' | translate }}</h2>
 
             <div class="result-wrapper" *ngIf="poll.hasVotes">
                 <!-- Chart -->
@@ -78,7 +78,7 @@
                             </ng-container>
                             <ng-container matColumnDef="value" sticky>
                                 <mat-header-cell *matHeaderCellDef>{{ 'Vote' | translate }}</mat-header-cell>
-                                <mat-cell *matCellDef="let vote">{{ vote.valueVerbose }}</mat-cell>
+                                <mat-cell *matCellDef="let vote">{{ vote.valueVerbose | translate }}</mat-cell>
                             </ng-container>
 
                             <mat-header-row *matHeaderRowDef="columnDefinition"></mat-header-row>
@@ -100,7 +100,6 @@
                     {{ group.getTitle() | translate }}<span *ngIf="i < poll.groups.length - 1">, </span>
                 </span>
             </div>
-            <div>{{ 'Required majority' | translate }}: {{ poll.majorityMethodVerbose | translate }}</div>
             <div>{{ '100% base' | translate }}: {{ poll.percentBaseVerbose | translate }}</div>
         </div>
     </ng-container>

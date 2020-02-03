@@ -3003,7 +3003,7 @@ msgstr "verworfen (nicht zulässig)"
 msgid "remove group(s)"
 msgstr "Gruppe(n) entfernen"
 
-msgid "result"
+msgid "resultt"
 msgstr "Ergebnis"
 
 msgid "results"
@@ -3044,3 +3044,94 @@ msgstr "mit Local Storage"
 
 msgid "withdrawed"
 msgstr "zurückgezogen"
+
+￼￼￼
+￼msgid "Motions poll list"
+￼msgstr "Antragsabstimmungsliste"
+￼￼
+￼msgid "Unknown user"
+￼msgstr "Unbekannter Nutzer"
+￼
+￼msgid "Voting type"
+￼msgstr "Voting-Typ" 
+
+msgid "Ballot is open"
+msgstr "Wahlgang eröffnet"
+
+msgid "Global abstain"
+msgstr "Enthaltung"
+
+msgid "Global no"
+msgstr "Nein"
+
+msgid "Single votes"
+msgstr "Einzelstimmen"
+
+msgid "Single Votes"
+msgstr "Einzelstimmen"
+
+msgid "Anonymous"
+msgstr "anonym"
+
+msgid "Ballot paper"
+msgstr "Stimmzettel"
+
+msgid "Edit to enter votes."
+msgstr "Zm Stimmen einzugeben auf Bearbeiten klicken."
+
+msgid "In the election process"
+msgstr "Im Wahlvorgang"
+
+msgid "More"
+msgstr "Mehr"
+
+msgid "The individal votes were made anonymous."
+msgstr "Die individuellen Einzelstimmen wurden anonymisiert."
+
+msgid "Voting is open"
+msgstr "Abstimmung eröffnet"
+
+msgid "Casted votes"
+msgstr "Empfangene Stimmen"
+
+msgid "Result"
+msgstr "Ergebnis"
+
+msgid "Analog voting"
+msgstr "Analoge Abstimmung"
+
+msgid "Named voting"
+msgstr "Namentliche Abstimmung"
+
+msgid "Pseudoanonymous voting"
+msgstr "Pseudo-geheime Abstimmung"
+
+msgid "Entitled to vote"
+msgstr "Stimmberechtigte"
+
+msgid "Start voting"
+msgstr "Abstimmung starten"
+ 
+msgid "Stop voting"
+msgstr "Abstimmung stoppen"
+
+msgid "Created"
+msgstr "Erstellt"
+
+msgid "Started"
+msgstr "Gestarted"
+
+msgid "Published"
+msgstr "Veröffentlicht"
+
+msgid "Publish immediately"
+msgstr "direkt veröffentlichen"
+
+msgid "Anonymize votes"
+msgstr "Stimmen anonymisieren"
+
+msgid "100% base"
+msgstr "100%-Basis"
+
+msgid "The individual votes were made anonymous."
+msgstr "Die individuellen Einzelstimmen wurden anonymisiert."
