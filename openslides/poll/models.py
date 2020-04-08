@@ -184,7 +184,7 @@ class BasePoll(models.Model):
         if self.type == self.TYPE_ANALOG:
             return self.db_votesvalid
         else:
-            return Decimal(self.amount_users_voted())
+            return Decimal(self.amount_users_voted_with_individual_weight())
 
     def set_votesvalid(self, value):
         if self.type != self.TYPE_ANALOG:
@@ -221,6 +221,9 @@ class BasePoll(models.Model):
 
     def amount_users_voted(self):
         return len(self.voted.all())
+
+    def amount_users_voted_with_individual_weight(self):
+        return sum(user.vote_weight for user in self.voted.all())
 
     def create_options(self):
         """ Should be called after creation of this model. """

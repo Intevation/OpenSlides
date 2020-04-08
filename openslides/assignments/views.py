@@ -489,14 +489,16 @@ class AssignmentPollViewSet(BasePollViewSet):
                 # skip creating votes with empty weights
                 if amount == 0:
                     continue
+                weight = Decimal(amount)
+                weight *= user.vote_weight
                 vote = AssignmentVote.objects.create(
-                    option=option, user=user, weight=Decimal(amount), value="Y"
+                    option=option, user=user, weight=weight, value="Y"
                 )
                 inform_changed_data(vote, no_delete_on_restriction=True)
         else:  # global_no or global_abstain
             option = options[0]
             vote = AssignmentVote.objects.create(
-                option=option, user=user, weight=Decimal(1), value=data
+                option=option, user=user, weight=user.vote_weight, value=data
             )
             inform_changed_data(vote, no_delete_on_restriction=True)
             inform_changed_data(option)

@@ -19,6 +19,7 @@ import { PromptService } from 'app/core/ui-services/prompt.service';
 import { genders } from 'app/shared/models/users/user';
 import { infoDialogSettings } from 'app/shared/utils/dialog-settings';
 import { BaseListViewComponent } from 'app/site/base/base-list-view';
+import { PollService } from 'app/site/polls/services/poll.service';
 import { UserFilterListService } from '../../services/user-filter-list.service';
 import { UserPdfExportService } from '../../services/user-pdf-export.service';
 import { UserSortListService } from '../../services/user-sort-list.service';
@@ -134,6 +135,10 @@ export class UserListComponent extends BaseListViewComponent<ViewUser> implement
      */
     public filterProps = ['full_name', 'groups', 'structure_level', 'number'];
 
+    public get isElectronicVotingEnabled(): boolean {
+        return this.pollService.isElectronicVotingEnabled;
+    }
+
     /**
      * The usual constructor for components
      * @param titleService Serivce for setting the title
@@ -169,7 +174,8 @@ export class UserListComponent extends BaseListViewComponent<ViewUser> implement
         public sortService: UserSortListService,
         config: ConfigService,
         private userPdf: UserPdfExportService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private pollService: PollService
     ) {
         super(titleService, translate, matSnackBar, storage);
 

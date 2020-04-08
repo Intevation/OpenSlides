@@ -5,7 +5,11 @@ export abstract class BaseDecimalModel<T = any> extends BaseModel<T> {
 
     public deserialize(input: any): void {
         if (input && typeof input === 'object') {
-            this.getDecimalFields().forEach(field => (input[field] = parseInt(input[field], 10)));
+            this.getDecimalFields().forEach(field => {
+                if (input[field] !== undefined) {
+                    input[field] = parseFloat(input[field]);
+                }
+            });
         }
         super.deserialize(input);
     }

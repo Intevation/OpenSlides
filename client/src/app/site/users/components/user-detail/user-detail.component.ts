@@ -15,6 +15,7 @@ import { PromptService } from 'app/core/ui-services/prompt.service';
 import { genders } from 'app/shared/models/users/user';
 import { OneOfValidator } from 'app/shared/validators/one-of-validator';
 import { BaseViewComponent } from 'app/site/base/base-view';
+import { PollService } from 'app/site/polls/services/poll.service';
 import { UserPdfExportService } from '../../services/user-pdf-export.service';
 import { ViewGroup } from '../../models/view-group';
 import { ViewUser } from '../../models/view-user';
@@ -76,6 +77,10 @@ export class UserDetailComponent extends BaseViewComponent implements OnInit {
 
     private userBackends: UserBackends | null = null;
 
+    public get isElectronicVotingEnabled(): boolean {
+        return this.pollService.isElectronicVotingEnabled;
+    }
+
     /**
      * Constructor for user
      *
@@ -103,7 +108,8 @@ export class UserDetailComponent extends BaseViewComponent implements OnInit {
         private promptService: PromptService,
         private pdfService: UserPdfExportService,
         private groupRepo: GroupRepositoryService,
-        private constantsService: ConstantsService
+        private constantsService: ConstantsService,
+        private pollService: PollService
     ) {
         super(title, translate, matSnackBar);
         this.createForm();
@@ -157,6 +163,7 @@ export class UserDetailComponent extends BaseViewComponent implements OnInit {
                 gender: [''],
                 structure_level: [''],
                 number: [''],
+                vote_weight: [],
                 about_me: [''],
                 groups_id: [''],
                 is_present: [true],
