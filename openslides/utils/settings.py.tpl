@@ -190,3 +190,6 @@ LOGGING = {
 }
 
 SETTINGS_FILEPATH = __file__
+
+JITSI_DOMAIN = 'meet.openslides.com'
+JITSI_ROOM_NAME = 'OpenSlides'
