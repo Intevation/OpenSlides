@@ -41,6 +41,7 @@ allowed_tags_strict = [
 ]
 allowed_tags_permissive = allowed_tags_strict + [
     "video",
+    "iframe",
 ]
 
 allowed_attributes = [
