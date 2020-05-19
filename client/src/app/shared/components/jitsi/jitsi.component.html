@@ -2,7 +2,7 @@
     <div
         class="jitsi-bar"
         [ngClass]="{
-            'cdk-visually-hidden': !enableJitsi,
+            'cdk-visually-hidden': !enableJitsi || !isAccessPermitted,
             'cast-shadow': !showJitsiWindow
         }"
     >
@@ -24,7 +24,9 @@
             </button>
 
             <!-- disconnected icon -->
-            <mat-icon class="indicator" *ngIf="!isJoined">cloud_off</mat-icon>
+            <mat-icon class="indicator" *ngIf="!isJoined && !restricted">cloud_off</mat-icon>
+
+            <mat-icon class="indicator" *ngIf="!isJoined && restricted && isAccessPermitted">meeting_room</mat-icon>
 
             <!-- hide unhide video -->
             <!-- <button class="quick-icon" mat-mini-fab [disabled]="!isJoined">
@@ -65,6 +67,7 @@
             >
                 <!-- Jitsi content window -->
                 <div class="content">
+
                     <!-- The "somewhere else active" warning -->
                     <div class="disconnected" *ngIf="isJitsiActiveInAnotherTab && !isJitsiActive">
                         <span>{{ 'The audio conference is already running in your OpenSlides session.' | translate }}</span>
@@ -120,7 +123,7 @@
                                 mat-mini-fab
                                 color="accent"
                                 (click)="enterConversation()"
-                                [disabled]="isJitsiActive || isJitsiActiveInAnotherTab"
+                                [disabled]="isJitsiActive || isJitsiActiveInAnotherTab || !isAccessPermitted"
                                 *ngIf="!isJoined"
                                 matTooltip="{{ 'Enter conference' | translate }}"
                             >

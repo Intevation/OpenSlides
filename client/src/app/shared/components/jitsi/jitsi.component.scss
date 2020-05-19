@@ -4,11 +4,8 @@
     }
 
     .jitsi-bar {
-        z-index: 99;
         display: flex;
-        position: fixed;
-        right: 20px;
-        bottom: 0;
+        margin-right: 20px;
         $wrapper-padding: 5px;
         $bar-height: 40px;
 

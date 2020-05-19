@@ -61,6 +61,7 @@ export class JitsiComponent extends BaseComponent implements OnDestroy {
 
     public showJitsiWindow = false;
     public muted = true;
+    public restricted = false;
 
     @ViewChild('jitsi')
     private jitsiNode: ElementRef;
@@ -93,6 +94,21 @@ export class JitsiComponent extends BaseComponent implements OnDestroy {
 
     public get isRoomPasswordProtected(): boolean {
         return this.roomPassword?.length > 0;
+    }
+
+    private get isOnCurrentLos(): boolean {
+        /**
+         * todo: Operator has to find out about the CLOS
+         */
+        return false;
+    }
+
+    public get isAccessPermitted(): boolean {
+        return (
+            !this.restricted ||
+            this.operator.hasPerms(this.permission.agendaCanManageListOfSpeakers) ||
+            this.isOnCurrentLos
+        );
     }
 
     private configOverwrite = {
@@ -180,6 +196,10 @@ export class JitsiComponent extends BaseComponent implements OnDestroy {
             } else {
                 this.stopJitsi();
             }
+        });
+
+        this.configService.get<boolean>('general_system_conference_los_restriction').subscribe(restricted => {
+            this.restricted = restricted;
         });
     }
 
