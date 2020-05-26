@@ -24,7 +24,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="agenda_show_subtitle",
-        default_value=False,
+        default_value=True,
         input_type="boolean",
         label="Show subtitles in the agenda",
         weight=201,
@@ -45,7 +45,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="agenda_number_prefix",
-        default_value="",
+        default_value="TOP",
         label="Numbering prefix for agenda items",
         help_text="This prefix will be set if you run the automatic agenda numbering.",
         weight=206,
@@ -73,7 +73,7 @@ def get_config_variables():
     yield ConfigVariable(
         name="agenda_item_creation",
         label="Add to agenda",
-        default_value="default_yes",
+        default_value="default_no",
         input_type="choice",
         choices=(
             {"value": "always", "display_name": "Always"},
@@ -171,7 +171,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="agenda_enable_point_of_order_speakers",
-        default_value=False,
+        default_value=True,
         input_type="boolean",
         label="Enable points of order",
         weight=229,
