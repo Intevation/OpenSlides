@@ -30,7 +30,7 @@ def get_config_variables():
     # General
     yield ConfigVariable(
         name="motions_workflow",
-        default_value="1",
+        default_value="2",
         input_type="choice",
         label="Workflow of new motions",
         choices=get_workflow_choices,
@@ -40,7 +40,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_statute_amendments_workflow",
-        default_value="1",
+        default_value="2",
         input_type="choice",
         label="Workflow of new statute amendments",
         choices=get_workflow_choices,
@@ -111,7 +111,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_disable_reason_on_projector",
-        default_value=False,
+        default_value=True,
         input_type="boolean",
         label="Hide reason on projector",
         weight=326,
@@ -219,7 +219,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_identifier_min_digits",
-        default_value=1,
+        default_value=2,
         input_type="integer",
         label="Number of minimal digits for identifier",
         help_text="Uses leading zeros to sort motions correctly by identifier.",
@@ -254,7 +254,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_amendments_enabled",
-        default_value=False,
+        default_value=True,
         input_type="boolean",
         label="Activate amendments",
         weight=351,
@@ -274,7 +274,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="motions_amendments_prefix",
-        default_value="-",
+        default_value="-Ä",
         label="Prefix for the identifier for amendments",
         weight=353,
         group="Motions",
