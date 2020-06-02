@@ -2,7 +2,7 @@
     <os-poll-progress [poll]="poll"></os-poll-progress>
 </div>
 <ng-container *ngIf="poll && !poll.user_has_voted; else userHasVotes">
-    <div *ngIf="vmanager.canVote(poll)" class="vote-button-grid">
+    <div *ngIf="vmanager.canVote(poll) && !deliveringVote" class="vote-button-grid">
         <!-- Voting -->
         <div class="vote-button" *ngFor="let option of voteOptions">
             <button
@@ -14,6 +14,12 @@
             </button>
             <span class="vote-label"> {{ option.label | translate }} </span>
         </div>
+    </div>
+
+    <div *ngIf="deliveringVote" class="submit-vote-indicator">
+        <mat-spinner ></mat-spinner>
+        <br />
+        <span> {{ 'Delivering vote' | translate }}</span>
     </div>
 </ng-container>
 
