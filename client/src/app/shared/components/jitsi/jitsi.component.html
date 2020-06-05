@@ -46,7 +46,7 @@
                     class="indicator quick-icon"
                     color="accent"
                     (click)="viewStream()"
-                    matTooltip="{{ 'Exit live conference and view the live stream' | translate }}"
+                    matTooltip="{{ 'Livekonferenz verlassen und Livestream starten' | translate }}"
                     *ngIf="videoStreamUrl"
                 >
                     <mat-icon color="warn">
@@ -76,7 +76,7 @@
                     class="indicator quick-icon"
                     mat-mini-fab
                     (click)="enterConversation()"
-                    matTooltip="{{ 'Enter live conference' | translate }}"
+                    matTooltip="{{ 'Livekonferenz beitreten' | translate }}"
                 >
                     <mat-icon color="primary">meeting_room</mat-icon>
                 </button>
@@ -96,7 +96,7 @@
             <!-- open-window button -->
             <button class="toggle-list-button" mat-button (click)="toggleShowJitsi()">
                 <ng-container *ngIf="currentState == state.jitsi">
-                    <span> {{ 'Live conference' | translate }}</span>
+                    <span> {{ 'Livekonferenz' | translate }}</span>
                     <div class="one-line">
                         &nbsp;
                         <span *ngIf="currentDominantSpeaker">
@@ -106,14 +106,14 @@
                             <i>{{ 'disconnected' | translate }}</i>
                         </span>
                         <span *ngIf="isJitsiActive && !isJoined">
-                            <i>{{ 'connecting...' | translate }}</i>
+                            <i>{{ 'Verbindungsaufbau ...' | translate }}</i>
                         </span>
                     </div>
                 </ng-container>
 
                 <ng-container *ngIf="currentState == state.stream">
                     <!-- os-icon-container does weid things here -->
-                    <span> {{ 'Live stream' | translate }}</span>
+                    <span> {{ 'Livestream' | translate }}</span>
                 </ng-container>
 
                 <mat-icon class="opened-indicator" *ngIf="!showJitsiWindow">keyboard_arrow_up</mat-icon>
@@ -145,7 +145,7 @@
                         </div>
 
                         <div class="disconnected" *ngIf="isJitsiActive && !isJoined">
-                            <span>{{ 'connecting...' | translate }}</span>
+                            <span>{{ 'Verbindungsaufbau ...' | translate }}</span>
                         </div>
 
                         <!-- user list -->
