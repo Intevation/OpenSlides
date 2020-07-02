@@ -30,7 +30,7 @@ def get_config_variables():
     # General
     yield ConfigVariable(
         name="motions_workflow",
-        default_value="2",
+        default_value="1",
         input_type="choice",
         label="Workflow of new motions",
         choices=get_workflow_choices,
