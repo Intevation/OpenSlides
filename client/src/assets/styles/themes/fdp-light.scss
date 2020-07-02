@@ -1,0 +1,106 @@
+$gelb: (
+    50 : #fffde0,
+    100 : #fffab3,
+    200 : #fff680,
+    300 : #fff24d,
+    400 : #fff026,
+    500 : #ffed00,
+    600 : #ffeb00,
+    700 : #ffe800,
+    800 : #ffe500,
+    900 : #ffe000,
+    A100 : #ffffff,
+    A200 : #fffdf2,
+    A400 : #fff6bf,
+    A700 : #fff3a6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+$magenta: (
+    50 : #fce0ef,
+    100 : #f7b3d8,
+    200 : #f280be,
+    300 : #ed4da4,
+    400 : #e92691,
+    500 : #e5007d,
+    600 : #e20075,
+    700 : #de006a,
+    800 : #da0060,
+    900 : #d3004d,
+    A100 : #fffbfc,
+    A200 : #ffc8d8,
+    A400 : #ff95b4,
+    A700 : #ff7ba2,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+$cyan: (
+    50 : #e0f3fc,
+    100 : #b3e2f7,
+    200 : #80cff1,
+    300 : #4dbbeb,
+    400 : #26ade7,
+    500 : #009ee3,
+    600 : #0096e0,
+    700 : #008cdc,
+    800 : #0082d8,
+    900 : #0070d0,
+    A100 : #f8fbff,
+    A200 : #c5e1ff,
+    A400 : #92c6ff,
+    A700 : #79b9ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$openslides-primary: mat-palette($cyan);
+$openslides-accent: mat-palette($magenta);
+$openslides-warn: mat-palette($magenta);
+
+$fdp-theme: mat-light-theme(
+    $openslides-primary,
+    $openslides-accent,
+    $openslides-warn
+)
