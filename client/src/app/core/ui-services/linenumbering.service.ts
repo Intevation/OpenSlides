@@ -539,6 +539,10 @@ export class LinenumberingService {
         }
     }
 
+    // .setAttribute and .innerHTML seem to be really slow, so we try to avoid them for static attributes / content
+    // by creating a static template, cloning it and only set the dynamic attributes each time
+    private lineNumberToClone: Element = null;
+
     /**
      * This creates a line number node with the next free line number.
      * If the internal flag is set, this step is skipped.
@@ -550,13 +554,18 @@ export class LinenumberingService {
             this.ignoreNextRegularLineNumber = false;
             return;
         }
-        const node = document.createElement('span');
+
+        if (this.lineNumberToClone === null) {
+            this.lineNumberToClone = document.createElement('span');
+            this.lineNumberToClone.setAttribute('contenteditable', 'false');
+            this.lineNumberToClone.innerHTML = '&nbsp;'; // Prevent ckeditor from stripping out empty span's
+        }
+        const node = this.lineNumberToClone.cloneNode(false) as Element;
         const lineNumber = this.currentLineNumber;
         this.currentLineNumber++;
         node.setAttribute('class', 'os-line-number line-number-' + lineNumber);
         node.setAttribute('data-line-number', lineNumber + '');
-        node.setAttribute('contenteditable', 'false');
-        node.innerHTML = '&nbsp;'; // Prevent ckeditor from stripping out empty span's
+
         return node;
     }
 
