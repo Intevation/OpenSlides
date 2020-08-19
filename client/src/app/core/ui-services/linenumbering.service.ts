@@ -137,6 +137,8 @@ export class LinenumberingService {
     // text with inline diff annotations and get the same line numbering as with the original text (when set to false)
     private ignoreInsertedText = false;
 
+    private getLineNumberRangeRegexp = RegExp(/<span[^>]+data\-line\-number=\"(\d+)\"/, 'g');
+
     /**
      * Creates a hash of a given string. This is not meant to be specifically secure, but rather as quick as possible.
      *
@@ -244,15 +246,9 @@ export class LinenumberingService {
      * @return {DocumentFragment}
      */
     private htmlToFragment(html: string): DocumentFragment {
-        const fragment: DocumentFragment = document.createDocumentFragment(),
-            div = document.createElement('DIV');
-        div.innerHTML = html;
-        while (div.childElementCount) {
-            const child = div.childNodes[0];
-            div.removeChild(child);
-            fragment.appendChild(child);
-        }
-        return fragment;
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        return template.content;
     }
 
     /**
@@ -377,27 +373,28 @@ export class LinenumberingService {
      * @returns {LineNumberRange}
      */
     public getLineNumberRange(html: string): LineNumberRange {
+        /*
         const cacheKey = this.djb2hash(html);
         let range = this.lineNumberCache.get(cacheKey);
         if (!range) {
-            const fragment = this.htmlToFragment(html);
-            range = {
-                from: null,
-                to: null
-            };
-            const lineNumbers = fragment.querySelectorAll('.os-line-number');
-            for (let i = 0; i < lineNumbers.length; i++) {
-                const node = lineNumbers.item(i);
-                const number = parseInt(node.getAttribute('data-line-number'), 10);
-                if (range.from === null || number < range.from) {
-                    range.from = number;
-                }
-                if (range.to === null || number + 1 > range.to) {
-                    range.to = number + 1;
-                }
+         */
+
+        const range = {
+            from: null,
+            to: null
+        };
+
+        let array1;
+        while ((array1 = this.getLineNumberRangeRegexp.exec(html)) !== null) {
+            if (range.from === null) {
+                range.from = parseInt(array1[1], 10);
             }
+            range.to = parseInt(array1[1], 10) + 1;
         }
+        /*
         this.lineNumberCache.put(cacheKey, range);
+         */
+
         return range;
     }
 
