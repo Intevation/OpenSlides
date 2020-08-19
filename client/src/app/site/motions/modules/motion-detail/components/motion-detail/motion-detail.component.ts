@@ -1,13 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    HostListener,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -51,13 +42,7 @@ import { ViewMotionPoll } from 'app/site/motions/models/view-motion-poll';
 import { ViewStatuteParagraph } from 'app/site/motions/models/view-statute-paragraph';
 import { ViewWorkflow } from 'app/site/motions/models/view-workflow';
 import { MotionEditNotification } from 'app/site/motions/motion-edit-notification';
-import {
-    ChangeRecoMode,
-    LineNumberingMode,
-    MotionEditNotificationType,
-    PERSONAL_NOTE_ID,
-    verboseChangeRecoMode
-} from 'app/site/motions/motions.constants';
+import { ChangeRecoMode, LineNumberingMode, MotionEditNotificationType, PERSONAL_NOTE_ID, verboseChangeRecoMode } from 'app/site/motions/motions.constants';
 import { AmendmentFilterListService } from 'app/site/motions/services/amendment-filter-list.service';
 import { AmendmentSortListService } from 'app/site/motions/services/amendment-sort-list.service';
 import { LocalPermissionsService } from 'app/site/motions/services/local-permissions.service';
@@ -229,11 +214,6 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
      * Necessary to track which amendments' change recommendations we have already subscribed to.
      */
     public amendmentChangeRecoSubscriptions: { [amendmentId: string]: Subscription } = {};
-
-    /**
-     * All change recommendations AND amendments, sorted by line number.
-     */
-    public allChangingObjects: ViewUnifiedChange[] = [];
 
     /**
      * preload the next motion for direct navigation
@@ -522,7 +502,7 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
             .subscribe(enabled => (this.amendmentsEnabled = enabled));
         this.configService.get<number>('motions_line_length').subscribe(lineLength => {
             this.lineLength = lineLength;
-            this.recalcUnifiedChanges();
+            this._allChangingObjects = null;
         });
         this.configService
             .get<LineNumberingMode>('motions_default_line_numbering')
@@ -612,10 +592,37 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
                     .getChangeRecosOfMotionObservable(amendment.id)
                     .subscribe((changeRecos: ViewMotionChangeRecommendation[]): void => {
                         this.amendmentChangeRecos[amendment.id] = changeRecos;
-                        this.recalcUnifiedChanges();
+                        this._allChangingObjects = null;
                     });
             }
         });
+    }
+
+    /**
+     * All change recommendations AND amendments, sorted by line number.
+     */
+    private _allChangingObjects: ViewUnifiedChange[] = null;
+
+    public get allChangingObjects() {
+        if (this._allChangingObjects === null) {
+            this.recalcUnifiedChanges();
+        }
+        return this._allChangingObjects;
+    }
+
+    public get allChangingObjectsLength(): number {
+        if (this._allChangingObjects !== null) {
+            return this._allChangingObjects.length;
+        }
+
+        let num = 0;
+        if (this.changeRecommendations) {
+            num += this.changeRecommendations.length;
+        }
+        if (this.amendments) {
+            num += this.amendments.filter(amendment => amendment.isParagraphBasedAmendment()).length;
+        }
+        return num;
     }
 
     /**
@@ -634,10 +641,10 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
             return;
         }
 
-        this.allChangingObjects = [];
+        this._allChangingObjects = [];
         if (this.changeRecommendations) {
             this.changeRecommendations.forEach((change: ViewMotionChangeRecommendation): void => {
-                this.allChangingObjects.push(change);
+                this._allChangingObjects.push(change);
             });
         }
         if (this.amendments) {
@@ -651,11 +658,11 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
                     this.repo
                         .getAmendmentAmendedParagraphs(amendment, this.lineLength, toApplyChanges)
                         .forEach((change: ViewUnifiedChange): void => {
-                            this.allChangingObjects.push(change);
+                            this._allChangingObjects.push(change);
                         });
                 });
         }
-        this.allChangingObjects.sort((a: ViewUnifiedChange, b: ViewUnifiedChange) => {
+        this._allChangingObjects.sort((a: ViewUnifiedChange, b: ViewUnifiedChange) => {
             if (a.getLineFrom() < b.getLineFrom()) {
                 return -1;
             } else if (a.getLineFrom() > b.getLineFrom()) {
@@ -709,7 +716,7 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
                 this.repo.amendmentsTo(motionId).subscribe((amendments: ViewMotion[]): void => {
                     this.amendments = amendments;
                     this.resetAmendmentChangeRecoListener();
-                    this.recalcUnifiedChanges();
+                    this._allChangingObjects = null;
                 }),
                 this.repo
                     .getRecommendationReferencingMotions(motionId)
@@ -718,7 +725,7 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
                     .getChangeRecosOfMotionObservable(motionId)
                     .subscribe((recos: ViewMotionChangeRecommendation[]) => {
                         this.changeRecommendations = recos;
-                        this.recalcUnifiedChanges();
+                        this._allChangingObjects = null;
                     })
             );
         } else {
@@ -943,7 +950,12 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
      */
     public getFormattedTextPlain(): string {
         // Prevent this.allChangingObjects to be reordered from within formatMotion
-        const changes: ViewUnifiedChange[] = Object.assign([], this.getAllTextChangingObjects());
+        let changes: ViewUnifiedChange[];
+        if (this.crMode === ChangeRecoMode.Original) {
+            changes = [];
+        } else {
+            changes = Object.assign([], this.getAllTextChangingObjects());
+        }
         const formatedText = this.repo.formatMotion(
             this.motion.id,
             this.crMode,
@@ -1028,7 +1040,11 @@ export class MotionDetailComponent extends BaseViewComponent implements OnInit, 
     }
 
     public getTitleChangingObject(): ViewUnifiedChange {
-        return this.allChangingObjects.find((obj: ViewUnifiedChange) => obj.isTitleChange());
+        if (this.changeRecommendations) {
+            return this.changeRecommendations.find(change => change.isTitleChange());
+        } else {
+            return null;
+        }
     }
 
     public getTitleWithChanges(): string {
