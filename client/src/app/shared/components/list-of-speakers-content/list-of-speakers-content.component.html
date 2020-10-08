@@ -78,7 +78,7 @@
         <os-sorting-list
             [live]="true"
             [input]="waitingSpeakers"
-            [count]="true"
+            [count]="false"
             [enable]="opCanManage && (isSortMode || !isMobile)"
             (sortEvent)="onSortingChanged($event)"
         >
@@ -150,6 +150,7 @@
                 </span>
             </ng-template>
         </os-sorting-list>
+        <small><i>Bitte beachten Sie, dass die tatsächliche Reihenfolge der Redner/innen von der Wortmeldungsliste abweichen kann.</i></small>
     </div>
 
     <!-- Search for speakers -->
