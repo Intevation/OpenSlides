@@ -207,12 +207,12 @@
     <mat-menu #changeRecommendationMenu="matMenu">
         <ng-template matMenuContent let-change="change">
             <button type="button" mat-menu-item (click)="setAcceptanceValue(change, 'accepted')">
-                <mat-icon>thumb_up</mat-icon>
+                <mat-icon>check</mat-icon>
                 <span>{{ 'Accept' | translate }}</span>
                 <mat-icon class="active-indicator">{{ change.isAccepted() ? 'done' : '' }}</mat-icon>
             </button>
             <button type="button" mat-menu-item (click)="setAcceptanceValue(change, 'rejected')">
-                <mat-icon>thumb_down</mat-icon>
+                <mat-icon>close</mat-icon>
                 <span>{{ 'Reject' | translate }}</span>
                 <mat-icon class="active-indicator">{{ change.isRejected() ? 'done' : '' }}</mat-icon>
             </button>

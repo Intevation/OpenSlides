@@ -261,17 +261,17 @@ export abstract class PollService {
         return [
             {
                 vote: 'yes',
-                icon: 'thumb_up',
+                icon: 'check',
                 showPercent: true
             },
             {
                 vote: 'no',
-                icon: 'thumb_down',
+                icon: 'close',
                 showPercent: true
             },
             {
                 vote: 'abstain',
-                icon: 'trip_origin',
+                icon: 'radio_button_unchecked',
                 showPercent: this.showAbstainPercent(poll)
             }
         ];

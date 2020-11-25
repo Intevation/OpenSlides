@@ -24,19 +24,19 @@ export class MotionPollVoteComponent extends BasePollVoteComponentDirective<View
         {
             vote: 'Y',
             css: 'voted-yes',
-            icon: 'thumb_up',
+            icon: 'check',
             label: 'Yes'
         },
         {
             vote: 'N',
             css: 'voted-no',
-            icon: 'thumb_down',
+            icon: 'close',
             label: 'No'
         },
         {
             vote: 'A',
             css: 'voted-abstain',
-            icon: 'trip_origin',
+            icon: 'radio_button_unchecked',
             label: 'Abstain'
         }
     ];

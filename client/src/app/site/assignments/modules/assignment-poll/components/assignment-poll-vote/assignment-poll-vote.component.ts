@@ -24,19 +24,19 @@ const voteOptions = {
     Yes: {
         vote: 'Y',
         css: 'voted-yes',
-        icon: 'thumb_up',
+        icon: 'check',
         label: 'Yes'
     } as VoteOption,
     No: {
         vote: 'N',
         css: 'voted-no',
-        icon: 'thumb_down',
+        icon: 'close',
         label: 'No'
     } as VoteOption,
     Abstain: {
         vote: 'A',
         css: 'voted-abstain',
-        icon: 'trip_origin',
+        icon: 'radio_button_unchecked',
         label: 'Abstain'
     } as VoteOption
 };

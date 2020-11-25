@@ -48,15 +48,15 @@ export abstract class BasePollDetailComponentDirective<V extends ViewBasePoll, S
     public voteOptionStyle = {
         Y: {
             css: 'yes',
-            icon: 'thumb_up'
+            icon: 'check'
         },
         N: {
             css: 'no',
-            icon: 'thumb_down'
+            icon: 'close'
         },
         A: {
             css: 'abstain',
-            icon: 'trip_origin'
+            icon: 'radio_button_unchecked'
         }
     };
 
