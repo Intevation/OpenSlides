@@ -16,6 +16,8 @@ $narrow-spacing: (
 @import './assets/styles/themes/red-dark.scss';
 @import './assets/styles/themes/red-light.scss';
 @import './assets/styles/themes/solarized-dark.scss';
+// custom theme
+@import './assets/styles/themes/linke-light.scss';
 
 /** Global component style definition */
 @import './assets/styles/global-components-style.scss';
@@ -120,6 +122,14 @@ $narrow-spacing: (
     @include angular-material-theme($openslides-solarized-dark);
     @include openslides-components-theme($openslides-solarized-dark);
     $ngrid-material-theme: pbl-dark-theme($openslides-solarized-dark);
+    @include pbl-ngrid-theme(map-merge($ngrid-material-theme, $narrow-spacing));
+}
+
+// custom
+.openslides-linke-light-theme {
+    @include angular-material-theme($linke-theme);
+    @include openslides-components-theme($linke-theme);
+    $ngrid-material-theme: pbl-light-theme($linke-theme);
     @include pbl-ngrid-theme(map-merge($ngrid-material-theme, $narrow-spacing));
 }
 

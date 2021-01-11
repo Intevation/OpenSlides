@@ -190,7 +190,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="openslides_theme",
-        default_value="openslides-default-light-theme",
+        default_value="openslides-linke-light-theme",
         input_type="choice",
         label="OpenSlides Theme",
         choices=(
@@ -219,6 +219,10 @@ def get_config_variables():
                 "value": "openslides-solarized-dark-theme",
                 "display_name": "OpenSlides Solarized",
             },
+            {
+                "value": "openslides-linke-light-theme",
+                "display_name": "DIE LINKE",
+            }
         ),
         weight=154,
         subgroup="System",
