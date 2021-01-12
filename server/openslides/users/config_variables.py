@@ -37,7 +37,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="users_allow_self_set_present",
-        default_value=False,
+        default_value=True,
         input_type="boolean",
         label="Allow users to set themselves as present",
         help_text="e.g. for online meetings",

@@ -62,8 +62,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="general_event_privacy_policy",
-        default_value="",
-        input_type="markupText",
+        default_value='<h1>Datenschutzerkl&auml;rung</h1><p><a href="http://www.openslides.org">OpenSlides</a> speichert nur so viele personenbezogene Daten wie unbedingt n&ouml;tig sind, um Besuchern Informationen und Dienste zuverl&auml;ssig und sicher anbieten zu k&ouml;nnen.</p><p>Eine Auswertung der Dienste-Protokolle erfolgt nur von uns selbst und auch nur, um m&ouml;gliche Fehler, Einbruchsversuche oder technisches Verhalten der Server auf unseren Server zu analysieren.</p><p>Eine Weitergabe von Teilen der erhobenen Daten erfolgt ausschlie&szlig;lich gem&auml;&szlig; gesetzlicher Verpflichtung z.B. an Strafverfolgungs- oder Steuerbeh&ouml;rden.</p><p>Nachfolgend wird genau aufgeschl&uuml;sselt, bei welcher Gelegenheit welche Daten wie lange gespeichert sind. Zudem wird beschrieben, welche Schritte erforderlich sind um Daten zu l&ouml;schen.</p><h2>Cookies</h2><p>Beim Besuch der Website wird ein sogenanntes Cookie angelegt. Dieses Cookie wird ausschlie&szlig;lich dazu verwendet, um auf der Website eingeloggt zu bleiben. Ein sogenanntes "Tracking Cookie" wird nicht verwendet.</p><h2>Logfiles</h2><p>Zu OpenSlides geh&ouml;ren verschiedene Unter-Services. Diese loggen folgende Informationen: Quell-IP-Adresse, Zeitstempel, genutztes Betriebssystem, verwendeter Web-Browser, Referer-URL, E-Mail-Adresse und besuchte Seite.</p><h2>Datenbank</h2><p>Als Mitglied werden folgende Daten von Ihnen gespeichert: Titel, Vorname, Nachname, E-Mail, Gliederungsebene, Teilnehmernummer, Gruppenzugeh&ouml;rigkeit, initiales Passwort im Klartext, vergebenes Passwort als kryptografischer Hashwert und ein Kommentar f&uuml;r interne Notizen. Diese Informationen werden mit den Aktionen innerhalb von OpenSlides in Verbindung gebracht. Diese Informationen werden nicht an Dritte weiter gegeben und sind auch nicht f&uuml;r diese zug&auml;nglich.</p><h2>L&ouml;schung von Daten</h2><p>Daten werden nicht automatisch gel&ouml;scht. Um Ihre Informationen entfernen zu lassen, wenden Sie sich bitte an den Administrator dieser OpenSlides-Instanz.</p><h2>Serverbetrieb und Hosting</h2><p>Die Intevation GmbH administriert den Server dieser OpenSlides-Instanz, welcher&nbsp;in einem Rechenzentrum der Hetzner Online GmbH betrieben wird.&nbsp;</p><p>Die technischen und organisatorischen Ma&szlig;nahmen nach Art. 32 DS-GVO von Hetzner&nbsp;gibt es hier: <a href="https://www.hetzner.com/AV/TOM.pdf">https://www.hetzner.com/AV/TOM.pdf</a></p><p>Die eingesetzte Software auf dem Server entspricht den aktuellen&nbsp;Sicherheitsanforderungen. Die Intevation GmbH sorgt regelm&auml;&szlig;ig f&uuml;r die&nbsp;Installation und Dokumentation von Sicherheitsupdates auf dem Server.</p><h2>Datenschutzbeauftragte</h2><p>Der Datenschutzbeauftragter bei der Intevation GmbH:<br />Dr. Johannes Schr&ouml;der &lt;datenschutz@intevation.de&gt;</p><p>Die Datenschutzbeauftragte bei der Hetzner Online GmbH:<br />Margit M&uuml;ller &lt;data-protection@hetzner.com&gt;</p>',        input_type="markupText",
         label="Privacy policy",
         weight=132,
         subgroup="Event",
@@ -240,7 +239,7 @@ def get_config_variables():
 
     yield ConfigVariable(
         name="general_csv_encoding",
-        default_value="utf-8",
+        default_value="iso-8859-15",
         input_type="choice",
         label="Default encoding for all csv exports",
         choices=(
