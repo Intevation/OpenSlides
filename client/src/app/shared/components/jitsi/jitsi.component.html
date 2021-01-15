@@ -61,9 +61,7 @@
                     matTooltip="{{ 'Exit live conference and continue livestream' | translate }}"
                     *ngIf="videoStreamUrl && canSeeLiveStream && !isJitsiDialogOpen"
                 >
-                    <mat-icon color="warn">
-                        meeting_room
-                    </mat-icon>
+                    <mat-icon color="warn"> meeting_room </mat-icon>
                 </button>
 
                 <!-- mute/unmute button -->
@@ -90,7 +88,11 @@
                     (click)="enterConversation()"
                     matTooltip="{{ 'Enter live conference' | translate }}"
                 >
-                    <mat-icon color="primary" [@fadeInOut]="isEnterMeetingRoomVisible" (@fadeInOut.done)="triggerMeetingRoomButtonAnimation()">
+                    <mat-icon
+                        color="primary"
+                        [@fadeInOut]="isEnterMeetingRoomVisible"
+                        (@fadeInOut.done)="triggerMeetingRoomButtonAnimation()"
+                    >
                         meeting_room
                     </mat-icon>
                 </button>
@@ -103,11 +105,21 @@
                     *ngIf="enableJitsi && !isAccessPermitted"
                     [routerLink]="['/agenda/speakers']"
                 >
-                    <mat-icon>
-                        no_meeting_room
-                    </mat-icon>
+                    <mat-icon> no_meeting_room </mat-icon>
                 </a>
             </ng-container>
+
+            <!-- applause button -->
+            <button
+                class="quick-icon indicator"
+                [disabled]="applauseDisabled"
+                mat-mini-fab
+                (click)="sendApplause()"
+                matTooltip="{{ 'Send applause' | translate }}"
+                *ngIf="showApplause"
+            >
+                <mat-icon svgIcon="clapping_hands"></mat-icon>
+            </button>
         </span>
 
         <span
@@ -118,6 +130,8 @@
                 'cast-shadow': showJitsiWindow
             }"
         >
+            <os-applause-display *ngIf="showApplause" class="applause"></os-applause-display>
+
             <!-- open-window button -->
             <button class="toggle-list-button" mat-button (click)="toggleShowJitsi()">
                 <ng-container *ngIf="currentState == state.jitsi">

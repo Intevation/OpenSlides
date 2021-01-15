@@ -11,6 +11,7 @@ import { ConstantsService } from 'app/core/core-services/constants.service';
 import { OperatorService } from 'app/core/core-services/operator.service';
 import { Deferred } from 'app/core/promises/deferred';
 import { UserRepositoryService } from 'app/core/repositories/users/user-repository.service';
+import { ApplauseService } from 'app/core/ui-services/applause.service';
 import { ConfigService } from 'app/core/ui-services/config.service';
 import { UserMediaPermService } from 'app/core/ui-services/user-media-perm.service';
 import { UserListIndexType } from 'app/site/agenda/models/view-list-of-speakers';
@@ -95,6 +96,10 @@ export class JitsiComponent extends BaseViewComponentDirective implements OnInit
     public isJitsiDialogOpen = false;
     public showJitsiWindow = true;
     public muted = true;
+
+    public showApplause: boolean;
+    public applauseDisabled = false;
+    private applauseTimeout: number;
 
     @ViewChild('jitsi')
     private jitsiNode: ElementRef;
@@ -237,7 +242,8 @@ export class JitsiComponent extends BaseViewComponentDirective implements OnInit
         private constantsService: ConstantsService,
         private configService: ConfigService,
         private closService: CurrentListOfSpeakersService,
-        private userMediaPermService: UserMediaPermService
+        private userMediaPermService: UserMediaPermService,
+        private applause: ApplauseService
     ) {
         super(titleService, translate, snackBar);
     }
@@ -350,6 +356,12 @@ export class JitsiComponent extends BaseViewComponentDirective implements OnInit
             }),
             this.configService.get<boolean>('general_system_conference_open_video').subscribe(open => {
                 this.configOverwrite.startWithVideoMuted = !open;
+            }),
+            this.configService.get<boolean>('general_system_applause_enable').subscribe(enable => {
+                this.showApplause = enable;
+            }),
+            this.configService.get<number>('general_system_stream_applause_timeout').subscribe(timeout => {
+                this.applauseTimeout = (timeout || 1) * 1000;
             })
         );
 
@@ -594,5 +606,13 @@ export class JitsiComponent extends BaseViewComponentDirective implements OnInit
 
     private setConferenceState(newState: ConferenceState): void {
         this.currentState = newState;
+    }
+
+    public sendApplause(): void {
+        this.applauseDisabled = true;
+        this.applause.sendApplause();
+        setTimeout(() => {
+            this.applauseDisabled = false;
+        }, this.applauseTimeout);
     }
 }

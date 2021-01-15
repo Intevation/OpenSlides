@@ -1,0 +1,15 @@
+.bar-wrapper {
+    min-width: 30px;
+    height: 100%;
+}
+
+.level-indicator {
+    height: 50px;
+    display: block;
+    text-align: center;
+
+    .level {
+        display: inline-block;
+        margin-top: 25px;
+    }
+}
