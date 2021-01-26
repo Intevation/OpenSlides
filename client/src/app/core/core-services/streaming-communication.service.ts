@@ -109,6 +109,7 @@ export class Stream<T> {
     ) {
         this.subscription = observable.subscribe(
             (event: HttpEvent<string>) => {
+                console.log("HTTP-Event:", event);
                 if (this.closed) {
                     return;
                 }
